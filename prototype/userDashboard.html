@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PAC Timetracker</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- Add your site or application content here -->
+    <div class="container">
+        <div class="header">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span> 
+                        </button>
+                        <a class="navbar-brand" href="#">TimeTracker</a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li><a href="myProjects.html">Projects</a>
+                            </li>
+                            <li><a href="#">Bookings</a>
+                            </li>
+                        </ul>
+
+                        <p class="navbar-text navbar-right">Max Mustermann - PAC 2015</p>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+        </div>
+
+        <div ng-view="">
+
+            <div class="page-header">
+                <h1>My Dashboard <small>Control your work with numbers</small></h1>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">My Bookings</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>This week: 15 Std / 40 Std (22%)</p>
+                            <p>Number of Bookings: 3</p>
+                            <p>Cellectiveness: +15%</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-default  ">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">My Collegues</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p><a href="">Anja Muster</a> (AIDA, MuTOP)</p>
+                            <p><a href="">David Müller</a> (CarryESPRIT)</p>
+                            <p><a href="">Carsten Schell</a> (SAS POA)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="panel panel-default  ">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">My Projects</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Active Projects: 2</p>
+                            <p>Not Active Projects: 3</p>
+
+                        </div>
+                        <!-- List group -->
+                        <ul class="list-group">
+                            <li class="list-group-item">AIDA, Tetra AG <span class="pull-right label label-success">active</span></li>
+                            <li class="list-group-item">CarryESPRIT, ESPRIT AG <span class="pull-right label label-success">active</span></li>
+                            <li class="list-group-item">POTS, Degussa Bank AG <span class="pull-right label label-warning">pending</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p><span class="glyphicon glyphicon-heart"></span> Copyright Leonid Agranovskiy</p>
+        </div>
+    </div>
+
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+</body>
+
+
+</html>

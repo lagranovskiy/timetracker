@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PAC Timetracker</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- Add your site or application content here -->
+    <div class="container">
+        <div class="header">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span> 
+                        </button>
+                        <a class="navbar-brand" href="#">TimeTracker</a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><a href="userDashboard.html">Dashboard <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li><a href="myProjects.html">Projects</a>
+                            </li>
+                            <li class="active"><a href="#">Bookings</a>
+                            </li>
+                        </ul>
+
+                        <p class="navbar-text navbar-right">Max Mustermann - PAC 2015</p>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+        </div>
+
+        <div ng-view="">
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+      New Booking <span class="caret"></span>
+    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">AIDA, Tetra AG</a>
+                        </li>
+                         <li><a href="#">Go Store, ESPRIT AG</a>
+                        </li>
+                         <li><a href="#">CUS Tool, Thomas Cook</a>
+                        </li>
+                         <li><a href="#">BookFlight, Tui</a>
+                        </li>
+                    </ul>
+
+                </li>               
+            </ul>
+            <div class="page-header">
+                <h1>My Bookings <small>Overview about my time</small></h1>
+            </div>
+            <div class="row"></div>
+            <div class="row">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Create new booking</div>
+                    <div class="panel-body">
+                        <form class="">
+                            <div class="form-group col-sm-12">
+                                <label for="inputEmail3" class="control-label">Project</label>
+                                <select class="form-control">
+  <option>AIDA, Tetra AG</option>
+  <option>Go Store, ESPRIT AG</option>
+  <option>CUS Tool, Thomas Cook</option>
+  <option>BookFlight, Tui</option>
+</select>
+
+                            </div>
+                            <div class="form-group col-sm-12 ">
+                                <label for="inputPassword3" class="control-label">Date</label>
+                                <input type="date" class="form-control" id="inputPassword3" placeholder="Password">
+
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="inputPassword3" class="control-label">Started</label>
+                                <input type="time" class="form-control" id="inputPassword3" placeholder="Repeat password">
+
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                                <label for="inputPassword3" class="control-label">Finished</label>
+                                <input type="time" class="form-control" id="inputPassword3" placeholder="Password">
+
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <label for="inputPassword3" class="control-label">Comment</label>
+                                <textarea type="" class="form-control" id="inputPassword3">
+                                </textarea>
+                            </div>
+                            <div class="form-group col-sm-12">
+
+                                <button type="submit" class="btn btn-primary">Book</button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2>Last bookings</h2>
+                        <table class="table  table-striped table-condensed table-hover">
+                            <tr>
+                                <th>Workday</th>
+                                <th>Started</th>
+                                <th>Finished</th>
+                                <th>Pause</th>
+                                <th>Comment</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <td>17.01.2015 Fri</td>
+                                <td>09:00</td>
+                                <td>18:00</td>
+                                <td>30 min</td>
+                                <td>LDAP connection</td>
+                                <td>
+                                    <span class="glyphicon glyphicon-pencil"> </span> 
+                                    <span class="glyphicon glyphicon-trash"> </span>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>16.01.2015 Thu</td>
+                                <td>09:00</td>
+                                <td>18:00</td>
+                                <td>30 min</td>
+                                <td>LDAP connection</td>
+                                <td>
+                                    <span class="glyphicon glyphicon-pencil"> </span> 
+                                    <span class="glyphicon glyphicon-trash"> </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>15.01.2015 Wed</td>
+                                <td>09:00</td>
+                                <td>18:00</td>
+                                <td>30 min</td>
+                                <td>LDAP connection</td>
+                                <td>
+                                    <span class="glyphicon glyphicon-pencil"> </span> 
+                                    <span class="glyphicon glyphicon-trash"> </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>14.01.2015 Tue</td>
+                                <td>09:00</td>
+                                <td>18:00</td>
+                                <td>30 min</td>
+                                <td>LDAP connection</td>
+                                <td>
+                                    <span class="glyphicon glyphicon-pencil"> </span> 
+                                    <span class="glyphicon glyphicon-trash"> </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>14.01.2015 Mon</td>
+                                <td>09:00</td>
+                                <td>18:00</td>
+                                <td>30 min</td>
+                                <td>LDAP connection</td>
+                                <td>
+                                    <span class="glyphicon glyphicon-pencil"> </span>
+                                    <span class="glyphicon glyphicon-trash"> </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p><span class="glyphicon glyphicon-heart"></span> Copyright Leonid Agranovskiy</p>
+        </div>
+    </div>
+
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+</body>
+
+
+</html>
