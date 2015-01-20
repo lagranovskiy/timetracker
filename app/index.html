@@ -1,10 +1,11 @@
 <!doctype html>
-<html class="no-js">
-  <head>
+<html lang="en">
+
+<head>
     <meta charset="utf-8">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <title>PAC Timetracker</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -14,38 +15,67 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-  </head>
-  <body ng-app="timetrackerClientApp">
-    <!--[if lt IE 7]>
+</head>
+
+<body ng-app="timetrackerApp">
+    <div class="container">
+        <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a ng-href="#">Home</a></li>
-          <li><a ng-href="#/about">About</a></li>
-          <li><a ng-href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">timetrackerClient</h3>
-      </div>
+        <!-- Add your site or application content here -->
+        <div class="header">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span> 
+                        </button>
+                        <a class="navbar-brand" href="#">TimeTracker</a>
+                    </div>
 
-      <div ng-view=""></div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#/">Login</a>
+                            </li>
+                            <li><a href="#signup">Sign up</a>
+                            </li>
+                            <li class="active"><a href="#dashboard">Dashboard <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li><a href="#projects">Projects</a>
+                            </li>
+                            <li><a href="#bookings">Bookings</a>
+                            </li>
+                        </ul>
 
-      <div class="footer">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-      </div>
+                        <p class="navbar-text navbar-right">Max Mustermann - PAC 2015</p>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+        </div>
+
+
+        <div ng-view=""></div>
+
+
+
+
+        <div class="footer">
+
+        </div>
     </div>
-
-
-
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/json3/lib/json3.js"></script>
     <![endif]-->
     <!-- endbuild -->
+
+    <script src="config.js"></script>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -61,10 +91,17 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
-        <!-- endbuild -->
+    <script src="scripts/models/user.js"></script>
+
+    <script src="scripts/services/security.js"></script>
+
+    <script src="scripts/controllers/booking.js"></script>
+    <script src="scripts/controllers/dashboard.js"></script>
+    <script src="scripts/controllers/login.js"></script>
+    <script src="scripts/controllers/project.js"></script>
+    <script src="scripts/controllers/registration.js"></script>
+
+    <script src="scripts/app.js"></script>
 </body>
+
 </html>

@@ -8,26 +8,69 @@
  *
  * Main module of the application.
  */
-angular
-  .module('timetrackerClientApp', [
+angular.module('timetrackerApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+
+     'timetrackerApp.model.user',
+
+    'timetrackerApp.service.security',
+
+    // Controllers
+    'timetrackerApp.controller.booking',
+    'timetrackerApp.controller.project',
+    'timetrackerApp.controller.dashboard',
+    'timetrackerApp.controller.login',
+    'timetrackerApp.controller.registration'
   ])
-  .config(function ($routeProvider) {
+
+.run(['$rootScope', '$location', '$log',
+
+        function ($rootScope, $location, $log) {
+        $rootScope.$location = $location;
+        $rootScope.config = TimetrackerConfiguration;
+        }
+        ])
+
+.run(['$rootScope', 'security', '$log',
+    function ($rootScope, security, $log) {
+        $rootScope.$on('$routeChangeStart', function () {
+            if (!security.isAuthenticatied()) {
+                $log.error('User is not logged in');
+                security.redirectToLogin();
+            }
+        });
+    }])
+
+
+.config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-  });
+        .when('/', {
+            templateUrl: 'views/dashboard.html',
+            controller: 'DashboardCtrl'
+        })
+        .when('/login', {
+            templateUrl: 'views/login.html',
+            controller: 'LoginCtrl'
+        })
+        .when('/signup', {
+            templateUrl: 'views/signup.html',
+            controller: 'RegistrationCtrl'
+        })
+
+    .when('/projects', {
+        templateUrl: 'views/projects.html',
+        controller: 'ProjectCtrl'
+    })
+        .when('/bookings', {
+            templateUrl: 'views/bookings.html',
+            controller: 'BookingCtrl'
+        })
+        .otherwise({
+            redirectTo: '/'
+        });
+});
