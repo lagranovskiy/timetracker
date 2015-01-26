@@ -8,25 +8,26 @@
  */
 angular.module('timetrackerApp.service.security', ['ngCookies'])
 
-.factory('security', ['$rootScope','$location', '$cookies', '$log', '$q', 'UserModel',
-    function ($rootScope, $location, $cookies, $log, $q, UserModel) {
-        //var url = $rootScope.urls.loginRedirect;
+.factory('security', ['$rootScope', '$location', '$cookies', '$cookieStore',
+  '$log', '$q', 'UserModel',
+  function($rootScope, $location, $cookies, $cookieStore, $log, $q, UserModel) {
+    //var url = $rootScope.urls.loginRedirect;
 
-        return {
+    return {
 
-            isAuthenticatied: function () {
-                if (typeof $cookies.sid !== 'undefined') {
-                    UserModel.setAuth($cookies.timetrackerAuth);
-                    return true;
-                } else {
-                    return false;
-                }
-            },
+      isAuthenticatied: function() {
+        if (typeof $cookies['connect.sid'] !== 'undefined') {
+          UserModel.setAuth($cookies['connect.sid']);
+          return true;
+        } else {
+          return false;
+        }
+      },
 
-            redirectToLogin: function () {
-                $location.path('login');
-            }
+      redirectToLogin: function() {
+        $location.path('login');
+      }
 
-        };
-    }
+    };
+  }
 ]);
