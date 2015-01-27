@@ -1,4 +1,5 @@
 'use strict';
+/* global TimetrackerConfiguration*/
 
 /**
  * @ngdoc overview
@@ -21,6 +22,7 @@ angular.module('timetrackerApp', [
   'timetrackerApp.service.security',
 
   // Controllers
+  'timetrackerApp.controller.navbar',
   'timetrackerApp.controller.booking',
   'timetrackerApp.controller.project',
   'timetrackerApp.controller.dashboard',
@@ -36,42 +38,71 @@ angular.module('timetrackerApp', [
   }
 ])
 
+.factory('authHttpResponseInterceptor', ['$q', '$location', '$log', function($q, $location, $log) {
+    return {
+      response: function(response) {
+        if (response.status === 401) {
+          $log.info('Response 401');
+        }
+        return response || $q.when(response);
+      },
+      responseError: function(rejection) {
+        if (rejection.status === 401) {
+          $log.info('Response Error 401');
+          $location.path('/login').search('returnTo', $location.path());
+        }
+        return $q.reject(rejection);
+      }
+    };
+  }])
+  .config(['$httpProvider', function($httpProvider) {
+    //Http Intercpetor to check auth failures for xhr requests
+    $httpProvider.interceptors.push('authHttpResponseInterceptor');
+  }])
+
 .run(['$rootScope', 'security', '$log',
-    function($rootScope, security, $log) {
-      $rootScope.$on('$routeChangeStart', function() {
+  function($rootScope, security) {
+    $rootScope.$on('$routeChangeStart', function(event, next) {
+      if (next.requireLogin) {
         if (!security.isAuthenticatied()) {
-          $log.error('User is not logged in');
           security.redirectToLogin();
         }
-      });
-    }
-  ])
-  .config(function($httpProvider) {
-    $httpProvider.defaults.withCredentials = true;
-  })
+      }
+    });
+  }
+])
+
+.config(function($httpProvider) {
+  $httpProvider.defaults.withCredentials = true;
+})
 
 .config(function($routeProvider) {
   $routeProvider
     .when('/', {
       templateUrl: 'views/dashboard.html',
-      controller: 'DashboardCtrl'
+      controller: 'DashboardCtrl',
+      requireLogin: true
     })
     .when('/login', {
       templateUrl: 'views/login.html',
-      controller: 'LoginCtrl'
+      controller: 'LoginCtrl',
+      requireLogin: false
     })
     .when('/signup', {
       templateUrl: 'views/signup.html',
-      controller: 'RegistrationCtrl'
+      controller: 'RegistrationCtrl',
+      requireLogin: false
     })
 
   .when('/projects', {
       templateUrl: 'views/projects.html',
-      controller: 'ProjectCtrl'
+      controller: 'ProjectCtrl',
+      requireLogin: true
     })
     .when('/bookings', {
       templateUrl: 'views/bookings.html',
-      controller: 'BookingCtrl'
+      controller: 'BookingCtrl',
+      requireLogin: true
     })
     .otherwise({
       redirectTo: '/'
