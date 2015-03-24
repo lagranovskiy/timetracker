@@ -1,65 +1,62 @@
-  <div class="page-header">
-                <h1>My Projects <small>View Projects you are assigned to</small></h1>
-            </div>
+<div class="page-header">
+  <h1>My Projects
+    <small>View Projects you are assigned to</small>
+  </h1>
+</div>
 
-            <div class="row">
+<div class="row">
 
-                <div class="col-sm-4">
-                    <div class="list-group">
-                        <a href="#" class="list-group-item">
-                            <h4 class="list-group-item-heading">AIDA, Tetra AG <span class="pull-right label label-success">active</span></h4>
-                            <p class="list-group-item-text">Connect SAP to IBM according to ...</p>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <h4 class="list-group-item-heading">Go Store, ESPRIT AG <span class="pull-right label label-success">active</span></h4>
-                            <p class="list-group-item-text">New online store for online games ...</p>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <h4 class="list-group-item-heading">CUS Tool, Thomas Cook</h4>
-                            <p class="list-group-item-text">Compare plane efficiency ...</p>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <h4 class="list-group-item-heading">BookFlight, Tui</h4>
-                            <p class="list-group-item-text">Connect Liferay portal to ...</p>
-                        </a>
-                    </div>
+  <div class="col-sm-4">
+    <div class="list-group">
+      <a ng-repeat="project in visibleProjects" ng-click="selectProject(project)" class="list-group-item">
+        <h4 class="list-group-item-heading">{{project.projectName}}, {{project.customerName}}
+          <span class="pull-right label label-success"></span>
+        </h4>
+        <p class="list-group-item-text">{{project.description}}</p>
+      </a>
+    </div>
 
-                </div>
-                <div class="col-sm-8">
+  </div>
+  <div class="col-sm-8">
 
 
-                    <div class="row">
+    <div class="row">
 
-                        <div class="col-sm-8"><span class="pull-right label label-success">active</span>
-                            <h2>AIDA  <small>Tetra AG</small></h2>
-                            <p><strong>My Manager</strong>: Max Mustermann</p>
-                            <p><strong>My Role</strong>: Software Architect</p>
-                            <p>Connect SAP to IBM according to new requirements. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                        </div>
-                        <div class="col-sm-4">
-                            <button type="button" class="btn-block btn btn-success">Book time</button>
-                            <button type="button" class="btn-block btn  btn-default">View bookings</button>
-                            <button type="button" class="btn-block btn  btn-warning">Contact Manager</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h2>My Statistics</h2>
-                            <table class="table ">
-                                <tr>
-                                    <th>Booked</th>
-                                    <th>Booked (week)</th>
-                                    <th>Parttime</th>
-                                    <th>Team members</th>                                  
-                                </tr>
-                                <tr>
-                                    <td>14 Days</td>
-                                    <td>17h</td>
-                                    <td>99%</td>
-                                    <td>15</td>
-                                </tr>
-                             </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="col-sm-8">
+        <span class="pull-right label label-success">active</span>
+        <h2>{{selectedProject.projectName}}
+          <small>{{selectedProject.customerName}}</small>
+        </h2>
+        <p>
+          <strong>My Manager</strong>: Max Mustermann</p>
+        <p>
+          <strong>My Role</strong>: Software Architect</p>
+        <p>{{project.description}}</p>
+      </div>
+      <div class="col-sm-4">
+        <button type="button" class="btn-block btn btn-success">Book time</button>
+        <button type="button" class="btn-block btn  btn-default">View bookings</button>
+        <button type="button" class="btn-block btn  btn-warning">Contact Manager</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <h2>My Statistics</h2>
+        <table class="table ">
+          <tr>
+            <th>Booked</th>
+            <th>Booked (week)</th>
+            <th>Parttime</th>
+            <th>Team members</th>
+          </tr>
+          <tr>
+            <td>14 Days</td>
+            <td>17h</td>
+            <td>99%</td>
+            <td>15</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -18,6 +18,9 @@ angular.module('timetrackerApp', [
   'ngTouch',
 
   'timetrackerApp.model.user',
+  'timetrackerApp.model.project',
+  'timetrackerApp.model.projects',
+  'timetrackerApp.model.booking',
 
   'timetrackerApp.service.security',
 
