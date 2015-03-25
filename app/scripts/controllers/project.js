@@ -4,7 +4,7 @@
  * Project board controller
  */
 angular.module('timetrackerApp.controller.project', [])
-  .controller('ProjectCtrl', function($scope, ProjectsModel, ProjectModel) {
+  .controller('ProjectCtrl', function($scope, projectService, ProjectModel) {
 
     $scope.visibleProjects = [];
     $scope.selectedProject = {};
@@ -17,7 +17,7 @@ angular.module('timetrackerApp.controller.project', [])
     /**
      * Load visible projects by page load
      * */
-    ProjectsModel.getVisibleProjects(function(data) {
+    projectService.getVisibleProjects(function(data) {
       if (data.records) {
         $scope.visibleProjects = data.records;
         $scope.selectedProject = data.records[0];

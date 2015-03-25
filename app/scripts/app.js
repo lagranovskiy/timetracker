@@ -19,15 +19,18 @@ angular.module('timetrackerApp', [
 
   'timetrackerApp.model.user',
   'timetrackerApp.model.project',
-  'timetrackerApp.model.projects',
   'timetrackerApp.model.booking',
 
   'timetrackerApp.service.security',
+  'timetrackerApp.service.bookings',
+  'timetrackerApp.service.projects',
 
   // Controllers
   'timetrackerApp.controller.navbar',
   'timetrackerApp.controller.booking',
   'timetrackerApp.controller.project',
+  'timetrackerApp.controller.management',
+  'timetrackerApp.controller.admin',
   'timetrackerApp.controller.dashboard',
   'timetrackerApp.controller.login',
   'timetrackerApp.controller.registration'
@@ -105,6 +108,16 @@ angular.module('timetrackerApp', [
     .when('/bookings', {
       templateUrl: 'views/bookings.html',
       controller: 'BookingCtrl',
+      requireLogin: true
+    })
+    .when('/management', {
+      templateUrl: 'views/management.html',
+      controller: 'ManagementCtrl',
+      requireLogin: true
+    })
+    .when('/administration', {
+      templateUrl: 'views/administration.html',
+      controller: 'AdminCtrl',
       requireLogin: true
     })
     .otherwise({

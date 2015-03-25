@@ -49,6 +49,33 @@ angular.module('timetrackerApp.model.user', ['ngResource', 'ngCookies', ])
         authToken: null,
         initLoaded: false,
 
+        /**
+         * Evaluates if user is in the given group
+         * */
+        isUserInGroup: function(group) {
+          if (!user.data || !user.data.groups) {
+            return false;
+          }
+
+          for (var i = 0; i < user.data.groups.length; i++) {
+            if (user.data.groups[i] === group) {
+              return true;
+            }
+          }
+
+          return false;
+        },
+
+        /**
+         * Tests if user auth information is set
+         * */
+        isUserLoggedIn: function() {
+          if (!user.data || !user.data.groups) {
+            return false;
+          }
+          return true;
+        },
+
         loginUser: function(credData, callback) {
           $http.post($rootScope.config.server + '/auth/login', credData)
             .success(function(data) {

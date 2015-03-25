@@ -12,15 +12,19 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="#/">Login</a>
+          <li ng-class="selectedNav=='/login'||selectedNav=='/' ? 'active': ''" ng-show="!userModel.isUserLoggedIn()"><a ng-click="setCurrentLocation('login')">Login</a>
           </li>
-          <li><a href="#signup">Sign up</a>
+          <li ng-class="selectedNav=='/signup' ? 'active': ''" ng-show="!userModel.isUserLoggedIn()"><a ng-click="setCurrentLocation('signup')">Sign up</a>
           </li>
-          <li class="active"><a href="#dashboard">Dashboard <span class="sr-only">(current)</span></a>
+          <li ng-class="selectedNav=='/dashboard'||selectedNav=='/' ? 'active' : ''" ng-show="userModel.isUserInGroup('User')"><a ng-click="setCurrentLocation('dashboard')">Dashboard</a>
           </li>
-          <li><a href="#projects">Projects</a>
+          <li ng-class="selectedNav=='/projects' ? 'active' : ''" ng-show="userModel.isUserInGroup('User')"><a ng-click="setCurrentLocation('projects')">Projects</a>
           </li>
-          <li><a href="#bookings">Bookings</a>
+          <li ng-class="selectedNav=='/bookings' ? 'active': ''" ng-show="userModel.isUserInGroup('User')"><a ng-click="setCurrentLocation('bookings')">Bookings</a>
+          </li>
+          <li ng-class="selectedNav=='/management' ? 'active': ''" ng-show="userModel.isUserInGroup('Manager')"><a ng-click="setCurrentLocation('management')">Management</a>
+          </li>
+          <li ng-class="selectedNav=='/administration' ? 'active': ''" ng-show="userModel.isUserInGroup('Admin')"><a ng-click="setCurrentLocation('administration')">Administration</a>
           </li>
         </ul>
         <p class="navbar-text navbar-right">
