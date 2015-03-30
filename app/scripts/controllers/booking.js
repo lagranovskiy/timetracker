@@ -14,6 +14,14 @@ angular.module('timetrackerApp.controller.booking', [])
 
     $scope.visibleProjects = [];
 
+
+    /**
+     * Sets given booking as a current one
+     * */
+    $scope.selectBooking = function(booking) {
+      $scope.currentBooking = booking;
+    };
+
     /**
      * Creates a new booking only if no booking is creating now
      * */
@@ -37,50 +45,58 @@ angular.module('timetrackerApp.controller.booking', [])
         return;
       }
       BookingModel.resource.save($scope.currentBooking).$promise.then(function() {
+        return $scope.refreshBookings();
+      }).then(function() {
         $scope.currentBooking = null;
       });
 
     };
 
-    /**
-     * Sets given booking as a current one
-     * */
-    $scope.selectBooking = function(booking) {
-      $scope.currentBooking = booking;
-    };
+
 
     /**
      * Create a new project booking
      * */
-    $scope.updateBooking = function(booking) {
-      if (!booking || !booking.id) {
+    $scope.updateBooking = function() {
+      if (!$scope.currentBooking || !$scope.currentBooking.id) {
         $log.debug('Cannot update non persistent booking');
         return;
       }
       BookingModel.resource.update($scope.currentBooking).$promise.then(function() {
+        return $scope.refreshBookings();
+      }).then(function() {
         $scope.currentBooking = null;
       });
-
     };
 
     /**
      * Removes a new given booking
      * */
     $scope.deleteBooking = function(booking) {
-      BookingModel.resource.delete({}, booking).$promise.then(function() {
-        bookingsService.getMyBookings(function(bookings) {
-          $scope.bookingsList = bookings;
-        });
+      BookingModel.resource.delete({
+        bookingId: booking.id
+      }).$promise.then(function() {
+        return $scope.refreshBookings();
+      }).then(function() {
+        $scope.currentBooking = null;
       });
+    };
+
+
+    /**
+     * Refreshes bookings of the current user
+     * */
+    $scope.refreshBookings = function() {
+      /**
+       * Load bookings initially
+       * */
+      var retVal = bookingsService.getMyBookings(function(bookings) {
+        $scope.bookingsList = bookings;
+      });
+      return retVal;
 
     };
 
-    /**
-     * Load bookings initially
-     * */
-    bookingsService.getMyBookings(function(bookings) {
-      $scope.bookingsList = bookings;
-    });
 
     /**
      * Load visible projects by page load

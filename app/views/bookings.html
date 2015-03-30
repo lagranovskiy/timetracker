@@ -1,4 +1,4 @@
-<ul class="nav nav-pills pull-right">
+<ul class="nav nav-pills pull-right" data-ng-init="refreshBookings()">
   <li role="presentation" class="dropdown">
     <a ng-class="currentBooking == null ? '' : 'disabled'" class="btn btn-primary" role="button" ng-click="createNewBooking()">
        Create Booking
@@ -53,8 +53,8 @@
         </div>
         <div class="form-group col-sm-12">
 
-          <button ng-if="!currentBooking.id" ng-click="book()" class="btn btn-primary">Book</button>
-          <button ng-if="currentBooking.id" ng-click="book()" class="btn btn-primary">Save</button>
+          <button ng-if="!currentBooking.id" ng-click="createBooking()" class="btn btn-primary">Book</button>
+          <button ng-if="currentBooking.id" ng-click="updateBooking()" class="btn btn-primary">Update Booking</button>
           <button ng-click="resetBooking()" class="btn btn-primary">Cancel</button>
 
         </div>
@@ -81,7 +81,7 @@
 
 
         <tr ng-repeat="booking in bookingsList">
-          <td>{{booking.workStarted | date:"MM/dd/yyyy"}}</td>
+          <td>{{booking.workDay | date:"MM/dd/yyyy"}}</td>
           <td>{{booking.workStarted| date:"hh:mm a"}}</td>
           <td>{{booking.workFinished| date:"hh:mm a"}}</td>
           <td>30 min</td>

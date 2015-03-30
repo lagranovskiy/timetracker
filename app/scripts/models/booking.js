@@ -7,6 +7,10 @@ angular.module('timetrackerApp.model.booking', ['ngResource'])
 
       var bookingResource = $resource($rootScope.config.server + '/booking/:bookingId', {
         bookingId: '@id'
+      }, {
+        update: {
+          method: 'PUT'
+        }
       });
 
       var bookingModel = {
