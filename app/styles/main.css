@@ -1,0 +1,26 @@
+.modal-backdrop.am-fade {
+  opacity: .5;
+  transition: opacity .15s linear;
+  &.ng-enter {
+    opacity: 0;
+    &.ng-enter-active {
+      opacity: .5;
+    }
+  }
+  &.ng-leave {
+    opacity: .5;
+    &.ng-leave-active {
+      opacity: 0;
+    }
+  }
+}
+input.ng-invalid {
+  border: 1px solid red;
+}
+textarea.ng-invalid {
+  border: 1px solid red;
+}
+.error {
+  font-weight: bold;
+  color: red;
+}

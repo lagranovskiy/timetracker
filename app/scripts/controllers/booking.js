@@ -7,7 +7,7 @@
  *
  */
 angular.module('timetrackerApp.controller.booking', [])
-  .controller('BookingCtrl', function($scope, bookingsService, projectService, BookingModel, $log) {
+  .controller('BookingCtrl', function($scope, bookingsService, projectService, BookingModel, $log, $alert, $modal) {
 
 
     $scope.bookingsList = [];
@@ -65,6 +65,14 @@ angular.module('timetrackerApp.controller.booking', [])
         return $scope.refreshBookings();
       }).then(function() {
         $scope.currentBooking = null;
+      }, function(err) {
+        $alert({
+          title: 'Ooops!',
+          content: err,
+          placement: 'top',
+          type: 'info',
+          show: true
+        });
       });
 
     };
@@ -83,8 +91,17 @@ angular.module('timetrackerApp.controller.booking', [])
         return $scope.refreshBookings();
       }).then(function() {
         $scope.currentBooking = null;
+      }, function(err) {
+        $alert({
+          title: 'Ooops!',
+          content: err,
+          placement: 'top',
+          type: 'info',
+          show: true
+        });
       });
     };
+
 
     /**
      * Removes a new given booking
@@ -94,8 +111,24 @@ angular.module('timetrackerApp.controller.booking', [])
         bookingId: booking.id
       }).$promise.then(function() {
         return $scope.refreshBookings();
+      }, function(err) {
+        $alert({
+          title: 'Ooops!',
+          content: err,
+          placement: 'top',
+          type: 'info',
+          show: true
+        });
       }).then(function() {
         $scope.currentBooking = null;
+      }, function(err) {
+        $alert({
+          title: 'Ooops!',
+          content: err,
+          placement: 'top',
+          type: 'info',
+          show: true
+        });
       });
     };
 

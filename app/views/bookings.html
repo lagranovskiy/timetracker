@@ -18,45 +18,66 @@
     <div class="panel-heading" ng-if="!currentBooking.id">Create new booking</div>
     <div class="panel-heading" ng-if="currentBooking.id">Update existing booking</div>
     <div class="panel-body">
-      <form class="">
+      <form name="bookingForm" novalidate>
         <div class="form-group col-sm-12">
-          <label for="inputEmail3" class="control-label">Project</label>
-          <select ng-model="currentBooking.projectId" ng-options="project.id as project.projectName for project in visibleProjects" class="form-control">
+          <label for="project" class="control-label">Project</label>
+          <select name="project" ng-model="currentBooking.projectId" ng-options="project.id as project.projectName for project in visibleProjects" class="form-control" required>
           </select>
 
         </div>
         <div class="form-group col-sm-12 ">
-          <label for="inputPassword3" class="control-label">Date</label>
-          <input class="form-control" ng-model="currentBooking.workDay" data-date-format="yyyy-MM-dd" data-date-type="number" data-min-date="02/10/2000" data-max-date="02/10/2020" data-autoclose="1" name="workDay" bs-datepicker="" type="text">
-
+          <label for="workDay" class="control-label">Date</label>
+          <input name="workDay" class="form-control" ng-model="currentBooking.workDay" data-date-format="yyyy-MM-dd" data-date-type="number" data-min-date="02/10/2000" data-max-date="02/10/2020" data-autoclose="1" name="workDay" bs-datepicker="" type="text" required>
+          <div class="error" ng-show="bookingForm.workDay.$dirty && bookingForm.workDay.$invalid">
+            <small class="error" ng-show="bookingForm.workDay.$error">
+              Your input is invalid
+            </small>
+          </div>
         </div>
         <div class="form-group col-sm-4">
           <label for="workStarted" class="control-label">Started</label>
-          <input class="form-control" size="5" ng-model="currentBooking.workStarted" data-time-format="HH:mm" data-time-type="number" data-autoclose="1" name="workStarted" bs-timepicker type="text">
-
+          <input name="workStarted" class="form-control" size="5" ng-model="currentBooking.workStarted" data-time-format="HH:mm" data-time-type="number" data-autoclose="1" bs-timepicker type="text" required>
+          <div class="error" ng-show="bookingForm.workStarted.$dirty && bookingForm.workStarted.$invalid">
+            <small class="error" ng-show="bookingForm.workStarted.$error">
+              Your input is invalid
+            </small>
+          </div>
         </div>
 
         <div class="form-group col-sm-4">
           <label for="workFinished" class="control-label">Finished</label>
-          <input class="form-control" size="5" ng-model="currentBooking.workFinished" data-time-format="HH:mm" data-time-type="number" data-autoclose="1" name="workFinished" bs-timepicker type="text">
+          <input class="form-control" size="5" ng-model="currentBooking.workFinished" data-time-format="HH:mm" data-time-type="number" data-autoclose="1" name="workFinished" bs-timepicker type="text" required>
+          <div class="error" ng-show="bookingForm.workFinished.$dirty && bookingForm.workFinished.$invalid">
+            <small class="error" ng-show="bookingForm.workFinished.$error">
+              Your input is invalid
+            </small>
+          </div>
         </div>
 
         <div class="form-group col-sm-4">
           <label for="pause" class="control-label">Pause</label>
-          <input type="text" ng-model="currentBooking.pause" class="form-control" id="pause">
+          <input name="pause" type="text" ng-model="currentBooking.pause" class="form-control" id="pause" required>
+          <div class="error" ng-show="bookingForm.pause.$dirty && bookingForm.pause.$invalid">
+            <small class="error" ng-show="bookingForm.pause.$error">
+              Your input is invalid
+            </small>
+          </div>
         </div>
 
         <div class="form-group col-sm-12">
           <label for="workComment" class="control-label">Comment</label>
-          <textarea ng-model="currentBooking.comment" class="form-control" id="workComment">
+          <textarea name="workComment" ng-model="currentBooking.comment" class="form-control" id="workComment" ng-maxlength=512>
           </textarea>
+          <div class="error" ng-show="bookingForm.workComment.$dirty && bookingForm.workComment.$invalid">
+            <small class="error" ng-show="bookingForm.workComment.$error.maxlength">
+              Please give only maximal 512 characters in comment.
+            </small>
+          </div>
         </div>
         <div class="form-group col-sm-12">
-
-          <button ng-if="!currentBooking.id" ng-click="createBooking()" class="btn btn-primary">Book</button>
-          <button ng-if="currentBooking.id" ng-click="updateBooking()" class="btn btn-primary">Update Booking</button>
-          <button ng-click="resetBooking()" class="btn btn-primary">Cancel</button>
-
+          <button ng-if="!currentBooking.id" ng-disabled="bookingForm.$invalid" ng-click="createBooking()" class="btn btn-success">Book</button>
+          <button ng-if="currentBooking.id" ng-disabled="bookingForm.$invalid" ng-click="updateBooking()" class="btn btn-primary">Update Booking</button>
+          <button ng-click="resetBooking()" class="btn btn-danger">Cancel</button>
         </div>
       </form>
     </div>
@@ -84,13 +105,13 @@
         <tr ng-repeat="booking in bookingsList">
           <td>{{findProjectNameById(booking.projectId)}}</td>
           <td>{{booking.workDay | date:"MM/dd/yyyy"}}</td>
-          <td>{{booking.workStarted| date:"hh:mm a"}}</td>
-          <td>{{booking.workFinished| date:"hh:mm a"}}</td>
+          <td>{{booking.workStarted| date:"HH:mm"}}</td>
+          <td>{{booking.workFinished| date:"HH:mm"}}</td>
           <td>30 min</td>
           <td>{{booking.comment}}</td>
           <td>
             <span ng-click="selectBooking(booking)" class="glyphicon glyphicon-pencil"> </span>
-            <span ng-click="deleteBooking(booking)" class="glyphicon glyphicon-trash"> </span>
+            <span data-animation="am-fade-and-slide-top" data-template="modal/RemovingBooking.tpl.html" bs-modal="modal" class="glyphicon glyphicon-trash"> </span>
           </td>
           </td>
       </table>
