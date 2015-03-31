@@ -16,6 +16,7 @@ angular.module('timetrackerApp', [
   'ngRoute',
   'ngSanitize',
   'ngTouch',
+  'mgcrea.ngStrap',
 
   'timetrackerApp.model.user',
   'timetrackerApp.model.project',

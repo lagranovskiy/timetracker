@@ -24,13 +24,13 @@ angular.module('timetrackerApp.model.booking', ['ngResource'])
           return {
             id: null,
             projectId: null,
-            workDay: new Date(),
-            workStarted: new Date(1970, 0, 1, 13, 0, 0),
-            workFinished: new Date(1970, 0, 1, 14, 0, 0),
+            workDay: new Date().getTime(),
+            workStarted: new Date(1970, 0, 1, 13, 0, 0).getTime(),
+            workFinished: new Date(1970, 0, 1, 14, 0, 0).getTime(),
             pause: 30,
             comment: '',
-            createdTime: new Date(),
-            lastUpdatedTime: new Date()
+            createdTime: new Date().getTime(),
+            lastUpdatedTime: new Date().getTime()
           };
         }
 
