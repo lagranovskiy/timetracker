@@ -1,5 +1,7 @@
 'use strict';
 
+/*global _*/
+
 /**
  * Controller for Booking overview and control panel
  *
@@ -20,6 +22,21 @@ angular.module('timetrackerApp.controller.booking', [])
      * */
     $scope.selectBooking = function(booking) {
       $scope.currentBooking = booking;
+    };
+
+    /**
+     * Find a project by id
+     * */
+    $scope.findProjectNameById = function(projectId) {
+      if (!projectId || $scope.visibleProjects.length === 0) {
+        return '';
+      }
+
+      var foundProject = _.findWhere($scope.visibleProjects, {
+        id: projectId
+      });
+
+      return foundProject.projectName;
     };
 
     /**
