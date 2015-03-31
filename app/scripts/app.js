@@ -37,11 +37,27 @@ angular.module('timetrackerApp', [
   'timetrackerApp.controller.registration'
 ])
 
-.run(['$rootScope', '$location', '$log',
+.run(['$rootScope', '$location', '$alert',
 
-  function($rootScope, $location) {
+  function($rootScope, $location, $alert) {
     $rootScope.$location = $location;
     $rootScope.config = TimetrackerConfiguration;
+
+    /**
+     * Generical error display handler
+     */
+    $rootScope.showError = function(errorData) {
+      var text = errorData.data ? errorData.data : errorData;
+      $alert({
+        title: 'Ooops!',
+        content: text,
+        placement: 'top',
+        duration: 5,
+        type: 'danger',
+        show: true
+      });
+    };
+
   }
 ])
 

@@ -61,19 +61,15 @@ angular.module('timetrackerApp.controller.booking', [])
         $log.debug('Cannot create null booking');
         return;
       }
-      BookingModel.resource.save($scope.currentBooking).$promise.then(function() {
+      BookingModel.resource.save($scope.currentBooking).$promise
+
+        .then(function() {
         return $scope.refreshBookings();
-      }).then(function() {
+      }, $scope.showError)
+
+      .then(function() {
         $scope.currentBooking = null;
-      }, function(err) {
-        $alert({
-          title: 'Ooops!',
-          content: err,
-          placement: 'top',
-          type: 'info',
-          show: true
-        });
-      });
+      }, $scope.showError);
 
     };
 
@@ -87,19 +83,13 @@ angular.module('timetrackerApp.controller.booking', [])
         $log.debug('Cannot update non persistent booking');
         return;
       }
-      BookingModel.resource.update($scope.currentBooking).$promise.then(function() {
-        return $scope.refreshBookings();
-      }).then(function() {
-        $scope.currentBooking = null;
-      }, function(err) {
-        $alert({
-          title: 'Ooops!',
-          content: err,
-          placement: 'top',
-          type: 'info',
-          show: true
-        });
-      });
+      BookingModel.resource.update($scope.currentBooking).$promise
+        .then(function() {
+          return $scope.refreshBookings();
+        }, $scope.showError)
+        .then(function() {
+          $scope.currentBooking = null;
+        }, $scope.showError);
     };
 
 
@@ -108,28 +98,14 @@ angular.module('timetrackerApp.controller.booking', [])
      * */
     $scope.deleteBooking = function(booking) {
       BookingModel.resource.delete({
-        bookingId: booking.id
-      }).$promise.then(function() {
-        return $scope.refreshBookings();
-      }, function(err) {
-        $alert({
-          title: 'Ooops!',
-          content: err,
-          placement: 'top',
-          type: 'info',
-          show: true
-        });
-      }).then(function() {
-        $scope.currentBooking = null;
-      }, function(err) {
-        $alert({
-          title: 'Ooops!',
-          content: err,
-          placement: 'top',
-          type: 'info',
-          show: true
-        });
-      });
+          bookingId: booking.id
+        }).$promise
+        .then(function() {
+          return $scope.refreshBookings();
+        }, $scope.showError)
+        .then(function() {
+          $scope.currentBooking = null;
+        }, $scope.showError);
     };
 
 
@@ -156,4 +132,5 @@ angular.module('timetrackerApp.controller.booking', [])
         $scope.visibleProjects = data.records;
       }
     });
+
   });
