@@ -7,7 +7,7 @@
  *
  */
 angular.module('timetrackerApp.controller.booking', [])
-  .controller('BookingCtrl', function($scope, bookingsService, projectService, BookingModel, $log, $alert, $modal) {
+  .controller('BookingCtrl', function($scope, $routeParams, bookingsService, projectService, BookingModel, $log, $q) {
 
 
     $scope.bookingsList = [];
@@ -15,6 +15,7 @@ angular.module('timetrackerApp.controller.booking', [])
     $scope.currentBooking = null;
 
     $scope.visibleProjects = [];
+
 
 
     /**
@@ -110,6 +111,40 @@ angular.module('timetrackerApp.controller.booking', [])
 
 
     /**
+     * Initializes the booking page with start data
+     */
+    $scope.initPage = function() {
+
+      $q.all([
+
+        /**
+         * Load visible projects of user
+         */
+        projectService.getVisibleProjects(function(data) {
+          if (data.records) {
+            $scope.visibleProjects = data.records;
+          }
+        }),
+
+
+        /**
+         * Load user bookings
+         */
+        $scope.refreshBookings()
+
+      ]).then(function() {
+        /**
+         * Load visible projects by page load
+         * */
+        if ($routeParams.projectId) {
+          $scope.createNewBooking();
+          $scope.currentBooking.projectId = $routeParams.projectId * 1;
+        }
+      }, $scope.showError);
+
+    };
+
+    /**
      * Refreshes bookings of the current user
      * */
     $scope.refreshBookings = function() {
@@ -124,13 +159,7 @@ angular.module('timetrackerApp.controller.booking', [])
     };
 
 
-    /**
-     * Load visible projects by page load
-     * */
-    projectService.getVisibleProjects(function(data) {
-      if (data.records) {
-        $scope.visibleProjects = data.records;
-      }
-    });
+
+
 
   });

@@ -1,4 +1,4 @@
-<ul class="nav nav-pills pull-right" data-ng-init="refreshBookings()">
+<ul class="nav nav-pills pull-right" data-ng-init="initPage()">
   <li role="presentation" class="dropdown">
     <a ng-class="currentBooking == null ? '' : 'disabled'" class="btn btn-primary" role="button" ng-click="createNewBooking()">
        Create Booking
@@ -112,7 +112,6 @@
           <td>
             <span ng-click="selectBooking(booking)" class="glyphicon glyphicon-pencil"> </span>
             <span data-animation="am-fade-and-slide-top" data-template="modal/RemovingBooking.tpl.html" bs-modal="modal" class="glyphicon glyphicon-trash"> </span>
-          </td>
           </td>
       </table>
     </div>
