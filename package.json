@@ -36,7 +36,7 @@
     "npm": "2.1.x"
   },
   "scripts": {
-    "postinstall": "bower install && grunt build",
+    "postinstall": "bower install",
     "start": "grunt serve",
     "test": "grunt test"
   },
