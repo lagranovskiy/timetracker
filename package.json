@@ -43,7 +43,7 @@
   "scripts": {
     "postinstall": "bower install",
     "prestart": "npm install",
-    "start": "http-server ./app -a localhost -p $PORT -c-1",
+    "start": "node server.js",
     "pretest": "npm install",
     "test": "grunt test"
   },
