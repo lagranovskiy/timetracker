@@ -1,5 +1,5 @@
 var TimetrackerConfiguration = {
 
-  server: 'http://localhost:8484'
+  server: 'https://localhost:4433'
 
 };

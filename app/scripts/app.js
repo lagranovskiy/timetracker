@@ -127,6 +127,11 @@ angular.module('timetrackerApp', [
       controller: 'BookingCtrl',
       requireLogin: true
     })
+    .when('/bookings', {
+      templateUrl: 'views/bookings.html',
+      controller: 'BookingCtrl',
+      requireLogin: true
+    })
     .when('/management', {
       templateUrl: 'views/management.html',
       controller: 'ManagementCtrl',
