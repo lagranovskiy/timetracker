@@ -1,9 +1,12 @@
 {
   "name": "timetrackerclient",
-  "version": "1.0.0",
+  "version": "0.0.0",
+  "description": "A PAC Timetracker project AngularJS client",
   "dependencies": {
     "bower": "^1.4.1",
-    "grunt": "^0.4.1"
+    "grunt": "^0.4.1",
+    "http-server": "^0.8.0",
+    "https-server": "^0.1.2"
   },
   "devDependencies": {
     "grunt": "^0.4.1",
@@ -37,7 +40,9 @@
   },
   "scripts": {
     "postinstall": "bower install",
-    "start": "grunt serve",
+    "prestart": "npm install",
+    "start": "http-server ./app -a localhost -p 8000 -c-1",
+    "pretest": "npm install",
     "test": "grunt test"
   },
   "repository": {
@@ -49,5 +54,4 @@
     "heroku",
     "angularjs"
   ]
-
 }
