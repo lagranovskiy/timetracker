@@ -5,8 +5,7 @@
   "dependencies": {
     "bower": "^1.4.1",
     "grunt": "^0.4.1",
-    "http-server": "^0.8.0",
-    "https-server": "^0.1.2"
+    "http-server": "^0.8.0"
   },
   "devDependencies": {
     "grunt": "^0.4.1",
