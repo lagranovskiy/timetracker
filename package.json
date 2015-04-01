@@ -1,6 +1,6 @@
 {
   "name": "timetrackerclient",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.1",
@@ -29,10 +29,12 @@
     "time-grunt": "^0.3.1"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": "0.10.x",
+    "npm": "2.1.x"
   },
   "scripts": {
-    "start": "grunt serve",	
+    "postinstall": "bower install && grunt build",
+    "start": "grunt serve",
     "test": "grunt test"
   }
 }
