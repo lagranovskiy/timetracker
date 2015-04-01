@@ -1,5 +1,1 @@
-var TimetrackerConfiguration = {
-
-  server: 'https://localhost:4433'
-
-};
+var TimetrackerConfiguration = {  server: 'https://localhost:4433', env : 'dev' };
