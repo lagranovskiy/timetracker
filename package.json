@@ -3,15 +3,13 @@
   "version": "0.0.0",
   "description": "A PAC Timetracker project AngularJS client",
   "dependencies": {
-    "fs": "0.0.2",
-    "http-server": "^0.8.0",
-    "node-static": "^0.7.6",
-    "path": "^0.11.14",
-    "url": "^0.10.3"
-  },
-  "devDependencies": {
     "bower": "^1.4.1",
     "grunt": "^0.4.1",
+    "fs": "0.0.2",
+    "http-server": "^0.8.0",
+    "node-static": "^0.7.6"
+  },
+  "devDependencies": {
     "grunt-autoprefixer": "^0.7.3",
     "grunt-concurrent": "^0.5.0",
     "grunt-contrib-clean": "^0.5.0",
