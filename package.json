@@ -1,13 +1,12 @@
 {
-  "name": "timetrackerclient",
+  "name": "pac-timetracker-client",
   "version": "0.0.0",
   "description": "A PAC Timetracker project AngularJS client",
   "dependencies": {
+    "express": "~4.9.x",
     "bower": "^1.4.1",
     "grunt": "^0.4.1",
-    "fs": "0.0.2",
-    "http-server": "^0.8.0",
-    "node-static": "^0.7.6"
+    "http-server": "^0.8.0"
   },
   "devDependencies": {
     "grunt-autoprefixer": "^0.7.3",
@@ -42,6 +41,7 @@
     "postinstall": "bower install",
     "prestart": "npm install",
     "start": "node server.js",
+
     "pretest": "npm install",
     "test": "grunt test"
   },

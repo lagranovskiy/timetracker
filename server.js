@@ -6,35 +6,20 @@
  * and folder in the './public' folder
  */
 
-// modules
-var stat = require('node-static');
-var http = require('http');
-var serverPort, serverHost;
-
-if (process.env.ENV && process.env.ENV === 'heroku') {
-  if (process.env.PORT) {
-    serverPort = process.env.PORT * 1;
-  }
-
-  serverHost = '0.0.0.0';
-} else {
-  serverPort = '8000';
-  serverHost = 'localhost';
-}
 
 
+var express = require('express');
+var app = express();
 
-// config
-var file = new stat.Server('./app', {
-  cache: 3600,
-  gzip: true
+app.set('port', (process.env.PORT || 8000));
+app.use(express.static(__dirname + '/app'));
+
+app.get('/', function(request, response) {
+  response.send('Hello World!');
 });
 
-// serve
-http.createServer(function(request, response) {
-  request.addListener('end', function() {
-    file.serve(request, response);
-  }).resume();
-}).listen(parseInt(serverPort), serverHost);
+console.log(app.get('port'));
 
-console.info('Listening to: http://' + serverHost + ':' + serverPort);
+app.listen(app.get('port'), function() {
+  console.log('Node app is running at localhost:' + app.get('port'));
+});
