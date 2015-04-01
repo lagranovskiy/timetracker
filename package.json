@@ -38,10 +38,7 @@
     "npm": "2.1.x"
   },
   "scripts": {
-    "postinstall": "bower install",
-    "prestart": "npm install",
     "start": "node server.js",
-
     "pretest": "npm install",
     "test": "grunt test"
   },
