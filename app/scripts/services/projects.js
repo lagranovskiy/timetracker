@@ -38,6 +38,9 @@ angular.module('timetrackerApp.service.projects', ['ngCookies'])
        * @return {Promise}          promise
        */
       getProjectBookings: function(project, callback) {
+        if (!project) {
+          return null;
+        }
         var retVal = $http.get($rootScope.config.server + '/user/project/' + project.id + '/bookings')
           .success(function(data) {
             $log.info('Bookings of current project loaded.');

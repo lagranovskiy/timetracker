@@ -14,10 +14,10 @@
 .modal-backdrop.am-fade.ng-leave.ng-leave-active {
   opacity: 0;
 }
-input.ng-invalid {
+input.ng-invalid:not(.ng-pristine) {
   border: 1px solid red;
 }
-textarea.ng-invalid {
+textarea.ng-invalid:not(.ng-pristine) {
   border: 1px solid red;
 }
 .error {

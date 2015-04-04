@@ -8,7 +8,10 @@ angular.module('timetrackerApp.controller.navbar', [])
 
     $scope.userModel = UserModel;
 
-    $scope.selectedNav = $location.path();
+    $scope.$on('$routeChangeStart', function() {
+      $scope.selectedNav = $location.path();
+    });
+
 
     /**
      * Sets current location of user

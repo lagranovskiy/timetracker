@@ -1,4 +1,4 @@
-<div class="page-header">
+<div class="page-header" ng-init="">
   <h1>TimeTracker Registration
     <small>Introduce yourself</small>
   </h1>
@@ -7,60 +7,104 @@
   <div class="panel-heading">TimeTracker user registration</div>
   <div class="panel-body">
 
-    <form class="form-horizontal">
+    <form class="form-horizontal" name="signup" novalidate>
       <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
+        <label for="username" class="col-sm-2 control-label">Username</label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" id="inputEmail3" placeholder="Username">
+          <input type="text" class="form-control" username name="username" ng-model="userData.username" placeholder="Username" required ng-maxlength=128 ng-minlength=4 ng-model-options="{ debounce: 500 }">
+          <div class="error" ng-show="signup.username.$dirty && signup.username.$invalid">
+            <small class="error" ng-show="signup.username.$error && !signup.username.$error.username">
+              Your input is invalid
+            </small>
+            <small class="error" ng-if="signup.username.$error.username">Username already exist</small>
+          </div>
         </div>
       </div>
       <div class="form-group ">
-        <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+        <label for="password" class="col-sm-2 control-label">Password</label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+          <input type="password" class="form-control" name="password" ng-change="testPasswordEqual()" ng-model="userData.password" placeholder="Password" required ng-maxlength=18 ng-minlength=6 ng-model-options="{ debounce: 500 }">
+          <div class="error" ng-show="signup.password.$dirty && signup.password.$invalid">
+            <small class="error" ng-show="signup.password.$error">
+              Your input is invalid
+            </small>
+          </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">Repeat Password</label>
+        <label for="passwordRepeat" class="col-sm-2 control-label">Repeat Password</label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="inputPassword3" placeholder="Repeat password">
+          <input type="password" class="form-control" name="passwordRepeat" ng-change="testPasswordEqual()" ng-model="userData.passwordRepeat" placeholder="Repeat password" required ng-maxlength=18 ng-match="userData.password" ng-minlength=6 ng-model-options="{ debounce: 500 }">
+          <div class="error" ng-show="signup.passwordRepeat.$dirty && signup.passwordRepeat.$invalid">
+            <small class="error" ng-show="signup.passwordRepeat.$error && !signup.passwordRepeat.$error.match">
+              Your input is invalid
+            </small>
+            <small class="error" ng-show="signup.passwordRepeat.$error.match">
+              Passwords do not match
+            </small>
+          </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">Forename</label>
+        <label for="forename" class="col-sm-2 control-label">Forename</label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+          <input type="text" class="form-control" name="forename" ng-model="userData.forename" placeholder="Max" required ng-maxlength=32 ng-model-options="{ debounce: 500 }">
+          <div class="error" ng-show="signup.forename.$dirty && signup.forename.$invalid">
+            <small class="error" ng-show="signup.forename.$error">
+              Your input is invalid
+            </small>
+          </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">Surname</label>
+        <label for="surname" class="col-sm-2 control-label">Surname</label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+          <input type="text" class="form-control" name="surname" ng-model="userData.surname" placeholder="Mustermann" required ng-maxlength=32 ng-model-options="{ debounce: 500 }">
+          <div class="error" ng-show="signup.surname.$dirty && signup.surname.$invalid">
+            <small class="error" ng-show="signup.surname.$error">
+              Your input is invalid
+            </small>
+          </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">Birthday</label>
+        <label for="birthday" class="col-sm-2 control-label">Birthday</label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+          <input name="birthday" class="form-control" ng-model="userData.birthday" data-date-format="yyyy-MM-dd" data-date-type="number" data-min-date="02/10/1920" data-max-date="02/10/2015" data-autoclose="1" bs-datepicker="" required>
+          <div class="error" ng-show="signup.birthday.$dirty && signup.birthday.$invalid">
+            <small class="error" ng-show="signup.birthday.$error">
+              Your input is invalid
+            </small>
+          </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">E-mail</label>
+        <label for="email" class="col-sm-2 control-label">E-mail</label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+          <input type="email" class="form-control" ng-model="userData.email" name="email" placeholder="max@musterman.com" ng-model-options="{ debounce: 500 }">
+          <div class="error" ng-show="signup.email.$dirty && signup.email.$invalid" required>
+            <small class="error" ng-show="signup.email.$error">
+              Your input is invalid
+            </small>
+          </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">Phone</label>
+        <label for="phone" class="col-sm-2 control-label">Phone</label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+          <input type="text" class="form-control" id="phone" ng-model="userData.phone" placeholder="+49 176 1588440" required ng-model-options="{ debounce: 500 }">
+          <div class="error" ng-show="signup.phone.$dirty && signup.phone.$invalid">
+            <small class="error" ng-show="signup.phone.$error">
+              Your input is invalid
+            </small>
+          </div>
         </div>
       </div>
 
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-primary">Register</button>
+          <button ng-disabled="signup.$invalid &&  !sendingData" ng-click="registerUser()" class="btn btn-primary">Register</button>
         </div>
       </div>
     </form>

@@ -1,6 +1,6 @@
 /*global angular*/
 
-angular.module('timetrackerApp.model.user', ['ngResource', 'ngCookies', ])
+angular.module('timetrackerApp.model.user', ['ngResource', 'ngCookies'])
   .factory('UserModel',
     function($rootScope, $http, $resource, $log, $cookieStore) {
       'use strict';
@@ -77,29 +77,63 @@ angular.module('timetrackerApp.model.user', ['ngResource', 'ngCookies', ])
         },
 
         loginUser: function(credData, callback) {
-          $http.post($rootScope.config.server + '/auth/login', credData)
+          return $http.post($rootScope.config.server + '/auth/login', credData)
             .success(function(data) {
               $log.info('User authenticated.');
-              callback(null, data);
+              if (callback) {
+                callback(null, data);
+              }
               user.data = data;
             })
             .error(function(data, status) {
-              callback(status);
+              if (callback) {
+                callback(status);
+              }
               $log.info('Cannot authenticate user');
             });
         },
 
+
+        /**
+         * registerUser - Process user registration
+         *
+         * @param  {type} userData user data Object
+         * @param  {type} callback callback in form (error, data)
+         * @return {type}          description
+         */
+        registerUser: function(userData, callback) {
+          return $http.post($rootScope.config.server + '/auth/sign', userData)
+            .success(function(data) {
+              $log.info('User registered.');
+              if (callback) {
+                callback(null, data);
+              }
+              user.data = data;
+            })
+            .error(function(data, status) {
+              if (callback) {
+                callback(status);
+              }
+              $log.info('Cannot register user');
+            });
+        },
+
+
         logout: function(callback) {
-          $http.post($rootScope.config.server + '/auth/logout')
+          return $http.post($rootScope.config.server + '/auth/logout')
             .success(function() {
               $log.info('User Logout successful.');
               user.data = null;
-              callback(true);
+              if (callback) {
+                callback(null, true);
+              }
             })
             .error(function(data, status) {
               $log.info('Request responces with ' + status);
               user.data = null;
-              callback(false);
+              if (callback) {
+                callback(status);
+              }
             });
         },
 

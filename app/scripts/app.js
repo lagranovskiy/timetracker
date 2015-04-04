@@ -16,7 +16,9 @@ angular.module('timetrackerApp', [
   'ngRoute',
   'ngSanitize',
   'ngTouch',
+  'ngLocale',
   'mgcrea.ngStrap',
+
 
   'timetrackerApp.model.user',
   'timetrackerApp.model.project',
@@ -26,6 +28,8 @@ angular.module('timetrackerApp', [
   'timetrackerApp.service.bookings',
   'timetrackerApp.service.projects',
 
+  'timetrackerApp.directives.username',
+
   // Controllers
   'timetrackerApp.controller.navbar',
   'timetrackerApp.controller.booking',
@@ -34,7 +38,8 @@ angular.module('timetrackerApp', [
   'timetrackerApp.controller.admin',
   'timetrackerApp.controller.dashboard',
   'timetrackerApp.controller.login',
-  'timetrackerApp.controller.registration'
+  'timetrackerApp.controller.registration',
+
 ])
 
 .run(['$rootScope', '$location', '$alert',
