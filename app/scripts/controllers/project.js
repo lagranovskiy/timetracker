@@ -23,7 +23,7 @@ angular.module('timetrackerApp.controller.project', [])
       $scope.selectedProject = project;
       $scope.bookingsList = [];
 
-      projectService.getProjectBookings(project, function(bookingList) {
+      projectService.getUserProjectBookings(project, function(bookingList) {
         $scope.bookingsList = bookingList;
       });
     };
@@ -36,7 +36,7 @@ angular.module('timetrackerApp.controller.project', [])
       /**
        * Load visible projects by page load
        * */
-      projectService.getVisibleProjects(function(data) {
+      projectService.getUserProjects(function(data) {
         if (data.records) {
           $scope.visibleProjects = data.records;
           $scope.selectProject(data.records[0]);

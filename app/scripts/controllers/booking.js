@@ -120,7 +120,7 @@ angular.module('timetrackerApp.controller.booking', [])
         /**
          * Load visible projects of user
          */
-        projectService.getVisibleProjects(function(data) {
+        projectService.getUserProjects(function(data) {
           if (data.records) {
             $scope.visibleProjects = data.records;
           }

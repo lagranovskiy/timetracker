@@ -23,6 +23,7 @@ angular.module('timetrackerApp', [
   'timetrackerApp.model.user',
   'timetrackerApp.model.project',
   'timetrackerApp.model.booking',
+  'timetrackerApp.model.person',
 
   'timetrackerApp.service.security',
   'timetrackerApp.service.bookings',

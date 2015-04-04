@@ -9,13 +9,83 @@ angular.module('timetrackerApp.service.projects', ['ngCookies'])
   function($rootScope, $location, $http, $log) {
     return {
 
+
+      /**
+       * getProjectStatistic - Resolves project statistics
+       *
+       * @param  {type} project  description
+       * @param  {type} callback description
+       * @return {type}          description
+       */
+      getProjectStatistics: function(project, callback) {
+        var retVal = $http.get($rootScope.config.server + '/project/' + project.id + '/statistics')
+          .success(function(data) {
+            $log.info('Project statistic loaded.');
+            if (callback) {
+              callback(data);
+            }
+          })
+          .error(function(data, status) {
+            $log.info('Cannot load project statistics.' + status + ' / ' + data);
+          });
+
+        return retVal;
+      },
+
+
+      /**
+       * getProjectResources - Resolve all project resources
+       *
+       * @param  {type} project  description
+       * @param  {type} callback description
+       * @return {type}          description
+       */
+      getProjectResources: function(project, callback) {
+        var retVal = $http.get($rootScope.config.server + '/project/' + project.id + '/resources')
+          .success(function(data) {
+            $log.info('Project resources loaded.');
+            if (callback) {
+              callback(data);
+            }
+          })
+          .error(function(data, status) {
+            $log.info('Cannot load project resources.' + status + ' / ' + data);
+          });
+
+        return retVal;
+      },
+
+
+      /**
+       * getProjectBookings - Resovle all project bookings
+       *
+       * @param  {type} project  description
+       * @param  {type} callback description
+       * @return {type}          description
+       */
+      getProjectBookings: function(project, callback) {
+        var retVal = $http.get($rootScope.config.server + '/project/' + project.id + '/bookings')
+          .success(function(data) {
+            $log.info('Project bookings loaded.');
+            if (callback) {
+              callback(data);
+            }
+          })
+          .error(function(data, status) {
+            $log.info('Cannot load project bookings.' + status + ' / ' + data);
+          });
+
+        return retVal;
+      },
+
+
       /**
        * getVisibleProjects - Returns user assigned projects
        *
        * @param  {Function} callback callback method
        * @return {Promise}          promise
        */
-      getVisibleProjects: function(callback) {
+      getUserProjects: function(callback) {
         var retVal = $http.get($rootScope.config.server + '/user/projects')
           .success(function(data) {
             $log.info('Visible projects loaded.');
@@ -30,6 +100,9 @@ angular.module('timetrackerApp.service.projects', ['ngCookies'])
         return retVal;
       },
 
+
+
+
       /**
        * getProjectBookings - Returns the list of bookings of given project
        *
@@ -37,7 +110,7 @@ angular.module('timetrackerApp.service.projects', ['ngCookies'])
        * @param  {Function} callback callback method
        * @return {Promise}          promise
        */
-      getProjectBookings: function(project, callback) {
+      getUserProjectBookings: function(project, callback) {
         if (!project) {
           return null;
         }

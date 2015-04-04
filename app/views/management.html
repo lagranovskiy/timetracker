@@ -1,10 +1,112 @@
-<div class="page-header">
-  <h1>Management
-    <small>Control Projects and assigned people</small>
+<div class="page-header" ng-init="init()">
+  <h1>Project Management
+    <small>Control over projects and bookings</small>
   </h1>
 </div>
 
 <div class="row">
 
+  <div class="col-sm-4">
+    <h3>Registered projects</h3>
+    <div class="list-group">
+      <a ng-repeat="project in projects" ng-click="selectProject(project)" class="list-group-item">
+        <h4 class="list-group-item-heading">{{project.projectName}},
+          <small> {{project.customerName}}</small>
+          <span class="pull-right label label-success"></span>
+        </h4>
+      </a>
+    </div>
 
+  </div>
+  <div class="col-sm-8">
+
+
+    <div class="row">
+
+      <div class="col-sm-8">
+        <span class="pull-right label label-success">active</span>
+        <h2>{{selectedProject.projectName}}
+          <small>{{selectedProject.customerName}}</small>
+        </h2>
+        <p>
+          <strong>Manager</strong>: Max Mustermann</p>
+
+        <p>{{project.description}}</p>
+      </div>
+      <div class="col-sm-4">
+        <button type="button" ng-click="go('bookings/'+selectedProject.id)" class="btn-block btn btn-primary">Create Project</button>
+        <button type="button" ng-click="go('bookings/'+selectedProject.id)" class="btn-block btn btn-success">Edit Project</button>
+
+        <button type="button" class="btn-block btn  btn-success">Assign Resource</button>
+        <button type="button" class="btn-block btn  btn-danger">Delete Project</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <h2>Project Statistics</h2>
+        <table class="table ">
+          <tr>
+            <th>Booked</th>
+            <th>Booking count</th>
+            <th>Team members</th>
+          </tr>
+          <tr>
+            <td>{{getTimeBooked()}} h</td>
+            <td>{{projectStatistics.bookingsCount}}</td>
+            <td>{{projectStatistics.resourceCount}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <h2>Project Resources</h2>
+        <table ng-if="projectResources.length>0" class="table  table-striped table-condensed table-hover">
+          <tr>
+            <th>Forename</th>
+            <th>Surname</th>
+            <th>Role</th>
+            <th>Role since</th>
+            <th>Role till</th>
+          </tr>
+
+          <tr ng-repeat="resource in projectResources">
+            <td>{{personMap[resource.personId].forename}}</td>
+            <td>{{personMap[resource.personId].surname}}</td>
+            <td>{{resource.role}}</td>
+            <td>{{resource.roleSince}}</td>
+            <td>{{resource.roleTill}}</td>
+        </table>
+        <p ng-if="projectResources.length == 0"> No resources for project yet </p>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-12">
+        <h2>Project bookings</h2>
+
+        <table ng-if="projectBookings.length>0" class="table  table-striped table-condensed table-hover">
+          <tr>
+            <th>Workday</th>
+            <th>Started</th>
+            <th>Finished</th>
+            <th>Pause</th>
+            <th>Comment</th>
+          </tr>
+
+          <tr ng-repeat="booking in projectBookings">
+            <td>{{booking.workDay | date:"MM/dd/yyyy"}}</td>
+            <td>{{booking.workStarted| date:"HH:mm"}}</td>
+            <td>{{booking.workFinished| date:"HH:mm"}}</td>
+            <td>{{booking.pause}} min</td>
+            <td>{{booking.comment}}</td>
+        </table>
+
+        <p ng-if="projectBookings.length == 0"> No bookings for project yet </p>
+      </div>
+    </div>
+
+  </div>
 </div>
