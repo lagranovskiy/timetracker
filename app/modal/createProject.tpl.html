@@ -1,0 +1,122 @@
+<div class="aside">
+  <div class="aside-dialog">
+    <div class="aside-content">
+      <div class="aside-header">
+        <button type="button" class="close" ng-click="$hide()">×</button>
+        <h4 class="aside-title" ng-if="!currentProject.id">Create Project</h4>
+        <h4 class="aside-title" ng-if="currentProject.id">Update Project</h4>
+      </div>
+      <div class="aside-body">
+
+        <form name="projectForm" novalidate>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label for="projectName" class="control-label">Project Name</label>
+              <input name="projectName" type="text" ng-model="currentProject.projectName" class="form-control" id="projectName" required>
+              <div class="error" ng-show="projectForm.projectName.$dirty && projectForm.projectName.$invalid">
+                <small class="error" ng-show="projectForm.projectName.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label for="projectId" class="control-label">Project ID</label>
+              <input name="projectId" type="text" ng-model="currentProject.projectId" class="form-control" id="projectId" required>
+              <div class="error" ng-show="projectForm.projectId.$dirty && projectForm.projectId.$invalid">
+                <small class="error" ng-show="projectForm.projectId.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label for="projectType" class="control-label">Type</label>
+              <input name="projectType" type="text" ng-model="currentProject.projectType" class="form-control" id="projectType" required>
+              <div class="error" ng-show="projectForm.projectType.$dirty && projectForm.projectType.$invalid">
+                <small class="error" ng-show="projectForm.projectType.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label for="customerName" class="control-label">Customer</label>
+              <input name="customerName" type="text" ng-model="currentProject.customerName" class="form-control" id="customerName" required>
+              <div class="error" ng-show="projectForm.customerName.$dirty && projectForm.customerName.$invalid">
+                <small class="error" ng-show="projectForm.customerName.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+
+
+
+            <div class="form-group col-sm-12">
+              <label for="projectResponsible" class="control-label">Responsible</label>
+              <input name="projectResponsible" type="text" ng-model="currentProject.projectResponsible" class="form-control" id="projectResponsible" required>
+              <div class="error" ng-show="projectForm.projectResponsible.$dirty && projectForm.projectResponsible.$invalid">
+                <small class="error" ng-show="projectForm.projectResponsible.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label for="projectStart" class="control-label">Start date</label>
+
+              <input name="projectStart" class="form-control" ng-model="currentProject.projectStart" data-date-format="yyyy-MM-dd" data-date-type="number" data-min-date="02/10/2000" data-max-date="02/10/2020" data-autoclose="1" bs-datepicker="" type="text" required>
+
+              <div class="error" ng-show="projectForm.projectStart.$dirty && projectForm.projectStart.$invalid">
+                <small class="error" ng-show="projectForm.projectStart.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+
+
+            <div class="form-group col-sm-6">
+              <label for="projectEnd" class="control-label">End date</label>
+
+              <input name="projectEnd" class="form-control" ng-model="currentProject.projectEnd" data-date-format="yyyy-MM-dd" data-date-type="number" data-min-date="02/10/2000" data-max-date="02/10/2020" data-autoclose="1" bs-datepicker="" type="text" required>
+
+              <div class="error" ng-show="projectForm.projectEnd.$dirty && projectForm.projectEnd.$invalid">
+                <small class="error" ng-show="projectForm.projectEnd.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label for="description" class="control-label">Summary</label>
+              <textarea name="description" type="text" ng-model="currentProject.description" class="form-control" id="description" required></textarea>
+              <div class="error" ng-show="projectForm.description.$dirty && projectForm.description.$invalid">
+                <small class="error" ng-show="projectForm.description.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="aside-footer">
+        <button ng-if="!currentProject.id" ng-disabled="projectForm.$invalid" ng-click="$hide();createProject()" class="btn btn-success">Create</button>
+        <button ng-if="currentProject.id" ng-disabled="projectForm.$invalid" ng-click="$hide();updateProject()" class="btn btn-primary">Update Booking</button>
+        <button ng-click="$hide();resetProject()" class="btn btn-danger">Cancel</button>
+
+      </div>
+    </div>
+  </div>
+</div>

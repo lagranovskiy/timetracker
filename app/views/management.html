@@ -34,8 +34,9 @@
         <p>{{project.description}}</p>
       </div>
       <div class="col-sm-4">
-        <button type="button" ng-click="go('bookings/'+selectedProject.id)" class="btn-block btn btn-primary">Create Project</button>
-        <button type="button" ng-click="go('bookings/'+selectedProject.id)" class="btn-block btn btn-success">Edit Project</button>
+        <button class="btn-block btn btn-primary" ng-click="produceNewProject()" backdrop="static" data-template="modal/createProject.tpl.html" data-placement="left" data-animation="am-slide-left" bs-aside="aside" data-container="body">Create Project</button>
+
+        <button class="btn-block btn btn-success" ng-click="currentProject = selectedProject" backdrop="static" data-template="modal/createProject.tpl.html" data-placement="left" data-animation="am-slide-left" bs-aside="aside" data-container="body">Edit Project</button>
 
         <button type="button" class="btn-block btn  btn-success">Assign Resource</button>
         <button type="button" class="btn-block btn  btn-danger">Delete Project</button>
