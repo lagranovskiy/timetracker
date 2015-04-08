@@ -1,0 +1,60 @@
+<div class="aside">
+  <div class="aside-dialog">
+    <div class="aside-content">
+      <div class="aside-header">
+        <button type="button" class="close" ng-click="$hide()">×</button>
+        <h4 class="aside-title">Add Resources</h4>
+      </div>
+      <div class="aside-body">
+
+        <form name="assignmentForm" role="form" novalidate>
+          <div class="row">
+            <div class="alert alert-info">Please select resources an role you want to assign to them.
+              <br/>Multiple assignment is possible (Legal to be Architect and Engineer on the same project)</div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label>Resources: </label>
+              <button type="button" class="btn btn-default" required ng-model="unassignedResources.person" data-html="1" data-multiple="1" bs-options="person as person.forename + ' ' + person.surname for person in personList" bs-select>
+                Action
+                <span class="caret"></span>
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <input type="text" class="form-control " ng-model="unassignedResources.role" bs-options="role for role in rolesList" placeholder="Enter Role" bs-typeahead required>
+            </div>
+            <div class="form-group col-sm-4">
+              <button class="btn btn-default btn-success" ng-disabled="assignmentForm.$invalid" ng-click="createPendingAssignments(); assignmentForm.$setPristine()">Assign</button>
+            </div>
+          </div>
+
+          <h4 ng-if="pendingAssignments.length>0">Pending assignments</h4>
+          <table ng-if="pendingAssignments.length>0" class="table ">
+            <tr>
+              <th>Resource</th>
+              <th>Role</th>
+              <th></th>
+            </tr>
+            <tr ng-repeat="assignment in pendingAssignments">
+              <td>{{assignment.person.forename}} {{assignment.person.surname}}</td>
+              <td>{{assignment.role}}</td>
+              <td>
+                <button ng-click="removePendingAssignment(assignment)" class="btn btn-danger">Remove</button>
+              </td>
+            </tr>
+          </table>
+
+        </form>
+      </div>
+
+    </div>
+    <div class="aside-footer">
+      <button ng-click="$hide();commitPendingAssignments()" ng-disabled="pendingAssignments.length == 0" class="btn btn-success">Commit pending</button>
+      <button ng-click="$hide()" class="btn btn-danger">Cancel</button>
+
+    </div>
+  </div>
+</div>
+</div>

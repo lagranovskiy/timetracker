@@ -13,10 +13,13 @@ angular.module('timetrackerApp.model.person', ['ngResource'])
         }
       });
 
+      var roleResource = $resource($rootScope.config.server + '/role/');
+
       var person = {
 
         resource: personResource,
 
+        roleResource: roleResource,
 
 
         /**

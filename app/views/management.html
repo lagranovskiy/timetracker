@@ -10,10 +10,10 @@
     <h3>Registered projects</h3>
     <div class="list-group">
       <a ng-repeat="project in projects" ng-click="selectProject(project)" class="list-group-item">
-        <h4 class="list-group-item-heading">{{project.projectName}},
-          <small> {{project.customerName}}</small>
-          <span class="pull-right label label-success"></span>
-        </h4>
+        <h4 class="list-group-item-heading">{{project.projectName}}</h4>
+        <small> {{project.customerName}}</small>
+        <span ng-if="isProjectActive(project)" class="pull-right label label-success">active</span>
+
       </a>
     </div>
 
@@ -23,26 +23,36 @@
 
     <div class="row">
 
-      <div class="col-sm-8">
-        <span class="pull-right label label-success">active</span>
+      <div ng-if="selectedProject" class="col-sm-8">
+        <span ng-if="isProjectActive(selectedProject)" class="pull-right label label-success">active</span>
         <h2>{{selectedProject.projectName}}
           <small>{{selectedProject.customerName}}</small>
         </h2>
         <p>
-          <strong>Manager</strong>: Max Mustermann</p>
+          <strong>ERP ID</strong>: {{selectedProject.projectId}}</p>
+        <p>
+          <strong>Start day</strong>: {{selectedProject.projectStart | date: 'yyyy-MM-dd'}}</p>
+        <p>
+          <strong>End day</strong>: {{selectedProject.projectEnd | date: 'yyyy-MM-dd'}}</p>
+        <p>
+          <strong>Billing type</strong>: {{selectedProject.projectType}}</p>
+        <p>
+          <strong>Manager</strong>: {{selectedProject.projectResponsible}}</p>
 
         <p>{{project.description}}</p>
       </div>
+      <div ng-if="!selectedProject" class="col-sm-8"></div>
       <div class="col-sm-4">
         <button class="btn-block btn btn-primary" ng-click="produceNewProject()" backdrop="static" data-template="modal/createProject.tpl.html" data-placement="left" data-animation="am-slide-left" bs-aside="aside" data-container="body">Create Project</button>
 
-        <button class="btn-block btn btn-success" ng-click="currentProject = selectedProject" backdrop="static" data-template="modal/createProject.tpl.html" data-placement="left" data-animation="am-slide-left" bs-aside="aside" data-container="body">Edit Project</button>
+        <button ng-if="selectedProject" class="btn-block btn btn-success" backdrop="static" data-template="modal/createProject.tpl.html" data-placement="left" data-animation="am-slide-left" bs-aside="aside" data-container="body">Edit Project</button>
 
-        <button type="button" class="btn-block btn  btn-success">Assign Resource</button>
-        <button type="button" class="btn-block btn  btn-danger">Delete Project</button>
+        <button id="assignResource" ng-if="selectedProject" type="button" class="btn-block btn  btn-warning" backdrop="static" max-length="2" data-template="modal/AssignPerson.tpl.html" data-placement="right" data-animation="am-slide-right" bs-aside="aside" data-container="body">Assign Resources</button>
+
+        <button ng-if="selectedProject" type="button" class="btn-block btn  btn-danger" data-animation="am-fade-and-slide-top" data-template="modal/RemovingProject.tpl.html" bs-modal="modal" class="glyphicon glyphicon-trash">Delete Project</button>
       </div>
     </div>
-    <div class="row">
+    <div ng-if="selectedProject" class="row">
       <div class="col-sm-12">
         <h2>Project Statistics</h2>
         <table class="table ">
@@ -60,7 +70,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div ng-if="selectedProject" class="row">
       <div class="col-sm-12">
         <h2>Project Resources</h2>
         <table ng-if="projectResources.length>0" class="table  table-striped table-condensed table-hover">
@@ -69,22 +79,23 @@
             <th>Surname</th>
             <th>Role</th>
             <th>Role since</th>
-            <th>Role till</th>
+            <th></th>
           </tr>
 
           <tr ng-repeat="resource in projectResources">
             <td>{{personMap[resource.personId].forename}}</td>
             <td>{{personMap[resource.personId].surname}}</td>
             <td>{{resource.role}}</td>
-            <td>{{resource.roleSince}}</td>
-            <td>{{resource.roleTill}}</td>
+            <td>{{resource.roleSince | date:"MM/dd/yyyy"}}</td>
+            <td>
+              <button ng-click="removeCommitedAssignment(resource)" class="btn-block btn btn-danger">Unassign</td>
         </table>
         <p ng-if="projectResources.length == 0"> No resources for project yet </p>
       </div>
     </div>
 
 
-    <div class="row">
+    <div ng-if="selectedProject" class="row">
       <div class="col-sm-12">
         <h2>Project bookings</h2>
 

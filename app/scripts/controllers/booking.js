@@ -37,6 +37,10 @@ angular.module('timetrackerApp.controller.booking', [])
         id: projectId
       });
 
+      if (!foundProject) {
+        return '.. removed ..';
+      }
+
       return foundProject.projectName;
     };
 

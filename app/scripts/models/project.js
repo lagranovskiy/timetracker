@@ -2,11 +2,11 @@
 
 angular.module('timetrackerApp.model.project', ['ngResource'])
   .factory('ProjectModel',
-    function($rootScope, $resource, projectService) {
+    function($rootScope, $resource, projectService, assignmentService, $q) {
       'use strict';
 
-      var projectResource = $resource($rootScope.config.server + '/project/:projectId', {
-        projectId: '@id'
+      var projectResource = $resource($rootScope.config.server + '/project/:id', {
+        id: '@id'
       }, {
         update: {
           method: 'PUT'
@@ -16,6 +16,33 @@ angular.module('timetrackerApp.model.project', ['ngResource'])
       var project = {
         resource: projectResource,
 
+        /**
+         * commitProjectAssignments - Commits project assignemnts to the server
+         *
+         * @param  {type} projectId      id of the project
+         * @param  {type} assignmentList list of assignments in form [{person:{}, role: '', project : {}}]
+         * @param  {type} callback       description
+         * @return {type}                description
+         */
+        commitProjectAssignments: function(assignmentList, callback) {
+          if (!assignmentList || assignmentList.length === 0) {
+            var defer = $q.defer();
+            defer.reject('Cannot commit assignments. Invalid parameter');
+            return defer.promise;
+          }
+
+          return assignmentService.commitAssignments(assignmentList, callback);
+        },
+
+        removeCommitedAssignments: function(assignmentId, callback) {
+          if (!assignmentId) {
+            var defer = $q.defer();
+            defer.reject('Cannot remove assignments. Invalid parameter');
+            return defer.promise;
+          }
+
+          return assignmentService.removeAssignment(assignmentId, callback);
+        },
 
         /**
          * resolveProjectStatistics - Resolves statistics of the project
@@ -25,6 +52,11 @@ angular.module('timetrackerApp.model.project', ['ngResource'])
          * @return {type}          description
          */
         getProjectStatistics: function(project, callback) {
+          if (!project) {
+            var defer = $q.defer();
+            defer.reject('Cannot resolve project null');
+            return defer.promise;
+          }
           return projectService.getProjectStatistics(project, callback);
         },
 
@@ -37,6 +69,11 @@ angular.module('timetrackerApp.model.project', ['ngResource'])
          * @return {type}          description
          */
         getProjectResources: function(project, callback) {
+          if (!project) {
+            var defer = $q.defer();
+            defer.reject('Cannot resolve project null');
+            return defer.promise;
+          }
           return projectService.getProjectResources(project, callback);
         },
 
@@ -49,6 +86,11 @@ angular.module('timetrackerApp.model.project', ['ngResource'])
          * @return {type}          description
          */
         getProjectBookings: function(project, callback) {
+          if (!project) {
+            var defer = $q.defer();
+            defer.reject('Cannot resolve project null');
+            return defer.promise;
+          }
           return projectService.getProjectBookings(project, callback);
         },
 
