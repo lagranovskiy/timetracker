@@ -16,8 +16,7 @@ angular.module('timetrackerApp.service.security', ['ngCookies'])
     return {
 
       isAuthenticatied: function() {
-        if (typeof $cookies['connect.sid'] !== 'undefined') {
-          UserModel.setAuth($cookies['connect.sid']);
+        if (UserModel.data.session) {
           return true;
         } else {
           return false;
