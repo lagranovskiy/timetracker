@@ -77,7 +77,9 @@ angular.module('timetrackerApp.model.user', ['ngResource', 'ngCookies'])
         },
 
         loginUser: function(credData, callback) {
-          return $http.post($rootScope.config.server + '/auth/login', credData)
+          return $http.post($rootScope.config.server + '/auth/login', credData, {
+              withCredential: true
+            })
             .success(function(data) {
               $log.info('User authenticated.');
               if (callback) {
