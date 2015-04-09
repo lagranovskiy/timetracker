@@ -16,7 +16,7 @@ angular.module('timetrackerApp.service.security', ['ngCookies'])
     return {
 
       isAuthenticatied: function() {
-        if (UserModel.data.session) {
+        if (UserModel.data && UserModel.data.session) {
           return true;
         } else {
           return false;
