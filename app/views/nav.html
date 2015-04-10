@@ -12,9 +12,9 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li ng-class="selectedNav=='/login'||selectedNav=='/' ? 'active': ''" ng-show="!userModel.isUserLoggedIn()"><a ng-click="setCurrentLocation('login')">Login</a>
+          <li ng-class="selectedNav=='/login'||selectedNav=='/' ? 'active': ''" ng-show="!userModel.isUserInGroup('User')"><a ng-click="setCurrentLocation('login')">Login</a>
           </li>
-          <li ng-class="selectedNav=='/signup' ? 'active': ''" ng-show="!userModel.isUserLoggedIn()"><a ng-click="setCurrentLocation('signup')">Sign up</a>
+          <li ng-class="selectedNav=='/signup' ? 'active': ''" ng-show="!userModel.isUserInGroup('User')"><a ng-click="setCurrentLocation('signup')">Sign up</a>
           </li>
           <li ng-class="selectedNav=='/dashboard'||selectedNav=='/' ? 'active' : ''" ng-show="userModel.isUserInGroup('User')"><a ng-click="setCurrentLocation('dashboard')">Dashboard</a>
           </li>

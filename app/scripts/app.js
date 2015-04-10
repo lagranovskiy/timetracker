@@ -25,7 +25,6 @@ angular.module('timetrackerApp', [
   'timetrackerApp.model.booking',
   'timetrackerApp.model.person',
 
-  'timetrackerApp.service.security',
   'timetrackerApp.service.bookings',
   'timetrackerApp.service.projects',
   'timetrackerApp.service.assignment',
@@ -40,7 +39,7 @@ angular.module('timetrackerApp', [
   'timetrackerApp.controller.admin',
   'timetrackerApp.controller.dashboard',
   'timetrackerApp.controller.login',
-  'timetrackerApp.controller.registration',
+  'timetrackerApp.controller.registration'
 
 ])
 
@@ -79,7 +78,7 @@ angular.module('timetrackerApp', [
       responseError: function(rejection) {
         if (rejection.status === 401) {
           $log.info('Response Error 401');
-          $location.path('/login').search('returnTo', $location.path());
+          $location.path('/login');
         }
         return $q.reject(rejection);
       }
@@ -89,18 +88,6 @@ angular.module('timetrackerApp', [
     //Http Intercpetor to check auth failures for xhr requests
     $httpProvider.interceptors.push('authHttpResponseInterceptor');
   }])
-
-.run(['$rootScope', 'security', '$log',
-  function($rootScope, security) {
-    $rootScope.$on('$routeChangeStart', function(event, next) {
-      if (next.requireLogin) {
-        if (!security.isAuthenticatied()) {
-          security.redirectToLogin();
-        }
-      }
-    });
-  }
-])
 
 .config(function($httpProvider) {
   $httpProvider.defaults.withCredentials = true;
