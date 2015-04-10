@@ -1,4 +1,4 @@
-<div class="page-header">
+<div class="page-header" data-ng-init="init()">
   <h1>My Admin panel
     <small>Administrate timetracker</small>
   </h1>
@@ -10,11 +10,10 @@
   <div class="col-sm-4">
     <h3>Registered users</h3>
     <div class="list-group">
-      <a ng-repeat="project in visibleProjects" ng-click="selectProject(project)" class="list-group-item">
-        <h4 class="list-group-item-heading">{{project.projectName}}, {{project.customerName}}
+      <a ng-repeat="person in personList" ng-click="selectPerson(person)" class="list-group-item">
+        <h4 class="list-group-item-heading">{{person.forename}} {{person.surname}}
           <span class="pull-right label label-success"></span>
         </h4>
-        <p class="list-group-item-text">{{project.description}}</p>
       </a>
     </div>
 
