@@ -4,10 +4,13 @@ angular.module('timetrackerApp.model.user', ['ngResource', 'ngCookies'])
   .factory('UserModel',
   function ($rootScope, $http, $resource, $log, $cookieStore, $q, $location) {
     'use strict';
+
+    $rootScope.$on('401', function (event, args) {
+      user.data = null;
+    });
+
     var user = {
       data: null,
-      authToken: null,
-      initLoaded: false,
 
       /**
        * Evaluates if user is in the given group
@@ -31,7 +34,7 @@ angular.module('timetrackerApp.model.user', ['ngResource', 'ngCookies'])
        * Tests if user auth information is set
        * */
 
-       isUserLoggedIn: function () {
+      isUserLoggedIn: function () {
         if (user.data) {
           var defer = $q.defer();
           defer.resolve(user.data);
@@ -44,6 +47,7 @@ angular.module('timetrackerApp.model.user', ['ngResource', 'ngCookies'])
             $location.path('dashboard');
           })
           .error(function () {
+            user.data = null;
             $location.path('login');
           });
       },

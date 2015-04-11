@@ -67,7 +67,8 @@ angular.module('timetrackerApp', [
   }
 ])
 
-.factory('authHttpResponseInterceptor', ['$q', '$location', '$log', function($q, $location, $log) {
+.factory('authHttpResponseInterceptor', [ '$rootScope','$q', '$location', '$log',
+    function( $rootScope, $q, $location, $log) {
     return {
       response: function(response) {
         if (response.status === 401) {
@@ -78,6 +79,7 @@ angular.module('timetrackerApp', [
       responseError: function(rejection) {
         if (rejection.status === 401) {
           $log.info('Response Error 401');
+          $rootScope.$broadcast('401');
           $location.path('/login');
         }
         return $q.reject(rejection);
