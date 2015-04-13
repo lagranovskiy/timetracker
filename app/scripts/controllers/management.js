@@ -5,7 +5,7 @@
  * Project board controller
  */
 angular.module('timetrackerApp.controller.management', [])
-  .controller('ManagementCtrl', function($scope, $q, $log, $location, ProjectModel, PersonModel) {
+  .controller('ManagementCtrl', function ($scope, $q, $log, $location, ProjectModel, PersonModel) {
 
     $scope.projects = [];
     $scope.selectedProject = {}; // Project that selected in the list
@@ -33,8 +33,8 @@ angular.module('timetrackerApp.controller.management', [])
     /**
      * Creates a pending assignments for every person/role combination
      */
-    $scope.createPendingAssignments = function() {
-      _.each($scope.unassignedResources.person, function(person) {
+    $scope.createPendingAssignments = function () {
+      _.each($scope.unassignedResources.person, function (person) {
         var assignment = {
           person: person,
           role: $scope.unassignedResources.role,
@@ -42,7 +42,7 @@ angular.module('timetrackerApp.controller.management', [])
         };
 
         var alreadyPending = false;
-        _.each($scope.pendingAssignments, function(pendingAssignment) {
+        _.each($scope.pendingAssignments, function (pendingAssignment) {
           if (pendingAssignment.person.id === assignment.person.id && pendingAssignment.role === assignment.role) {
             alreadyPending = true;
           }
@@ -60,8 +60,8 @@ angular.module('timetrackerApp.controller.management', [])
     /**
      * Commits pending assignment to the server
      * */
-    $scope.commitPendingAssignments = function() {
-      ProjectModel.commitProjectAssignments($scope.pendingAssignments).then(function() {
+    $scope.commitPendingAssignments = function () {
+      ProjectModel.commitProjectAssignments($scope.pendingAssignments).then(function () {
         // Reload all resources and statistics
         $scope.selectProject($scope.selectedProject);
 
@@ -75,15 +75,15 @@ angular.module('timetrackerApp.controller.management', [])
     /**
      * Removes pending assignment
      */
-    $scope.removePendingAssignment = function(assignment) {
+    $scope.removePendingAssignment = function (assignment) {
       $scope.pendingAssignments = _.without($scope.pendingAssignments, assignment);
     };
 
     /**
      * Removes commited assignment
      */
-    $scope.removeCommitedAssignment = function(assignment) {
-      ProjectModel.removeCommitedAssignments(assignment.assignmentId).then(function() {
+    $scope.removeCommitedAssignment = function (assignment) {
+      ProjectModel.removeCommitedAssignments(assignment.assignmentId).then(function () {
         // Reload all resources and statistics
         $scope.selectProject($scope.selectedProject);
       }, $scope.showError);
@@ -93,35 +93,34 @@ angular.module('timetrackerApp.controller.management', [])
     /**
      * Create a new project booking
      * */
-    $scope.createProject = function() {
+    $scope.createProject = function () {
       if (!$scope.currentProject) {
         $log.debug('Cannot create null project');
         return;
       }
-      ProjectModel.resource.save($scope.currentProject).$promise
+      ProjectModel.resource.save($scope.currentProject)
+        .$promise
+        .then(function () {
+          return $scope.refreshProjects();
+        }, $scope.showError)
 
-        .then(function() {
-        return $scope.refreshProjects();
-      }, $scope.showError)
-
-      .then(function() {
-        $scope.currentProject = null;
-      }, $scope.showError);
+        .then(function () {
+          $scope.currentProject = null;
+        }, $scope.showError);
 
     };
-
 
 
     /**
      * Create a new project booking
      * */
-    $scope.updateProject = function() {
+    $scope.updateProject = function () {
       if (!$scope.currentProject || !$scope.currentProject.id) {
         $log.debug('Cannot update non persistent project');
         return;
       }
       ProjectModel.resource.update($scope.currentProject).$promise
-        .then(function() {
+        .then(function () {
           return $scope.refreshProjects();
         }, $scope.showError);
 
@@ -131,36 +130,34 @@ angular.module('timetrackerApp.controller.management', [])
     /**
      * Create a new project booking
      * */
-    $scope.deleteProject = function() {
+    $scope.deleteProject = function () {
       if (!$scope.currentProject || !$scope.currentProject.id) {
         $log.debug('Cannot delete non persistent project');
         return;
       }
       ProjectModel.resource.delete({
-          id: $scope.currentProject.id
-        }).$promise
-        .then(function() {
+        id: $scope.currentProject.id
+      }).$promise
+        .then(function () {
           return $scope.refreshProjects();
         }, $scope.showError);
 
     };
 
 
-
-
     /**
      * Creates instance for a new project
      */
-    $scope.produceNewProject = function() {
+    $scope.produceNewProject = function () {
       $scope.currentProject = ProjectModel.produceNewProject();
     };
 
 
-    $scope.go = function(path) {
+    $scope.go = function (path) {
       $location.path(path);
     };
 
-    $scope.isProjectActive = function(project) {
+    $scope.isProjectActive = function (project) {
       if (!project) {
         return false;
       }
@@ -170,7 +167,7 @@ angular.module('timetrackerApp.controller.management', [])
     /**
      * Returns the time in hours how much time booked on project
      */
-    $scope.getTimeBooked = function() {
+    $scope.getTimeBooked = function () {
       if (!$scope.projectStatistics) {
         return null;
       }
@@ -181,7 +178,7 @@ angular.module('timetrackerApp.controller.management', [])
     /**
      * Selects a current project
      */
-    $scope.selectProject = function(project) {
+    $scope.selectProject = function (project) {
       $scope.selectedProject = project;
       $scope.currentProject = project;
       $scope.bookingsList = [];
@@ -189,19 +186,19 @@ angular.module('timetrackerApp.controller.management', [])
 
         // Get project statistics
         var pS = ProjectModel.getProjectStatistics(project).then(
-          function(statistics) {
+          function (statistics) {
             $scope.projectStatistics = statistics.data;
           }, $scope.showError);
 
         // Get project resources
         var pR = ProjectModel.getProjectResources(project).then(
-          function(resources) {
+          function (resources) {
             $scope.projectResources = resources.data;
           }, $scope.showError);
 
         // Get project bookings
         var pB = ProjectModel.getProjectBookings(project).then(
-          function(bookings) {
+          function (bookings) {
             $scope.projectBookings = bookings.data;
           }, $scope.showError);
 
@@ -211,29 +208,27 @@ angular.module('timetrackerApp.controller.management', [])
     };
 
 
-
-
     /**
      * Initializes the booking page with start data
      */
-    $scope.init = function() {
+    $scope.init = function () {
 
       $q.all([
 
         $scope.refreshProjects(),
 
-        /**
-         * Load user bookings
-         */
-        PersonModel.resource.query(function(data) {
+      /**
+       * Load user bookings
+       */
+        PersonModel.resource.query(function (data) {
           $scope.personMap = _.indexBy(data, 'id');
           $scope.personList = data;
         }),
 
-        /**
-         * Load user bookings
-         */
-        PersonModel.roleResource.query(function(data) {
+      /**
+       * Load user bookings
+       */
+        PersonModel.roleResource.query(function (data) {
           $scope.rolesList = data;
         })
 
@@ -245,15 +240,14 @@ angular.module('timetrackerApp.controller.management', [])
     /**
      * Refreshes bookings of the current user
      * */
-    $scope.refreshProjects = function() {
-      return ProjectModel.resource.query(function(data) {
+    $scope.refreshProjects = function () {
+      return ProjectModel.resource.query(function (data) {
         if (data) {
           $scope.projects = data;
           $scope.selectProject(data[0]);
         }
       });
     };
-
 
 
   });

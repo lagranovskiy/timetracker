@@ -17,6 +17,36 @@ angular.module('timetrackerApp.model.project', ['ngResource'])
         resource: projectResource,
 
         /**
+         * Returns projects of given user by id
+         *
+         * @param userId
+         * @param callback
+         * @returns {*|Promise}
+         */
+        getUserProjects: function(callback){
+          return projectService.getUserProjects(function(data){
+            if(callback){
+              callback(data);
+            }
+          });
+        },
+
+        /**
+         * Returns projects of given user by id
+         *
+         * @param userId
+         * @param callback
+         * @returns {*|Promise}
+         */
+        getUserProjectsByUserId: function(userId, callback){
+          return projectService.getUserProjectsByUserId(userId, function(data){
+            if(callback){
+              callback(data);
+            }
+          });
+        },
+
+        /**
          * commitProjectAssignments - Commits project assignemnts to the server
          *
          * @param  {type} projectId      id of the project

@@ -9,8 +9,85 @@ angular.module('timetrackerApp.model.user', ['ngResource', 'ngCookies'])
       user.data = null;
     });
 
+    var userResource = $resource($rootScope.config.server + '/admin/user/:uid', {
+      uid: '@id'
+    }, {
+      update: {
+        method: 'PUT'
+      }
+    });
+
+    var groupResource = $resource($rootScope.config.server + '/group');
+
     var user = {
+
       data: null,
+
+      /**
+       * Returns a list of groups
+       * {"id":236467,"name":"User","description":"Normal user"}
+       * @param callback
+       * @returns {*}
+       */
+      getAllGroups: function(callback){
+        var retVal = groupResource.query(function(data){
+          if(callback){
+            callback(data);
+          }
+        });
+
+        return retVal.$promise;
+      },
+
+      /**
+       * Resolves user information inclusibe person data of user
+       *
+       * [{"user":
+       *    {"id":236465,"data":
+       *        {"uid":"mdoener","passwordMD5":"secure","registrationDate":"01.01.2003"},
+       *        "uid":"mdoener",
+       *        "passwordMD5":"secure",
+       *        "registrationDate":"01.01.2003",
+       *        "groups":["Manager","User"]},
+       *
+       *  "person":
+       *    { "id":236462,
+       *      "data":
+       *      {"forename":"Michael","phone":"0176/992772","surname":"Döner","email":"mm2@gmx.de","birthday":"18.10.1970"},
+       *      "forename":"Michael",
+       *      "surname":"Döner",
+       *      "birthday":"18.10.1970",
+       *      "email":"mm2@gmx.de",
+       *      "phone":
+       *      "0176/992772"}
+       * } ]
+       * @param callback
+       */
+      getResolvedUsers : function(callback){
+        var retVal = userResource.query(function(data){
+          if(callback){
+            callback(data);
+          }
+        });
+
+        return retVal.$promise;
+      },
+
+      /**
+       * Updates user data according to security policy
+       * @param userData
+       * @param callback
+       */
+      updateUser : function(userData, callback){
+        var retVal = userResource.update(userData, function(data){
+          if(callback){
+            callback(data);
+          }
+        });
+
+        return retVal.$promise;
+      },
+
 
       /**
        * Evaluates if user is in the given group

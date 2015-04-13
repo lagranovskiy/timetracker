@@ -100,6 +100,27 @@ angular.module('timetrackerApp.service.projects', ['ngCookies'])
         return retVal;
       },
 
+      /**
+       * getVisibleProjects - Returns user assigned projects
+       * Only for admins
+       *
+       * @param  {Function} callback callback method
+       * @return {Promise}          promise
+       */
+      getUserProjectsByUserId: function(userId, callback) {
+        var retVal = $http.get($rootScope.config.server + '/admin/user/'+userId+'/projects')
+          .success(function(data) {
+            $log.info('Visible projects of user '+userId+' loaded.');
+            if (callback) {
+              callback(data);
+            }
+          })
+          .error(function(data, status) {
+            $log.info('Cannot get visible projects of user'+userId+'.' + status + ' / ' + data);
+          });
+
+        return retVal;
+      },
 
 
 

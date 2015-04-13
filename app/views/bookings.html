@@ -107,7 +107,7 @@
           <td>{{booking.workDay | date:"MM/dd/yyyy"}}</td>
           <td>{{booking.workStarted| date:"HH:mm"}}</td>
           <td>{{booking.workFinished| date:"HH:mm"}}</td>
-          <td>30 min</td>
+          <td>{{booking.pause}} min</td>
           <td>{{booking.comment}}</td>
           <td>
             <span ng-click="selectBooking(booking)" class="glyphicon glyphicon-pencil"> </span>

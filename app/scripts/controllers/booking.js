@@ -7,7 +7,7 @@
  *
  */
 angular.module('timetrackerApp.controller.booking', [])
-  .controller('BookingCtrl', function($scope, $routeParams, bookingsService, projectService, BookingModel, $log, $q) {
+  .controller('BookingCtrl', function ($scope, $routeParams, projectService, BookingModel, $log, $q) {
 
 
     $scope.bookingsList = [];
@@ -17,18 +17,17 @@ angular.module('timetrackerApp.controller.booking', [])
     $scope.visibleProjects = [];
 
 
-
     /**
      * Sets given booking as a current one
      * */
-    $scope.selectBooking = function(booking) {
+    $scope.selectBooking = function (booking) {
       $scope.currentBooking = booking;
     };
 
     /**
      * Find a project by id
      * */
-    $scope.findProjectNameById = function(projectId) {
+    $scope.findProjectNameById = function (projectId) {
       if (!projectId || $scope.visibleProjects.length === 0) {
         return '';
       }
@@ -47,52 +46,50 @@ angular.module('timetrackerApp.controller.booking', [])
     /**
      * Creates a new booking only if no booking is creating now
      * */
-    $scope.createNewBooking = function() {
+    $scope.createNewBooking = function () {
       $scope.currentBooking = BookingModel.produceNewBooking();
     };
 
     /**
      * Creates a new booking only if no booking is creating now
      * */
-    $scope.resetBooking = function() {
+    $scope.resetBooking = function () {
       $scope.currentBooking = null;
     };
 
     /**
      * Create a new project booking
      * */
-    $scope.createBooking = function() {
+    $scope.createBooking = function () {
       if (!$scope.currentBooking) {
         $log.debug('Cannot create null booking');
         return;
       }
-      BookingModel.resource.save($scope.currentBooking).$promise
+      BookingModel.saveBooking($scope.currentBooking)
+        .then(function () {
+          return $scope.refreshBookings();
+        }, $scope.showError)
 
-        .then(function() {
-        return $scope.refreshBookings();
-      }, $scope.showError)
-
-      .then(function() {
-        $scope.currentBooking = null;
-      }, $scope.showError);
+        .then(function () {
+          $scope.currentBooking = null;
+        }, $scope.showError);
 
     };
-
 
 
     /**
      * Create a new project booking
      * */
-    $scope.updateBooking = function() {
+    $scope.updateBooking = function () {
       if (!$scope.currentBooking || !$scope.currentBooking.id) {
         $log.debug('Cannot update non persistent booking');
         return;
       }
-      BookingModel.resource.update($scope.currentBooking).$promise
-        .then(function() {
+      BookingModel.updateBooking($scope.currentBooking)
+        .then(function () {
           return $scope.refreshBookings();
         }, $scope.showError)
-        .then(function() {
+        .then(function () {
           $scope.currentBooking = null;
         }, $scope.showError);
     };
@@ -101,14 +98,12 @@ angular.module('timetrackerApp.controller.booking', [])
     /**
      * Removes a new given booking
      * */
-    $scope.deleteBooking = function(booking) {
-      BookingModel.resource.delete({
-          bookingId: booking.id
-        }).$promise
-        .then(function() {
+    $scope.deleteBooking = function (booking) {
+      BookingModel.deleteBooking()
+        .then(function () {
           return $scope.refreshBookings();
         }, $scope.showError)
-        .then(function() {
+        .then(function () {
           $scope.currentBooking = null;
         }, $scope.showError);
     };
@@ -117,26 +112,26 @@ angular.module('timetrackerApp.controller.booking', [])
     /**
      * Initializes the booking page with start data
      */
-    $scope.initPage = function() {
+    $scope.initPage = function () {
 
       $q.all([
 
-        /**
-         * Load visible projects of user
-         */
-        projectService.getUserProjects(function(data) {
+      /**
+       * Load visible projects of user
+       */
+        projectService.getUserProjects(function (data) {
           if (data.records) {
             $scope.visibleProjects = data.records;
           }
         }),
 
 
-        /**
-         * Load user bookings
-         */
+      /**
+       * Load user bookings
+       */
         $scope.refreshBookings()
 
-      ]).then(function() {
+      ]).then(function () {
         /**
          * Load visible projects by page load
          * */
@@ -151,19 +146,16 @@ angular.module('timetrackerApp.controller.booking', [])
     /**
      * Refreshes bookings of the current user
      * */
-    $scope.refreshBookings = function() {
+    $scope.refreshBookings = function () {
       /**
        * Load bookings initially
        * */
-      var retVal = bookingsService.getMyBookings(function(bookings) {
+      var retVal = BookingModel.getMyBookings(function (bookings) {
         $scope.bookingsList = bookings;
       });
       return retVal;
 
     };
-
-
-
 
 
   });
