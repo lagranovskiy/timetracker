@@ -21,13 +21,13 @@
       <form name="bookingForm" novalidate>
         <div class="form-group col-sm-12">
           <label for="project" class="control-label">Project</label>
-          <select name="project" ng-model="currentBooking.projectId" ng-options="project.id as project.projectName for project in visibleProjects" class="form-control" required>
+          <select id="project" name="project" ng-model="currentBooking.projectId" ng-options="project.id as project.projectName for project in visibleProjects" class="form-control" required>
           </select>
 
         </div>
         <div class="form-group col-sm-12 ">
           <label for="workDay" class="control-label">Date</label>
-          <input name="workDay" class="form-control" ng-model="currentBooking.workDay" data-date-format="yyyy-MM-dd" data-date-type="number" data-min-date="02/10/2000" data-max-date="02/10/2020" data-autoclose="1" bs-datepicker="" type="text" required>
+          <input  id="workDay" name="workDay" class="form-control" ng-model="currentBooking.workDay" data-date-format="yyyy-MM-dd" data-date-type="number" data-min-date="02/10/2000" data-max-date="02/10/2020" data-autoclose="1" bs-datepicker="" type="text" required>
           <div class="error" ng-show="bookingForm.workDay.$dirty && bookingForm.workDay.$invalid">
             <small class="error" ng-show="bookingForm.workDay.$error">
               Your input is invalid
@@ -36,7 +36,7 @@
         </div>
         <div class="form-group col-sm-4">
           <label for="workStarted" class="control-label">Started</label>
-          <input name="workStarted" class="form-control" size="5" ng-model="currentBooking.workStarted" data-time-format="HH:mm" data-time-type="number" data-autoclose="1" bs-timepicker type="text" required>
+          <input id="workStarted" name="workStarted" class="form-control" size="5" ng-model="currentBooking.workStarted" data-time-format="HH:mm" data-time-type="number" data-autoclose="1" bs-timepicker type="text" required>
           <div class="error" ng-show="bookingForm.workStarted.$dirty && bookingForm.workStarted.$invalid">
             <small class="error" ng-show="bookingForm.workStarted.$error">
               Your input is invalid
@@ -46,7 +46,7 @@
 
         <div class="form-group col-sm-4">
           <label for="workFinished" class="control-label">Finished</label>
-          <input class="form-control" size="5" ng-model="currentBooking.workFinished" data-time-format="HH:mm" data-time-type="number" data-autoclose="1" name="workFinished" bs-timepicker type="text" required>
+          <input class="form-control" size="5" ng-model="currentBooking.workFinished" data-time-format="HH:mm" data-time-type="number" data-autoclose="1" id="workFinished" name="workFinished" bs-timepicker type="text" required>
           <div class="error" ng-show="bookingForm.workFinished.$dirty && bookingForm.workFinished.$invalid">
             <small class="error" ng-show="bookingForm.workFinished.$error">
               Your input is invalid

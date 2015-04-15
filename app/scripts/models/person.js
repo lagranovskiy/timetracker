@@ -21,6 +21,36 @@ angular.module('timetrackerApp.model.person', ['ngResource'])
 
         roleResource: roleResource,
 
+        /**
+         * Updates person
+         *
+         * @param person
+         * @param callback
+         * @returns {*}
+         */
+        updatePerson: function (person, callback) {
+          var retVal = personResource.update(person, function (data) {
+            if (callback) {
+              callback(data);
+            }
+          });
+          return retVal.$promise;
+        },
+
+        /**
+         * Resolves a list of all person
+         * @param callback
+         * @returns {*}
+         */
+        listPerson: function (callback) {
+          var retVal = bookingModel.resource.query(function (data) {
+            if (callback) {
+              callback(data);
+            }
+          });
+          return retVal.$promise;
+        },
+
 
         /**
          * produceNewProject - Produces a new project instance

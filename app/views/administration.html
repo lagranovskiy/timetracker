@@ -1,140 +1,167 @@
 <div class="page-header" data-ng-init="init()">
-  <h1>My Admin panel
-    <small>Administrate timetracker</small>
-  </h1>
+    <h1>My Admin panel
+        <small>Administrate timetracker</small>
+    </h1>
 </div>
 
 
 <div class="row">
 
-  <div class="col-sm-4">
-    <h3>Registered users</h3>
+    <div class="col-sm-4">
+        <h3>Registered users</h3>
 
-    <div class="list-group">
-      <a ng-repeat="user in userList" ng-click="selectUser(user)" class="list-group-item">
-        <h4 class="list-group-item-heading">{{user.person.forename}} {{user.person.surname}}
-          <span ng-if="user.user.active === false" class="pull-right label label-danger">disabled</span>
-        </h4>
-        <small ng-repeat="group in user.user.groups"> {{group}}</small>
-      </a>
+        <div class="list-group">
+            <a ng-repeat="user in userList | orderBy :'user.id'" ng-click="selectUser(user)" class="list-group-item">
+                <h4 class="list-group-item-heading">{{user.person.forename}} {{user.person.surname}}
+                    <span ng-if="user.user.active === false" class="pull-right label label-danger">disabled</span>
+                </h4>
+                <small ng-repeat="group in user.user.groups"> {{group}}</small>
+            </a>
+        </div>
+
     </div>
+    <div class="col-sm-8">
 
-  </div>
-  <div class="col-sm-8">
+        <div class="row">
 
-    <div class="row">
+            <div class="col-sm-8">
 
-      <div class="col-sm-8">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">User Information<a class="anchorjs-link" href="#panel-title"><span
+                                class="anchorjs-icon"></span></a></h3>
+                    </div>
 
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title" id="panel-title">User Information<a class="anchorjs-link" href="#panel-title"><span
-              class="anchorjs-icon"></span></a></h3>
-          </div>
+                    <div class="panel-body">
+                        <p ng-if="!selectedUser">Please select user</p>
 
-          <div class="panel-body">
-            <p ng-if="!selectedUser">Please select user</p>
-
-            <div ng-if="selectedUser">
-              <span ng-if="selectedUser.user.active === false" class="pull-right label label-danger">disabled</span>
+                        <div ng-if="selectedUser">
+                            <span ng-if="selectedUser.user.active === false" class="pull-right label label-danger">disabled</span>
 
 
-              <h3><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{selectedUser.person.forename}}
-                {{selectedUser.person.surname}}
-              </h3>
+                            <h3><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{selectedUser.person.forename}}
+                                {{selectedUser.person.surname}}
+                            </h3>
 
-              <br/>
-              <dl class="dl-horizontal">
-                <dt><strong>Login Name</strong></dt>
-                <dd> {{selectedUser.user.uid}}</dd>
+                            <br/>
+                            <dl class="dl-horizontal">
+                                <dt><strong>Login Name</strong></dt>
+                                <dd> {{selectedUser.user.uid}}</dd>
 
-                <dt><strong>Email</strong></dt>
-                <dd> {{selectedUser.person.email}}</dd>
+                                <dt><strong>Email</strong></dt>
+                                <dd> {{selectedUser.person.email}}</dd>
 
-                <dt><strong>Phone</strong></dt>
-                <dd> {{selectedUser.person.phone}}</dd>
+                                <dt><strong>Phone</strong></dt>
+                                <dd> {{selectedUser.person.phone}}</dd>
 
-                <dt><strong>Birthday</strong></dt>
-                <dd>{{selectedUser.person.birthday}}</dd>
+                                <dt><strong>Birthday</strong></dt>
+                                <dd>{{selectedUser.person.birthday| date:"MM/dd/yyyy"}}</dd>
 
-                <dt><strong>User Groups</strong></dt>
-                <dd><span ng-repeat="group in selectedUser.user.groups"> {{group}}</span></dd>
+                                <dt><strong>Registration Date</strong></dt>
+                                <dd> {{selectedUser.user.registrationDate}}</dd>
 
-                <dt><strong>Registration Date</strong></dt>
-                <dd> {{selectedUser.user.registrationDate}}</dd>
-              </dl>
+                                <dt><strong>User Groups</strong></dt>
+                                <dd><i ng-repeat="group in selectedUser.user.groups"> <span
+                                        class="label label-primary"> {{group}}</span></i></dd>
+
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Project Panel -->
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">User Projects<a class="anchorjs-link" href="#panel-title"><span
+                                class="anchorjs-icon"></span></a></h3>
+                    </div>
+
+                    <div class="panel-body"> Overview about last user project</div>
+                    <table ng-if="selectedUser" class="table">
+                        <tr>
+                            <th>Project</th>
+                            <th>Customer</th>
+                            <th>Description</th>
+                        </tr>
+
+
+                        <tr ng-repeat="project in selectedUserProjects">
+                            <td>{{project.projectName}}</td>
+                            <td>{{project.customerName}}</td>
+                            <td>{{project.description}}</td>
+                        </tr>
+                    </table>
+
+
+                </div>
+
+                <!-- Booking Panel -->
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Last bookings<a class="anchorjs-link" href="#panel-title"><span
+                                class="anchorjs-icon"></span></a></h3>
+                    </div>
+
+                    <div class="panel-body"> Overview about last user booking activity</div>
+                    <table ng-if="selectedUser" class="table">
+                        <tr>
+                            <th>Project</th>
+                            <th>Workday</th>
+                            <th>Started</th>
+                            <th>Finished</th>
+                            <th>Pause</th>
+                            <th>Comment</th>
+                        </tr>
+
+
+                        <tr ng-repeat="booking in selectedUserBookings">
+                            <td>{{findProjectNameById(booking.projectId)}}</td>
+                            <td>{{booking.workDay | date:"MM/dd/yyyy"}}</td>
+                            <td>{{booking.workStarted| date:"HH:mm"}}</td>
+                            <td>{{booking.workFinished| date:"HH:mm"}}</td>
+                            <td>{{booking.pause}} min</td>
+                            <td>{{booking.comment}}</td>
+                        </tr>
+                    </table>
+
+
+                </div>
+
             </div>
-          </div>
+            <div class="col-sm-4">
+                <button ng-disabled="!selectedUser" class="btn-block btn btn-primary" backdrop="static"
+                        data-template="modal/UpdatePerson.tpl.html" data-placement="left" data-animation="am-slide-left" bs-aside="aside"
+                        data-container="body">Edit User data
+                </button>
+
+
+                <div class="dropdown btn-block">
+                    <button ng-disabled="!selectedUser" class="btn-block btn  btn-primary  dropdown-toggle" type="button" id="dropdownMenu1"
+                            data-toggle="dropdown" aria-expanded="true">
+                        Change Group
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation" ng-repeat="group in groupList"><a role="menuitem" ng-click="updateGroup(group)"
+                                                                                  tabindex="-1">{{group.name}}</a></li>
+                    </ul>
+                </div>
+
+                <button ng-disabled="!selectedUser" ng-if="selectedUser.user.active != false" type="button"
+                        class="btn-block btn  btn-danger" data-animation="am-fade-and-slide-top"
+                        data-template="modal/DeactivatingUser.tpl.html" bs-modal="modal" class="glyphicon glyphicon-trash">Deactivate
+                </button>
+                <button ng-disabled="!selectedUser" ng-click="activateUser()" ng-if="selectedUser.user.active == false" type="button"
+                        class="btn-block btn  btn-success" data-animation="am-fade-and-slide-top" class="glyphicon glyphicon-trash">Activate
+                </button>
+
+                <button ng-disabled="!selectedUser" type="button" class="btn-block btn  btn-success" data-animation="am-fade-and-slide-top"
+                        class="glyphicon glyphicon-trash">Reset Password
+                </button>
+
+            </div>
         </div>
 
-
-        <!-- Project Panel -->
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title" id="panel-title">User Projects<a class="anchorjs-link" href="#panel-title"><span
-              class="anchorjs-icon"></span></a></h3>
-          </div>
-
-          <div class="panel-body"> Overview about last user project</div>
-          <table class="table">
-            <tr>
-              <th>Project</th>
-              <th>Customer</th>
-              <th>Description</th>
-            </tr>
-
-
-            <tr ng-repeat="project in selectedUserProjects">
-              <td>{{project.projectName}}</td>
-              <td>{{project.customerName}}</td>
-              <td>{{project.description}}</td>
-            </tr>
-          </table>
-
-
-        </div>
-
-        <!-- Booking Panel -->
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title" id="panel-title">Last bookings<a class="anchorjs-link" href="#panel-title"><span
-              class="anchorjs-icon"></span></a></h3>
-          </div>
-
-          <div class="panel-body"> Overview about last user booking activity</div>
-          <table class="table">
-            <tr>
-              <th>Project</th>
-              <th>Workday</th>
-              <th>Started</th>
-              <th>Finished</th>
-              <th>Pause</th>
-              <th>Comment</th>
-            </tr>
-
-
-            <tr ng-repeat="booking in selectedUserBookings">
-              <td>{{findProjectNameById(booking.projectId)}}</td>
-              <td>{{booking.workDay | date:"MM/dd/yyyy"}}</td>
-              <td>{{booking.workStarted| date:"HH:mm"}}</td>
-              <td>{{booking.workFinished| date:"HH:mm"}}</td>
-              <td>{{booking.pause}} min</td>
-              <td>{{booking.comment}}</td>
-            </tr>
-          </table>
-
-
-        </div>
-
-      </div>
-      <div class="col-sm-4">
-        <button type="button" ng-click="go('bookings/'+selectedProject.id)" class="btn-block btn btn-success">Edit User data</button>
-
-        <button type="button" class="btn-block btn  btn-success">Change Group</button>
-        <button type="button" class="btn-block btn  btn-warning">Deactivate user</button>
-        <button type="button" class="btn-block btn  btn-danger">Delete User</button>
-      </div>
     </div>
-
-  </div>
 </div>

@@ -1,0 +1,94 @@
+<div class="aside">
+  <div class="aside-dialog">
+    <div class="aside-content">
+      <div class="aside-header">
+        <button type="button" class="close" ng-click="$hide()">×</button>
+        <h4 class="aside-title">Update Person data</h4>
+      </div>
+      <div class="aside-body">
+
+       <!-- "person":
+        *    { "id":236462,
+        *      "data":
+        *      {"forename":"Michael","phone":"0176/992772","surname":"Döner","email":"mm2@gmx.de","birthday":"18.10.1970"},
+        *      "forename":"Michael",
+        *      "surname":"Döner",
+        *      "birthday":"18.10.1970",
+        *      "email":"mm2@gmx.de",
+        *      "phone":
+        *      "0176/992772"}
+        * }-->
+
+        <form name="personForm" novalidate>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label for="forename" class="control-label">Forename</label>
+              <input name="forename" type="text" ng-model="selectedUser.person.forename" class="form-control" id="forename" required>
+              <div class="error" ng-show="personForm.forename.$dirty && personForm.forename.$invalid">
+                <small class="error" ng-show="personForm.forename.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label for="surname" class="control-label">Surename</label>
+              <input name="surname" type="text" ng-model="selectedUser.person.surname" class="form-control" id="surname" required>
+              <div class="error" ng-show="personForm.surname.$dirty && personForm.surname.$invalid">
+                <small class="error" ng-show="personForm.surname.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label for="birthday" class="control-label">Birthday</label>
+              <input  id="birthday" name="birthday" class="form-control" ng-model="selectedUser.person.birthday" data-date-format="yyyy-MM-dd" data-date-type="number" data-min-date="02/10/1920" data-max-date="02/10/2015" data-autoclose="1" bs-datepicker="" type="text" required>
+              <div class="error" ng-show="personForm.birthday.$dirty && personForm.birthday.$invalid">
+                <small class="error" ng-show="personForm.birthday.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label for="email" class="control-label">Email</label>
+              <input name="email" type="text" ng-model="selectedUser.person.email" class="form-control" id="email" required>
+              <div class="error" ng-show="personForm.email.$dirty && personForm.email.$invalid">
+                <small class="error" ng-show="personForm.email.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label for="forename" class="control-label">Phone</label>
+              <input name="forename" type="text" ng-model="selectedUser.person.phone" class="form-control" id="phone" required>
+              <div class="error" ng-show="personForm.phone.$dirty && personForm.phone.$invalid">
+                <small class="error" ng-show="personForm.phone.$error">
+                  Your input is invalid
+                </small>
+              </div>
+            </div>
+          </div>
+
+
+        </form>
+
+      </div>
+      <div class="aside-footer">
+        <button ng-disabled="personForm.$invalid" ng-click="$hide();updatePerson()" class="btn btn-success">Update</button>
+        <button ng-click="$hide();resetUser()" class="btn btn-danger">Cancel</button>
+
+      </div>
+    </div>
+  </div>
+</div>
