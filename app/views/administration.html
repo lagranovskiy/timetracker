@@ -150,14 +150,14 @@
 
                 <button ng-disabled="!selectedUser" ng-if="selectedUser.user.active != false" type="button"
                         class="btn-block btn  btn-danger" data-animation="am-fade-and-slide-top"
-                        data-template="modal/DeactivatingUser.tpl.html" bs-modal="modal" class="glyphicon glyphicon-trash">Deactivate
+                        data-template="modal/DeactivatingUser.tpl.html" bs-modal="modal" >Deactivate
                 </button>
                 <button ng-disabled="!selectedUser" ng-click="activateUser()" ng-if="selectedUser.user.active == false" type="button"
-                        class="btn-block btn  btn-success" data-animation="am-fade-and-slide-top" class="glyphicon glyphicon-trash">Activate
+                        class="btn-block btn  btn-success" data-animation="am-fade-and-slide-top">Activate
                 </button>
 
-                <button ng-disabled="!selectedUser" type="button" class="btn-block btn  btn-success" data-animation="am-fade-and-slide-top"
-                        class="glyphicon glyphicon-trash">Reset Password
+                <button ng-disabled="!selectedUser"  type="button" class="btn-block btn  btn-success" data-animation="am-fade-and-slide-top"
+                        data-template="modal/ResettingPassword.tpl.html" bs-modal="modal">Reset Password
                 </button>
 
             </div>

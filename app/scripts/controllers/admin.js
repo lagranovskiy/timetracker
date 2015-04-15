@@ -14,14 +14,23 @@ angular.module('timetrackerApp.controller.admin', [])
         $scope.selectedUserBookings = [];
         $scope.selectedUserProjects = [];
 
-        $scope.refreshCurrentUser = function()
-        {
+        $scope.refreshCurrentUser = function () {
             var updatedUser = _.find($scope.userList, function (userEntry) {
                 return userEntry && userEntry.user.id === $scope.selectedUser.user.id
             });
             $scope.selectUser(updatedUser);
         }
 
+        /**
+         * Resets user password
+         * @returns {*}
+         */
+        $scope.resetUserPassword = function () {
+            UserModel.resetUserPassword($scope.selectedUser.user)
+                .then(function (data) {
+                    $scope.selectedUser.pwdReset = data.data.resettedPassword;
+                }, $scope.showError)
+        }
 
         $scope.deactivateUser = function () {
             $scope.selectedUser.user.active = false;
