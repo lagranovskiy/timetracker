@@ -7,7 +7,7 @@
  *
  */
 angular.module('timetrackerApp.controller.booking', [])
-    .controller('BookingCtrl', function ($scope, $routeParams, projectService, BookingModel, $log, $q, $aside) {
+    .controller('BookingCtrl', function ($scope, $routeParams, socket, projectService, BookingModel, $log, $q, $aside) {
 
 
         $scope.bookingsList = [];
@@ -16,6 +16,13 @@ angular.module('timetrackerApp.controller.booking', [])
 
         $scope.visibleProjects = [];
 
+
+        /**
+         * Socket part
+         */
+        socket.once('booking', function (data) {
+            $scope.showError('Hohoooooooo');
+        });
 
         /**
          * Sets given booking as a current one
