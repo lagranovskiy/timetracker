@@ -16,11 +16,8 @@ angular.module('timetrackerApp.controller.booking', [])
 
         $scope.visibleProjects = [];
 
-
-        /**
-         * Socket part
-         */
-        socket.once('booking', function (data) {
+        socket.forward('booking', $scope);
+        $scope.$on('socket:booking', function (ev, data) {
             $scope.showError('Hohoooooooo');
         });
 

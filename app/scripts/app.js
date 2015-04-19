@@ -70,7 +70,7 @@ angular.module('timetrackerApp', [
         // TODO: Secure socket communication
         // https://auth0.com/blog/2014/01/15/auth-with-socket-io/
 
-        var myIoSocket = io.connect($rootScope.config.server+'/bookings',{reconnection : true});
+        var myIoSocket = io.connect($rootScope.config.server, {reconnection: true});
 
         var mySocket = socketFactory({
             ioSocket: myIoSocket
