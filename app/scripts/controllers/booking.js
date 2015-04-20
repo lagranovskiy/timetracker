@@ -7,7 +7,7 @@
  *
  */
 angular.module('timetrackerApp.controller.booking', [])
-    .controller('BookingCtrl', function ($scope, $routeParams, socket, projectService, BookingModel, $log, $q, $aside) {
+    .controller('BookingCtrl', function ($scope, $routeParams, socket, projectService, BookingModel, $log, $q, $aside, UserModel) {
 
 
         $scope.bookingsList = [];
@@ -18,7 +18,16 @@ angular.module('timetrackerApp.controller.booking', [])
 
         socket.forward('booking', $scope);
         $scope.$on('socket:booking', function (ev, data) {
-            $scope.showError('Hohoooooooo');
+            if (UserModel.data.id === data.message.userId) {
+                $scope.refreshBookings();
+            }
+        });
+
+        socket.forward('assignment', $scope);
+        $scope.$on('socket:assignment', function (ev, data) {
+            if (UserModel.data.personId === data.message.personId) {
+                $scope.refreshVisibleProjects();
+            }
         });
 
         /**
@@ -103,7 +112,7 @@ angular.module('timetrackerApp.controller.booking', [])
          * Removes a new given booking
          * */
         $scope.deleteBooking = function (booking) {
-            BookingModel.deleteBooking()
+            BookingModel.deleteBooking(booking)
                 .then(function () {
                     return $scope.refreshBookings();
                 }, $scope.showError)
@@ -112,6 +121,13 @@ angular.module('timetrackerApp.controller.booking', [])
                 }, $scope.showError);
         };
 
+        $scope.refreshVisibleProjects = function () {
+            return projectService.getUserProjects(function (data) {
+                if (data.records) {
+                    $scope.visibleProjects = data.records;
+                }
+            });
+        }
 
         /**
          * Initializes the booking page with start data
@@ -123,12 +139,7 @@ angular.module('timetrackerApp.controller.booking', [])
             /**
              * Load visible projects of user
              */
-                projectService.getUserProjects(function (data) {
-                    if (data.records) {
-                        $scope.visibleProjects = data.records;
-                    }
-                }),
-
+                $scope.refreshVisibleProjects(),
 
             /**
              * Load user bookings

@@ -7,76 +7,78 @@
                 <h4 class="aside-title" ng-if="currentBooking.id">Update existing booking</h4>
             </div>
             <div class="aside-body">
-                <form name="bookingForm" novalidate>
-                    <div class="form-group col-sm-12">
-                        <label for="project" class="control-label">Project</label>
-                        <select id="project" name="project" ng-model="currentBooking.projectId"
-                                ng-options="project.id as project.projectName for project in visibleProjects" class="form-control"
-                                required>
-                        </select>
+                <div class="row">
+                    <form name="bookingForm" novalidate>
+                        <div class="form-group col-sm-12">
+                            <label for="project" class="control-label">Project</label>
+                            <select id="project" name="project" ng-model="currentBooking.projectId"
+                                    ng-options="project.id as project.projectName for project in visibleProjects" class="form-control"
+                                    required>
+                            </select>
 
-                    </div>
-                    <div class="form-group col-sm-12 ">
-                        <label for="workDay" class="control-label">Date</label>
-                        <input id="workDay" name="workDay" class="form-control" ng-model="currentBooking.workDay"
-                               data-date-format="yyyy-MM-dd" data-date-type="number" data-min-date="02/10/2000"
-                               data-max-date="02/10/2020" data-autoclose="1" bs-datepicker="" type="text" required>
-
-                        <div class="error" ng-show="bookingForm.workDay.$dirty && bookingForm.workDay.$invalid">
-                            <small class="error" ng-show="bookingForm.workDay.$error">
-                                Your input is invalid
-                            </small>
                         </div>
-                    </div>
-                    <div class="form-group col-sm-4">
-                        <label for="workStarted" class="control-label">Started</label>
-                        <input id="workStarted" name="workStarted" class="form-control" size="5" ng-model="currentBooking.workStarted"
-                               data-time-format="HH:mm" data-time-type="number" data-autoclose="1" bs-timepicker type="text" required>
+                        <div class="form-group col-sm-12 ">
+                            <label for="workDay" class="control-label">Date</label>
+                            <input id="workDay" name="workDay" class="form-control" ng-model="currentBooking.workDay"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number" data-min-date="02/10/2000"
+                                   data-max-date="02/10/2020" data-autoclose="1" bs-datepicker="" type="text" required>
 
-                        <div class="error" ng-show="bookingForm.workStarted.$dirty && bookingForm.workStarted.$invalid">
-                            <small class="error" ng-show="bookingForm.workStarted.$error">
-                                Your input is invalid
-                            </small>
+                            <div class="error" ng-show="bookingForm.workDay.$dirty && bookingForm.workDay.$invalid">
+                                <small class="error" ng-show="bookingForm.workDay.$error">
+                                    Your input is invalid
+                                </small>
+                            </div>
                         </div>
-                    </div>
+                        <div class="form-group col-sm-4">
+                            <label for="workStarted" class="control-label">Started</label>
+                            <input id="workStarted" name="workStarted" class="form-control" size="5" ng-model="currentBooking.workStarted"
+                                   data-time-format="HH:mm" data-time-type="number" data-autoclose="1" bs-timepicker type="text" required>
 
-                    <div class="form-group col-sm-4">
-                        <label for="workFinished" class="control-label">Finished</label>
-                        <input class="form-control" size="5" ng-model="currentBooking.workFinished" data-time-format="HH:mm"
-                               data-time-type="number" data-autoclose="1" id="workFinished" name="workFinished" bs-timepicker
-                               type="text" required>
-
-                        <div class="error" ng-show="bookingForm.workFinished.$dirty && bookingForm.workFinished.$invalid">
-                            <small class="error" ng-show="bookingForm.workFinished.$error">
-                                Your input is invalid
-                            </small>
+                            <div class="error" ng-show="bookingForm.workStarted.$dirty && bookingForm.workStarted.$invalid">
+                                <small class="error" ng-show="bookingForm.workStarted.$error">
+                                    Your input is invalid
+                                </small>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group col-sm-4">
-                        <label for="pause" class="control-label">Pause</label>
-                        <input name="pause" type="text" ng-model="currentBooking.pause" class="form-control" id="pause" required>
+                        <div class="form-group col-sm-4">
+                            <label for="workFinished" class="control-label">Finished</label>
+                            <input class="form-control" size="5" ng-model="currentBooking.workFinished" data-time-format="HH:mm"
+                                   data-time-type="number" data-autoclose="1" id="workFinished" name="workFinished" bs-timepicker
+                                   type="text" required>
 
-                        <div class="error" ng-show="bookingForm.pause.$dirty && bookingForm.pause.$invalid">
-                            <small class="error" ng-show="bookingForm.pause.$error">
-                                Your input is invalid
-                            </small>
+                            <div class="error" ng-show="bookingForm.workFinished.$dirty && bookingForm.workFinished.$invalid">
+                                <small class="error" ng-show="bookingForm.workFinished.$error">
+                                    Your input is invalid
+                                </small>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group col-sm-12">
-                        <label for="workComment" class="control-label">Comment</label>
+                        <div class="form-group col-sm-4">
+                            <label for="pause" class="control-label">Pause</label>
+                            <input name="pause" type="text" ng-model="currentBooking.pause" class="form-control" id="pause" required>
+
+                            <div class="error" ng-show="bookingForm.pause.$dirty && bookingForm.pause.$invalid">
+                                <small class="error" ng-show="bookingForm.pause.$error">
+                                    Your input is invalid
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12">
+                            <label for="workComment" class="control-label">Comment</label>
           <textarea name="workComment" ng-model="currentBooking.comment" class="form-control" id="workComment" ng-maxlength=512>
           </textarea>
 
-                        <div class="error" ng-show="bookingForm.workComment.$dirty && bookingForm.workComment.$invalid">
-                            <small class="error" ng-show="bookingForm.workComment.$error.maxlength">
-                                Please give only maximal 512 characters in comment.
-                            </small>
+                            <div class="error" ng-show="bookingForm.workComment.$dirty && bookingForm.workComment.$invalid">
+                                <small class="error" ng-show="bookingForm.workComment.$error.maxlength">
+                                    Please give only maximal 512 characters in comment.
+                                </small>
+                            </div>
                         </div>
-                    </div>
 
-                </form>
+                    </form>
+                </div>
             </div>
             <div class="aside-footer">
                 <button ng-if="!currentBooking.id" ng-disabled="bookingForm.$invalid" ng-click="$hide();createBooking()"

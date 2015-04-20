@@ -5,249 +5,263 @@
  * Project board controller
  */
 angular.module('timetrackerApp.controller.management', [])
-  .controller('ManagementCtrl', function ($scope, $q, $log, $location, ProjectModel, PersonModel) {
+    .controller('ManagementCtrl', function ($scope, $q, $log, $location, ProjectModel, PersonModel, socket) {
 
-    $scope.projects = [];
-    $scope.selectedProject = {}; // Project that selected in the list
-    $scope.currentProject = null; // Project for creation / update
+        $scope.projects = [];
+        $scope.selectedProject = {}; // Project that selected in the list
+        $scope.currentProject = null; // Project for creation / update
 
-    $scope.personMap = {};
-
-
-    $scope.projectStatistics = null;
-    $scope.projectResources = null;
-    $scope.projectBookings = null;
-
-    /* Assignment of persons*/
-    $scope.personList = [];
-    $scope.rolesList = [];
-
-    $scope.unassignedResources = {
-      person: [],
-      role: null
-    };
-
-    $scope.pendingAssignments = [];
+        $scope.personMap = {};
 
 
-    /**
-     * Creates a pending assignments for every person/role combination
-     */
-    $scope.createPendingAssignments = function () {
-      _.each($scope.unassignedResources.person, function (person) {
-        var assignment = {
-          person: person,
-          role: $scope.unassignedResources.role,
-          project: $scope.selectedProject
+        $scope.projectStatistics = null;
+        $scope.projectResources = null;
+        $scope.projectBookings = null;
+
+        /* Assignment of persons*/
+        $scope.personList = [];
+        $scope.rolesList = [];
+
+        $scope.unassignedResources = {
+            person: [],
+            role: null
         };
 
-        var alreadyPending = false;
-        _.each($scope.pendingAssignments, function (pendingAssignment) {
-          if (pendingAssignment.person.id === assignment.person.id && pendingAssignment.role === assignment.role) {
-            alreadyPending = true;
-          }
-        });
-
-        if (!alreadyPending) {
-          $scope.pendingAssignments.push(assignment);
-        }
-
-      });
-      $scope.unassignedResources.person = [];
-      $scope.unassignedResources.role = null;
-    };
-
-    /**
-     * Commits pending assignment to the server
-     * */
-    $scope.commitPendingAssignments = function () {
-      ProjectModel.commitProjectAssignments($scope.pendingAssignments).then(function () {
-        // Reload all resources and statistics
-        $scope.selectProject($scope.selectedProject);
-
-        // Remove assigments from pending list
         $scope.pendingAssignments = [];
 
-      }, $scope.showError);
-    };
+        socket.forward('booking', $scope);
+        $scope.$on('socket:booking', function (ev, data) {
+            if ($scope.selectedProject && $scope.selectedProject.id === data.message.projectId) {
+                $scope.selectProject($scope.selectedProject)
+            }
+        });
+
+        socket.forward('assignment', $scope);
+        $scope.$on('socket:assignment', function (ev, data) {
+            if ($scope.selectedProject && $scope.selectedProject.id === data.message.projectId) {
+                $scope.selectProject($scope.selectedProject)
+            }
+        });
 
 
-    /**
-     * Removes pending assignment
-     */
-    $scope.removePendingAssignment = function (assignment) {
-      $scope.pendingAssignments = _.without($scope.pendingAssignments, assignment);
-    };
+        /**
+         * Creates a pending assignments for every person/role combination
+         */
+        $scope.createPendingAssignments = function () {
+            _.each($scope.unassignedResources.person, function (person) {
+                var assignment = {
+                    person: person,
+                    role: $scope.unassignedResources.role,
+                    project: $scope.selectedProject
+                };
 
-    /**
-     * Removes commited assignment
-     */
-    $scope.removeCommitedAssignment = function (assignment) {
-      ProjectModel.removeCommitedAssignments(assignment.assignmentId).then(function () {
-        // Reload all resources and statistics
-        $scope.selectProject($scope.selectedProject);
-      }, $scope.showError);
-    };
+                var alreadyPending = false;
+                _.each($scope.pendingAssignments, function (pendingAssignment) {
+                    if (pendingAssignment.person.id === assignment.person.id && pendingAssignment.role === assignment.role) {
+                        alreadyPending = true;
+                    }
+                });
 
+                if (!alreadyPending) {
+                    $scope.pendingAssignments.push(assignment);
+                }
 
-    /**
-     * Create a new project booking
-     * */
-    $scope.createProject = function () {
-      if (!$scope.currentProject) {
-        $log.debug('Cannot create null project');
-        return;
-      }
-      ProjectModel.resource.save($scope.currentProject)
-        .$promise
-        .then(function () {
-          return $scope.refreshProjects();
-        }, $scope.showError)
+            });
+            $scope.unassignedResources.person = [];
+            $scope.unassignedResources.role = null;
+        };
 
-        .then(function () {
-          $scope.currentProject = null;
-        }, $scope.showError);
+        /**
+         * Commits pending assignment to the server
+         * */
+        $scope.commitPendingAssignments = function () {
+            ProjectModel.commitProjectAssignments($scope.pendingAssignments).then(function () {
+                // Reload all resources and statistics
+                $scope.selectProject($scope.selectedProject);
 
-    };
+                // Remove assigments from pending list
+                $scope.pendingAssignments = [];
 
-
-    /**
-     * Create a new project booking
-     * */
-    $scope.updateProject = function () {
-      if (!$scope.currentProject || !$scope.currentProject.id) {
-        $log.debug('Cannot update non persistent project');
-        return;
-      }
-      ProjectModel.resource.update($scope.currentProject).$promise
-        .then(function () {
-          return $scope.refreshProjects();
-        }, $scope.showError);
-
-    };
+            }, $scope.showError);
+        };
 
 
-    /**
-     * Create a new project booking
-     * */
-    $scope.deleteProject = function () {
-      if (!$scope.currentProject || !$scope.currentProject.id) {
-        $log.debug('Cannot delete non persistent project');
-        return;
-      }
-      ProjectModel.resource.delete({
-        id: $scope.currentProject.id
-      }).$promise
-        .then(function () {
-          return $scope.refreshProjects();
-        }, $scope.showError);
+        /**
+         * Removes pending assignment
+         */
+        $scope.removePendingAssignment = function (assignment) {
+            $scope.pendingAssignments = _.without($scope.pendingAssignments, assignment);
+        };
 
-    };
-
-
-    /**
-     * Creates instance for a new project
-     */
-    $scope.produceNewProject = function () {
-      $scope.currentProject = ProjectModel.produceNewProject();
-    };
+        /**
+         * Removes commited assignment
+         */
+        $scope.removeCommitedAssignment = function (assignment) {
+            ProjectModel.removeCommitedAssignments(assignment.assignmentId).then(function () {
+                // Reload all resources and statistics
+                $scope.selectProject($scope.selectedProject);
+            }, $scope.showError);
+        };
 
 
-    $scope.go = function (path) {
-      $location.path(path);
-    };
+        /**
+         * Create a new project booking
+         * */
+        $scope.createProject = function () {
+            if (!$scope.currentProject) {
+                $log.debug('Cannot create null project');
+                return;
+            }
+            ProjectModel.resource.save($scope.currentProject)
+                .$promise
+                .then(function () {
+                    return $scope.refreshProjects();
+                }, $scope.showError)
 
-    $scope.isProjectActive = function (project) {
-      if (!project) {
-        return false;
-      }
-      return (moment().isAfter(project.projectStart) && moment().isBefore(project.projectEnd)) ? true : false;
-    };
+                .then(function () {
+                    $scope.currentProject = null;
+                }, $scope.showError);
 
-    /**
-     * Returns the time in hours how much time booked on project
-     */
-    $scope.getTimeBooked = function () {
-      if (!$scope.projectStatistics) {
-        return null;
-      }
-      return moment.duration($scope.projectStatistics.bookedTime).asHours() - moment.duration($scope.projectStatistics.bookedPause, 'minutes').asHours();
-    };
-
-
-    /**
-     * Selects a current project
-     */
-    $scope.selectProject = function (project) {
-      $scope.selectedProject = project;
-      $scope.currentProject = project;
-      $scope.bookingsList = [];
-      if (project) {
-
-        // Get project statistics
-        var pS = ProjectModel.getProjectStatistics(project).then(
-          function (statistics) {
-            $scope.projectStatistics = statistics.data;
-          }, $scope.showError);
-
-        // Get project resources
-        var pR = ProjectModel.getProjectResources(project).then(
-          function (resources) {
-            $scope.projectResources = resources.data;
-          }, $scope.showError);
-
-        // Get project bookings
-        var pB = ProjectModel.getProjectBookings(project).then(
-          function (bookings) {
-            $scope.projectBookings = bookings.data;
-          }, $scope.showError);
+        };
 
 
-        return $q.all([pS, pR, pB]);
-      }
-    };
+        /**
+         * Create a new project booking
+         * */
+        $scope.updateProject = function () {
+            if (!$scope.currentProject || !$scope.currentProject.id) {
+                $log.debug('Cannot update non persistent project');
+                return;
+            }
+            ProjectModel.resource.update($scope.currentProject).$promise
+                .then(function () {
+                    return $scope.refreshProjects();
+                }, $scope.showError);
+
+        };
 
 
-    /**
-     * Initializes the booking page with start data
-     */
-    $scope.init = function () {
+        /**
+         * Create a new project booking
+         * */
+        $scope.deleteProject = function () {
+            if (!$scope.currentProject || !$scope.currentProject.id) {
+                $log.debug('Cannot delete non persistent project');
+                return;
+            }
+            ProjectModel.resource.delete({
+                id: $scope.currentProject.id
+            }).$promise
+                .then(function () {
+                    return $scope.refreshProjects();
+                }, $scope.showError);
 
-      $q.all([
-
-        $scope.refreshProjects(),
-
-      /**
-       * Load user bookings
-       */
-        PersonModel.resource.query(function (data) {
-          $scope.personMap = _.indexBy(data, 'id');
-          $scope.personList = data;
-        }),
-
-      /**
-       * Load user bookings
-       */
-        PersonModel.roleResource.query(function (data) {
-          $scope.rolesList = data;
-        })
+        };
 
 
-      ]);
-
-    };
-
-    /**
-     * Refreshes bookings of the current user
-     * */
-    $scope.refreshProjects = function () {
-      return ProjectModel.resource.query(function (data) {
-        if (data) {
-          $scope.projects = data;
-          $scope.selectProject(data[0]);
-        }
-      });
-    };
+        /**
+         * Creates instance for a new project
+         */
+        $scope.produceNewProject = function () {
+            $scope.currentProject = ProjectModel.produceNewProject();
+        };
 
 
-  });
+        $scope.go = function (path) {
+            $location.path(path);
+        };
+
+        $scope.isProjectActive = function (project) {
+            if (!project) {
+                return false;
+            }
+            return (moment().isAfter(project.projectStart) && moment().isBefore(project.projectEnd)) ? true : false;
+        };
+
+        /**
+         * Returns the time in hours how much time booked on project
+         */
+        $scope.getTimeBooked = function () {
+            if (!$scope.projectStatistics) {
+                return null;
+            }
+            return moment.duration($scope.projectStatistics.bookedTime).asHours() - moment.duration($scope.projectStatistics.bookedPause, 'minutes').asHours();
+        };
+
+
+        /**
+         * Selects a current project
+         */
+        $scope.selectProject = function (project) {
+            $scope.selectedProject = project;
+            $scope.currentProject = project;
+            $scope.bookingsList = [];
+            if (project) {
+
+                // Get project statistics
+                var pS = ProjectModel.getProjectStatistics(project).then(
+                    function (statistics) {
+                        $scope.projectStatistics = statistics.data;
+                    }, $scope.showError);
+
+                // Get project resources
+                var pR = ProjectModel.getProjectResources(project).then(
+                    function (resources) {
+                        $scope.projectResources = resources.data;
+                    }, $scope.showError);
+
+                // Get project bookings
+                var pB = ProjectModel.getProjectBookings(project).then(
+                    function (bookings) {
+                        $scope.projectBookings = bookings.data;
+                    }, $scope.showError);
+
+
+                return $q.all([pS, pR, pB]);
+            }
+        };
+
+
+        /**
+         * Initializes the booking page with start data
+         */
+        $scope.init = function () {
+
+            $q.all([
+
+                $scope.refreshProjects(),
+
+            /**
+             * Load user bookings
+             */
+                PersonModel.resource.query(function (data) {
+                    $scope.personMap = _.indexBy(data, 'id');
+                    $scope.personList = data;
+                }),
+
+            /**
+             * Load user bookings
+             */
+                PersonModel.roleResource.query(function (data) {
+                    $scope.rolesList = data;
+                })
+
+
+            ]);
+
+        };
+
+        /**
+         * Refreshes bookings of the current user
+         * */
+        $scope.refreshProjects = function () {
+            return ProjectModel.resource.query(function (data) {
+                if (data) {
+                    $scope.projects = data;
+                    $scope.selectProject(data[0]);
+                }
+            });
+        };
+
+
+    });
