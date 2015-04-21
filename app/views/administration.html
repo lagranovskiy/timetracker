@@ -2,6 +2,7 @@
     <h1>My Admin panel
         <small>Administrate timetracker</small>
     </h1>
+
 </div>
 
 
@@ -24,7 +25,7 @@
 
         <div class="row">
 
-            <div class="col-sm-8">
+            <div class="col-sm-12">
 
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -36,35 +37,86 @@
                         <p ng-if="!selectedUser">Please select user</p>
 
                         <div ng-if="selectedUser">
-                            <span ng-if="selectedUser.user.active === false" class="pull-right label label-danger">disabled</span>
+
+                            <div class="row">
+                                <div class="col-sm-8">
+
+                                    <span ng-if="selectedUser.user.active === false" class="pull-right label label-danger">disabled</span>
 
 
-                            <h3><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{selectedUser.person.forename}}
-                                {{selectedUser.person.surname}}
-                            </h3>
+                                    <h3><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{selectedUser.person.forename}}
+                                        {{selectedUser.person.surname}}
+                                    </h3>
 
-                            <br/>
-                            <dl class="dl-horizontal">
-                                <dt><strong>Login Name</strong></dt>
-                                <dd> {{selectedUser.user.uid}}</dd>
+                                    <br/>
+                                    <dl class="dl-horizontal">
+                                        <dt><strong>Login Name</strong></dt>
+                                        <dd> {{selectedUser.user.uid}}</dd>
 
-                                <dt><strong>Email</strong></dt>
-                                <dd> {{selectedUser.person.email}}</dd>
+                                        <dt><strong>Email</strong></dt>
+                                        <dd> {{selectedUser.person.email}}</dd>
 
-                                <dt><strong>Phone</strong></dt>
-                                <dd> {{selectedUser.person.phone}}</dd>
+                                        <dt><strong>Phone</strong></dt>
+                                        <dd> {{selectedUser.person.phone}}</dd>
 
-                                <dt><strong>Birthday</strong></dt>
-                                <dd>{{selectedUser.person.birthday| date:"MM/dd/yyyy"}}</dd>
+                                        <dt><strong>Birthday</strong></dt>
+                                        <dd>{{selectedUser.person.birthday| date:"MM/dd/yyyy"}}</dd>
 
-                                <dt><strong>Registration Date</strong></dt>
-                                <dd> {{selectedUser.user.registrationDate}}</dd>
+                                        <dt><strong>Registration Date</strong></dt>
+                                        <dd> {{selectedUser.user.registrationDate}}</dd>
 
-                                <dt><strong>User Groups</strong></dt>
-                                <dd><i ng-repeat="group in selectedUser.user.groups"> <span
-                                        class="label label-primary"> {{group}}</span></i></dd>
+                                        <dt><strong>User Groups</strong></dt>
+                                        <dd><i ng-repeat="group in selectedUser.user.groups"> <span
+                                                class="label label-primary"> {{group}}</span></i></dd>
 
-                            </dl>
+                                    </dl>
+
+                                </div>
+                                <div class="col-sm-4">
+
+                                    <button ng-disabled="!selectedUser" class="btn btn-primary btn-block" backdrop="static"
+                                            data-template="modal/UpdatePerson.tpl.html" data-placement="left"
+                                            data-animation="am-slide-left"
+                                            bs-aside="aside"
+                                            data-container="body">Edit User data
+                                    </button>
+
+                                    <div class="dropdown btn-block">
+                                        <button ng-disabled="!selectedUser" class="btn  btn-primary  btn-block  dropdown-toggle"
+                                                type="button"
+                                                id="dropdownMenu1"
+                                                data-toggle="dropdown" aria-expanded="true">
+                                            Change Group
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                            <li role="presentation" ng-repeat="group in groupList"><a role="menuitem"
+                                                                                                      ng-click="updateGroup(group)"
+                                                                                                      tabindex="-1">{{group.name}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <button ng-disabled="!selectedUser" ng-if="selectedUser.user.active != false" type="button"
+                                            class="btn   btn-block btn-danger" data-animation="am-fade-and-slide-top"
+                                            data-template="modal/DeactivatingUser.tpl.html" bs-modal="modal">Deactivate
+                                    </button>
+
+                                    <button ng-disabled="!selectedUser" ng-click="activateUser()"
+                                            ng-if="selectedUser.user.active == false" type="button"
+                                            class="btn  btn-block  btn-success" data-animation="am-fade-and-slide-top">Activate
+                                    </button>
+
+                                    <button ng-disabled="!selectedUser" type="button" class="btn  btn-block  btn-success"
+                                            data-animation="am-fade-and-slide-top"
+                                            data-template="modal/ResettingPassword.tpl.html" bs-modal="modal">Reset Password
+                                    </button>
+
+
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -97,7 +149,7 @@
                 </div>
 
                 <!-- Booking Panel -->
-                <div class="panel panel-success">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Last bookings<a class="anchorjs-link" href="#panel-title"><span
                                 class="anchorjs-icon"></span></a></h3>
@@ -129,38 +181,7 @@
                 </div>
 
             </div>
-            <div class="col-sm-4">
-                <button ng-disabled="!selectedUser" class="btn-block btn btn-primary" backdrop="static"
-                        data-template="modal/UpdatePerson.tpl.html" data-placement="left" data-animation="am-slide-left" bs-aside="aside"
-                        data-container="body">Edit User data
-                </button>
 
-
-                <div class="dropdown btn-block">
-                    <button ng-disabled="!selectedUser" class="btn-block btn  btn-primary  dropdown-toggle" type="button" id="dropdownMenu1"
-                            data-toggle="dropdown" aria-expanded="true">
-                        Change Group
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <li role="presentation" ng-repeat="group in groupList"><a role="menuitem" ng-click="updateGroup(group)"
-                                                                                  tabindex="-1">{{group.name}}</a></li>
-                    </ul>
-                </div>
-
-                <button ng-disabled="!selectedUser" ng-if="selectedUser.user.active != false" type="button"
-                        class="btn-block btn  btn-danger" data-animation="am-fade-and-slide-top"
-                        data-template="modal/DeactivatingUser.tpl.html" bs-modal="modal" >Deactivate
-                </button>
-                <button ng-disabled="!selectedUser" ng-click="activateUser()" ng-if="selectedUser.user.active == false" type="button"
-                        class="btn-block btn  btn-success" data-animation="am-fade-and-slide-top">Activate
-                </button>
-
-                <button ng-disabled="!selectedUser"  type="button" class="btn-block btn  btn-success" data-animation="am-fade-and-slide-top"
-                        data-template="modal/ResettingPassword.tpl.html" bs-modal="modal">Reset Password
-                </button>
-
-            </div>
         </div>
 
     </div>
