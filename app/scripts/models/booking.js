@@ -49,6 +49,22 @@ angular.module('timetrackerApp.model.booking', ['ngResource'])
 
 
       /**
+       * Resolves a list with all bookings
+       *
+       * @param callback
+       * @returns {*}
+       */
+      listBookings: function (callback) {
+        var retVal = bookingModel.resource.query(function (data) {
+              if (callback) {
+                callback(data);
+              }
+            });
+        return retVal.$promise;
+      },
+
+
+      /**
        * Deletes given booging
        * @param booking
        * @param callback

@@ -5,8 +5,15 @@
  * Project board controller
  */
 angular.module('timetrackerApp.controller.management', [])
-    .controller('ManagementCtrl', function ($scope, $q, $log, $location, ProjectModel, PersonModel, socket) {
+    .controller('ManagementCtrl', function ($scope, $q, $log, $location, ProjectModel, PersonModel, BookingModel, socket) {
 
+        $scope.currentMode = 'cockpit';
+
+        /*** Booking Cockpit ***/
+        $scope.bookingList = [];
+
+
+        /*** Project cockpit */
         $scope.projects = [];
         $scope.selectedProject = {}; // Project that selected in the list
         $scope.currentProject = null; // Project for creation / update
@@ -29,19 +36,131 @@ angular.module('timetrackerApp.controller.management', [])
 
         $scope.pendingAssignments = [];
 
+
+        /**
+         * Calculation of data rows
+         *
+         * http://jtblin.github.io/angular-chart.js/
+         */
+        $scope.calculateDataRows = function () {
+
+            var workTimeMap = {};
+            var projectWorkTimeMap = {};
+            var employeeMap = {};
+            var bookingList = $scope.bookingList;
+
+            var minDay = new Date().getTime();
+            var maxDay = new Date().getTime();
+
+            _.each(bookingList, function (booking) {
+                if (booking.workDay < minDay) {
+                    minDay = booking.workDay;
+                }
+                if (booking.workDay > maxDay) {
+                    maxDay = booking.workDay;
+                }
+
+                var workTime = moment.duration(booking.workFinished - booking.workStarted).subtract(booking.pause, 'minutes').hours();
+                var date = moment(booking.workDay).format('l');
+                if (!workTimeMap[date]) {
+                    workTimeMap[date] = 0;
+                }
+                workTimeMap[date] = workTimeMap[date] + workTime;
+
+                var projectName = $scope.findProjectNameById(booking.projectId);
+                if (!projectWorkTimeMap[projectName]) {
+                    projectWorkTimeMap[projectName] = 0;
+                }
+                projectWorkTimeMap[projectName] = projectWorkTimeMap[projectName] + workTime;
+
+
+                var employee = $scope.personMap[booking.personId];
+                var fullname = employee.forename + ' ' + employee.surname;
+
+                if (!employeeMap[fullname]) {
+                    employeeMap[fullname] = 0;
+                }
+                employeeMap[fullname] = employeeMap[fullname] + workTime;
+            });
+
+            $scope.workTimeMapLabels = _.keys(workTimeMap);
+            var workTimeMapValues = [];
+            _.each($scope.workTimeMapLabels, function (label) {
+                workTimeMapValues.push(workTimeMap[label]);
+            });
+            $scope.workTimeMapData = [workTimeMapValues];
+
+            $scope.projecWorkTimeMapLabels = _.keys(projectWorkTimeMap);
+            var projectMapValues = [];
+            _.each($scope.projecWorkTimeMapLabels, function (label) {
+                projectMapValues.push(projectWorkTimeMap[label]);
+            });
+            $scope.projecWorkTimeMapData = projectMapValues;
+
+            $scope.employeeMapLabels = _.keys(employeeMap);
+            var employeeMapValues = [];
+            _.each($scope.employeeMapLabels, function (label) {
+                employeeMapValues.push(employeeMap[label]);
+            });
+            $scope.employeeMapData = employeeMapValues;
+
+
+        }
+
+
+        $scope.workTimeMapLabels = [];
+        $scope.workTimeMapSeries = ['Work time'];
+        $scope.workTimeMapData = [];
+
+        $scope.projecWorkTimeMapLabels = [];
+        $scope.projecWorkTimeMapData = [];
+
+        $scope.employeeMapLabels = [];
+        $scope.employeeMapData = [];
+
+        /**
+         * UI Mode support
+         */
+
+        $scope.selectMode = function (mode) {
+            $scope.currentMode = mode;
+        }
+
+
+        /**
+         * Socket support
+         * */
         socket.forward('booking', $scope);
         $scope.$on('socket:booking', function (ev, data) {
-            if ($scope.selectedProject && $scope.selectedProject.id === data.message.projectId) {
+            if ($scope.currentMode === 'project' && $scope.selectedProject && $scope.selectedProject.id === data.message.projectId) {
                 $scope.selectProject($scope.selectedProject)
+            }
+
+            if ($scope.currentMode === 'cockpit') {
+                $scope.refreshBookings()
+                    .then($scope.calculateDataRows);
             }
         });
 
         socket.forward('assignment', $scope);
         $scope.$on('socket:assignment', function (ev, data) {
-            if ($scope.selectedProject && $scope.selectedProject.id === data.message.projectId) {
+            if ($scope.currentMode === 'project' && $scope.selectedProject && $scope.selectedProject.id === data.message.projectId) {
                 $scope.selectProject($scope.selectedProject)
             }
         });
+
+        $scope.findProjectNameById = function (projectId) {
+            var foundProject = null;
+            _.each($scope.projects, function (project) {
+                if (project.id === projectId) {
+                    foundProject = project;
+                }
+            });
+            if (!foundProject) {
+                return 'Unknown';
+            }
+            return foundProject.projectName;
+        }
 
 
         /**
@@ -225,14 +344,14 @@ angular.module('timetrackerApp.controller.management', [])
         /**
          * Initializes the booking page with start data
          */
-        $scope.init = function () {
+        $scope.initProjectMode = function () {
 
             $q.all([
 
                 $scope.refreshProjects(),
 
             /**
-             * Load user bookings
+             * Load persons bookings
              */
                 PersonModel.resource.query(function (data) {
                     $scope.personMap = _.indexBy(data, 'id');
@@ -240,7 +359,7 @@ angular.module('timetrackerApp.controller.management', [])
                 }),
 
             /**
-             * Load user bookings
+             * Load roles
              */
                 PersonModel.roleResource.query(function (data) {
                     $scope.rolesList = data;
@@ -250,6 +369,40 @@ angular.module('timetrackerApp.controller.management', [])
             ]);
 
         };
+
+
+        /**
+         * Initializes the booking page with start data
+         */
+        $scope.initBookingMode = function () {
+
+            $q.all([
+
+                PersonModel.resource.query(function (data) {
+                    $scope.personMap = _.indexBy(data, 'id');
+                    $scope.personList = data;
+                }).$promise,
+
+                $scope.refreshProjects(),
+
+                $scope.refreshBookings()
+
+            ]).then($scope.calculateDataRows);
+
+
+        };
+
+        /**
+         * Refreshes bookings
+         * @returns {*}
+         */
+        $scope.refreshBookings = function () {
+            var promise = BookingModel.listBookings(function (bookingList) {
+                $scope.bookingList = bookingList;
+            })
+
+            return promise;
+        }
 
         /**
          * Refreshes bookings of the current user

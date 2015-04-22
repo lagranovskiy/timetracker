@@ -19,6 +19,7 @@ angular.module('timetrackerApp', [
     'ngLocale',
     'mgcrea.ngStrap',
     'btford.socket-io',
+    'chart.js',
 
     'timetrackerApp.model.user',
     'timetrackerApp.model.project',

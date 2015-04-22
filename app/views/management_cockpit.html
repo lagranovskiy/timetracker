@@ -1,0 +1,71 @@
+<div class="page-header" data-ng-init="initBookingMode()">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="btn-group pull-right" role="group">
+                <button type="button" ng-click="selectMode('project')" ng-disabled="currentMode == 'project'"
+                        class="btn btn-default"><span
+                        class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Project
+                </button>
+                <button type="button" ng-click="selectMode('cockpit')" ng-disabled="currentMode == 'cockpit'"
+                        class="btn btn-default"><span
+                        class="glyphicon glyphicon-scale" aria-hidden="true"></span> Cockpit
+                </button>
+            </div>
+            <h1>Booking Cockpit
+                <small>Control over bookings</small>
+            </h1>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <canvas id="workTimeMap" class="chart chart-line" legend="true"
+                data="workTimeMapData"
+                labels="workTimeMapLabels"
+                series="workTimeMapSeries">
+        </canvas>
+    </div>
+    <div class="col-sm-3">
+        <h3>Project Time</h3>
+        <canvas id="projecWorkTimeMap" class="chart chart-doughnut" data="projecWorkTimeMapData" legend="true"
+                labels="projecWorkTimeMapLabels"></canvas>
+    </div>
+    <div class="col-sm-3">
+        <h3>Employee Time</h3>
+        <canvas id="employeeMap" class="chart chart-doughnut" data="employeeMapData" legend="true"
+                labels="employeeMapLabels"></canvas>
+    </div>
+
+
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
+
+                <table class="table  table-striped table-condensed table-hover">
+                    <tr>
+                        <th>Workday</th>
+                        <th>Project</th>
+                        <th>Employee</th>
+                        <th>Booked (h)</th>
+                        <th>Pause</th>
+                    </tr>
+
+
+                    <tr ng-repeat="booking in bookingList">
+                        <td>{{booking.workDay | date:"MM/dd/yyyy"}}</td>
+                        <td>{{findProjectNameById(booking.projectId)}}</td>
+                        <td>{{personMap[booking.personId].forename}}, {{personMap[booking.personId].surname}}</td>
+                        <td>{{booking.workFinished - booking.workStarted| date:"HH:mm"}}</td>
+                        <td>{{booking.pause}} min</td>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
