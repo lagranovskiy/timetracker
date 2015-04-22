@@ -29,6 +29,7 @@ angular.module('timetrackerApp', [
     'timetrackerApp.service.bookings',
     'timetrackerApp.service.projects',
     'timetrackerApp.service.assignment',
+    'timetrackerApp.service.stat',
 
     'timetrackerApp.directives.username',
 

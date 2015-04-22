@@ -18,20 +18,22 @@
 <div class="row">
     <div class="col-sm-6">
         <canvas id="workTimeMap" class="chart chart-line" legend="true"
-                data="workTimeMapData"
-                labels="workTimeMapLabels"
+                data="statData.hoursDay.data"
+                labels="statData.hoursDay.labels"
                 series="workTimeMapSeries">
         </canvas>
     </div>
     <div class="col-sm-3">
         <h3>Project Time</h3>
-        <canvas id="projecWorkTimeMap" class="chart chart-doughnut" data="projecWorkTimeMapData" legend="true"
-                labels="projecWorkTimeMapLabels"></canvas>
+        <canvas id="projecWorkTimeMap" class="chart chart-doughnut"
+                data="statData.hoursProject.data" legend="true"
+                labels="statData.hoursProject.labels"></canvas>
     </div>
     <div class="col-sm-3">
         <h3>Employee Time</h3>
-        <canvas id="employeeMap" class="chart chart-doughnut" data="employeeMapData" legend="true"
-                labels="employeeMapLabels"></canvas>
+        <canvas id="employeeMap" class="chart chart-doughnut"
+                data="statData.hoursEmployee.data" legend="true"
+                labels="statData.hoursEmployee.labels"></canvas>
     </div>
 
 

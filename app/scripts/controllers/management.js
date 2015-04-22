@@ -5,7 +5,7 @@
  * Project board controller
  */
 angular.module('timetrackerApp.controller.management', [])
-    .controller('ManagementCtrl', function ($scope, $q, $log, $location, ProjectModel, PersonModel, BookingModel, socket) {
+    .controller('ManagementCtrl', function ($scope, $q, $log, $location, statService, ProjectModel, PersonModel, BookingModel, socket) {
 
         $scope.currentMode = 'cockpit';
 
@@ -18,6 +18,7 @@ angular.module('timetrackerApp.controller.management', [])
             entryLimit: 10
         }
 
+        $scope.statData = {}
 
         $scope.workTimeMapLabels = [];
         $scope.workTimeMapSeries = ['Work time'];
@@ -52,77 +53,31 @@ angular.module('timetrackerApp.controller.management', [])
 
         $scope.pendingAssignments = [];
 
-
         /**
-         * Calculation of data rows
+         * Refreshes statistics
          *
-         * http://jtblin.github.io/angular-chart.js/
+         * @returns {*|type}
          */
-        $scope.calculateDataRows = function () {
-
-            var workTimeMap = {};
-            var projectWorkTimeMap = {};
-            var employeeMap = {};
-            var bookingList = $scope.bookingData.data;
-
-            var minDay = new Date().getTime();
-            var maxDay = new Date().getTime();
-
-            _.each(bookingList, function (booking) {
-                if (booking.workDay < minDay) {
-                    minDay = booking.workDay;
-                }
-                if (booking.workDay > maxDay) {
-                    maxDay = booking.workDay;
-                }
-
-                var workTime = moment.duration(booking.workFinished - booking.workStarted).subtract(booking.pause, 'minutes').hours();
-                var date = moment(booking.workDay).format('l');
-                if (!workTimeMap[date]) {
-                    workTimeMap[date] = 0;
-                }
-                workTimeMap[date] = workTimeMap[date] + workTime;
-
-                var projectName = $scope.findProjectNameById(booking.projectId);
-                if (!projectWorkTimeMap[projectName]) {
-                    projectWorkTimeMap[projectName] = 0;
-                }
-                projectWorkTimeMap[projectName] = projectWorkTimeMap[projectName] + workTime;
-
-
-                var employee = $scope.personMap[booking.personId];
-                var fullname = employee.forename + ' ' + employee.surname;
-
-                if (!employeeMap[fullname]) {
-                    employeeMap[fullname] = 0;
-                }
-                employeeMap[fullname] = employeeMap[fullname] + workTime;
-            });
-
-            $scope.workTimeMapLabels = _.keys(workTimeMap);
-            var workTimeMapValues = [];
-            _.each($scope.workTimeMapLabels, function (label) {
-                workTimeMapValues.push(workTimeMap[label]);
-            });
-            $scope.workTimeMapData = [workTimeMapValues];
-
-            $scope.projecWorkTimeMapLabels = _.keys(projectWorkTimeMap);
-            var projectMapValues = [];
-            _.each($scope.projecWorkTimeMapLabels, function (label) {
-                projectMapValues.push(projectWorkTimeMap[label]);
-            });
-            $scope.projecWorkTimeMapData = projectMapValues;
-
-            $scope.employeeMapLabels = _.keys(employeeMap);
-            var employeeMapValues = [];
-            _.each($scope.employeeMapLabels, function (label) {
-                employeeMapValues.push(employeeMap[label]);
-            });
-            $scope.employeeMapData = employeeMapValues;
-
-
+        $scope.refreshStat = function () {
+            /* * {
+             *  hoursDay : {
+             *      labels: ['3.3.2000',....],
+             *      data: [[13,50,11...]]
+             *  },
+             *  hoursProject : {
+             *      labels: ['P1',....],
+             *      data: [13,50,11...]
+             *  },
+             *  hoursEmployee : {
+             *      labels: ['Leonid Agranovskiy',....],
+             *      data: [13,50,11...]
+             *  }
+             *
+             * }*/
+            return statService.getManagementBookingStat(function (data) {
+                $scope.statData = data;
+            })
         }
-
 
         /**
          * UI Mode support
@@ -144,7 +99,7 @@ angular.module('timetrackerApp.controller.management', [])
 
             if ($scope.currentMode === 'cockpit') {
                 $scope.refreshBookings()
-                    .then($scope.calculateDataRows);
+                    .then($scope.refreshStat);
             }
         });
 
@@ -391,11 +346,11 @@ angular.module('timetrackerApp.controller.management', [])
 
                 $scope.refreshProjects(),
 
-                $scope.refreshBookings()
+                $scope.refreshBookings(),
 
-            ]).then($scope.calculateDataRows);
+                $scope.refreshStat()
 
-
+            ])
         };
 
         $scope.$watch("paging.entryLimit", function () {
