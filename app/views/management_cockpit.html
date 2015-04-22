@@ -1,16 +1,13 @@
 <div class="page-header" data-ng-init="initBookingMode()">
     <div class="row">
         <div class="col-sm-12">
-            <div class="btn-group pull-right" role="group">
-                <button type="button" ng-click="selectMode('project')" ng-disabled="currentMode == 'project'"
-                        class="btn btn-default"><span
-                        class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Project
-                </button>
-                <button type="button" ng-click="selectMode('cockpit')" ng-disabled="currentMode == 'cockpit'"
-                        class="btn btn-default"><span
-                        class="glyphicon glyphicon-scale" aria-hidden="true"></span> Cockpit
-                </button>
+            <div class="btn-group pull-right" ng-model="currentMode" ng-click="selectMode(currentMode)" bs-radio-group>
+                <label class="btn btn-default"><input type="radio" class="btn btn-default" value="project"> <span
+                        class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Project</label>
+                <label class="btn btn-default"><input type="radio" class="btn btn-default" value="cockpit"> <span
+                        class="glyphicon glyphicon-scale" aria-hidden="true"></span> Cockpit</label>
             </div>
+
             <h1>Booking Cockpit
                 <small>Control over bookings</small>
             </h1>
@@ -45,6 +42,24 @@
         <div class="row">
             <div class="col-sm-12">
 
+                Page:
+                <div class="btn-group" ng-model="paging.currentPage" bs-radio-group>
+                    <label class="btn btn-default" ng-repeat="variable in paging.possiblePages ">
+                        <input type="radio" class="btn btn-default" value="{{variable}}"/> {{variable+1}}</label>
+                </div>
+                <div class="pull-right">
+                    Booking/Page:
+                    <div class="btn-group" ng-model="paging.entryLimit" bs-radio-group>
+                        <label class="btn btn-default"><input type="radio" class="btn btn-default" value="1"> 1</label>
+                        <label class="btn btn-default"><input type="radio" class="btn btn-default" value="5"> 5</label>
+                        <label class="btn btn-default"><input type="radio" class="btn btn-default" value="10"> 10</label>
+                        <label class="btn btn-default"><input type="radio" class="btn btn-default" value="25"> 25</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">&nbsp;</div>
+                </div>
                 <table class="table  table-striped table-condensed table-hover">
                     <tr>
                         <th>Workday</th>
@@ -55,7 +70,7 @@
                     </tr>
 
 
-                    <tr ng-repeat="booking in bookingList">
+                    <tr ng-repeat="booking in bookingData.data">
                         <td>{{booking.workDay | date:"MM/dd/yyyy"}}</td>
                         <td>{{findProjectNameById(booking.projectId)}}</td>
                         <td>{{personMap[booking.personId].forename}}, {{personMap[booking.personId].surname}}</td>

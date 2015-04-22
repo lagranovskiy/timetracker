@@ -10,8 +10,24 @@ angular.module('timetrackerApp.controller.management', [])
         $scope.currentMode = 'cockpit';
 
         /*** Booking Cockpit ***/
-        $scope.bookingList = [];
+        $scope.bookingData = {};
+        $scope.possiblePages = [];
+        $scope.paging = {
+            possiblePages: [],
+            currentPage: 0,
+            entryLimit: 10
+        }
 
+
+        $scope.workTimeMapLabels = [];
+        $scope.workTimeMapSeries = ['Work time'];
+        $scope.workTimeMapData = [];
+
+        $scope.projecWorkTimeMapLabels = [];
+        $scope.projecWorkTimeMapData = [];
+
+        $scope.employeeMapLabels = [];
+        $scope.employeeMapData = [];
 
         /*** Project cockpit */
         $scope.projects = [];
@@ -47,7 +63,7 @@ angular.module('timetrackerApp.controller.management', [])
             var workTimeMap = {};
             var projectWorkTimeMap = {};
             var employeeMap = {};
-            var bookingList = $scope.bookingList;
+            var bookingList = $scope.bookingData.data;
 
             var minDay = new Date().getTime();
             var maxDay = new Date().getTime();
@@ -107,16 +123,6 @@ angular.module('timetrackerApp.controller.management', [])
 
         }
 
-
-        $scope.workTimeMapLabels = [];
-        $scope.workTimeMapSeries = ['Work time'];
-        $scope.workTimeMapData = [];
-
-        $scope.projecWorkTimeMapLabels = [];
-        $scope.projecWorkTimeMapData = [];
-
-        $scope.employeeMapLabels = [];
-        $scope.employeeMapData = [];
 
         /**
          * UI Mode support
@@ -392,13 +398,25 @@ angular.module('timetrackerApp.controller.management', [])
 
         };
 
+        $scope.$watch("paging.entryLimit", function () {
+            $scope.paging.currentPage = 0;
+            $scope.refreshBookings();
+        })
+
+
+        $scope.$watch("paging.currentPage", function () {
+            $scope.refreshBookings();
+        })
+
         /**
          * Refreshes bookings
          * @returns {*}
          */
         $scope.refreshBookings = function () {
-            var promise = BookingModel.listBookings(function (bookingList) {
-                $scope.bookingList = bookingList;
+            var promise = BookingModel.listBookings($scope.paging.entryLimit, $scope.paging.currentPage * $scope.paging.entryLimit, function (bookingData) {
+                $scope.bookingData = bookingData;
+                $scope.paging.possiblePages = _.range(0, bookingData.count / bookingData.limit);
+                $scope.paging.entryLimit = bookingData.limit;
             })
 
             return promise;

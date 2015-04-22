@@ -1,15 +1,9 @@
 <div class="page-header" data-ng-init="initProjectMode()">
     <div class="row">
         <div class="col-sm-12">
-            <div class="btn-group pull-right" role="group">
-                <button type="button" ng-click="selectMode('project')" ng-disabled="currentMode == 'project'"
-                        class="btn btn-default"><span
-                        class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Project
-                </button>
-                <button type="button" ng-click="selectMode('cockpit')" ng-disabled="currentMode == 'cockpit'"
-                        class="btn btn-default"><span
-                        class="glyphicon glyphicon-scale" aria-hidden="true"></span> Cockpit
-                </button>
+            <div class="btn-group pull-right" ng-model="currentMode" ng-click="selectMode(currentMode)" bs-radio-group>
+                <label class="btn btn-default"><input type="radio" class="btn btn-default" value="project"> <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Project</label>
+                <label class="btn btn-default"><input type="radio" class="btn btn-default" value="cockpit"> <span class="glyphicon glyphicon-scale" aria-hidden="true"></span> Cockpit</label>
             </div>
             <h1>Project Cockpit
                 <small>Control over projects</small>
