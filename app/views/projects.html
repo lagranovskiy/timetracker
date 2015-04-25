@@ -9,6 +9,7 @@
     <div class="col-sm-4">
         <div class="list-group">
             <a ng-repeat="project in visibleProjects" ng-click="selectProject(project)" class="list-group-item">
+                <span ng-if="isProjectActive(project)" class="pull-right label label-success">active</span>
                 <h4 class="list-group-item-heading">{{project.projectName}}</h4>
                 <small>{{project.customerName}}</small>
                 <span class="pull-right label label-success"></span>
@@ -31,16 +32,15 @@
                         <div class="row">
 
                             <div class="col-sm-8">
-                                <span class="pull-right label label-success">active</span>
+                                <span ng-if="isProjectActive(selectedProject)" class="pull-right label label-success">active</span>
 
                                 <h2>{{selectedProject.projectName}}
                                     <small>{{selectedProject.customerName}}</small>
                                 </h2>
                                 <p>
-                                    <strong>My Manager</strong>: Max Mustermann</p>
-
-                                <p>
-                                    <strong>My Role</strong>: Software Architect</p>
+                                    <strong>My Manager</strong>: {{selectedProject.projectResponsible}}</p>
+                                    <strong>My Role</strong>: {{selectedProject.role}}</p>
+                                    <strong>Project Type</strong>: {{selectedProject.projectType}}</p>
 
                                 <p>{{project.description}}</p>
                             </div>
@@ -48,7 +48,6 @@
                                 <button type="button" ng-click="go('bookings/'+selectedProject.id)" class="btn-block btn btn-success">Book
                                     time
                                 </button>
-                                <button type="button" class="btn-block btn  btn-warning">Contact Manager</button>
                             </div>
                         </div>
                     </div>
@@ -56,37 +55,37 @@
 
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">My Statistics <a class="anchorjs-link" href="#panel-title"><span
-                                class="anchorjs-icon"></span></a></h3>
-                    </div>
+        <!--<div class="row">-->
+            <!--<div class="col-sm-12">-->
+                <!--<div class="panel panel-info">-->
+                    <!--<div class="panel-heading">-->
+                        <!--<h3 class="panel-title">My Statistics <a class="anchorjs-link" href="#panel-title"><span-->
+                                <!--class="anchorjs-icon"></span></a></h3>-->
+                    <!--</div>-->
 
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <table class="table ">
-                                    <tr>
-                                        <th>Booked</th>
-                                        <th>Booked (week)</th>
-                                        <th>Parttime</th>
-                                        <th>Team members</th>
-                                    </tr>
-                                    <tr>
-                                        <td>14 Days</td>
-                                        <td>17h</td>
-                                        <td>99%</td>
-                                        <td>15</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    <!--<div class="panel-body">-->
+                        <!--<div class="row">-->
+                            <!--<div class="col-sm-12">-->
+                                <!--<table class="table ">-->
+                                    <!--<tr>-->
+                                        <!--<th>Booked</th>-->
+                                        <!--<th>Booked (week)</th>-->
+                                        <!--<th>Parttime</th>-->
+                                        <!--<th>Team members</th>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>14 Days</td>-->
+                                        <!--<td>17h</td>-->
+                                        <!--<td>99%</td>-->
+                                        <!--<td>15</td>-->
+                                    <!--</tr>-->
+                                <!--</table>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <div class="row">
             <div class="col-sm-12">

@@ -1,0 +1,18 @@
+<div class="popover">
+    <div class="arrow"></div>
+    <h3 class="popover-title">{{college.forename}} {{college.surname}} Profile</h3>
+
+    <div class="popover-content">
+
+        <dl>
+            <dt>Birthday:</dt>
+            <dd>{{college.birthday | date}} in {{getTimeTillBirthday(college.birthday)}}</dd>
+            <dt>Phone:</dt>
+            <dd>{{college.phone}}</dd>
+            <dt>Email:</dt>
+            <dd><a href="mailto:{{college.email}}">{{college.email}}</a></dd>
+        </dl>
+
+
+    </div>
+</div>

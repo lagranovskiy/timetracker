@@ -1,7 +1,48 @@
-<div class="page-header">
+<div class="page-header" data-ng-init="init()">
     <h1>My Dashboard
         <small>Control your work with numbers</small>
     </h1>
+</div>
+
+
+<div class="row">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">My Bookings</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12" ng-if="statData.totalEntries==0">You have no bookings yet</div>
+                    <div ng-if="statData.totalEntries>0">
+                        <div class="col-sm-6">
+                            <canvas id="workTimeMap" class="chart chart-line" legend="true"
+                                    data="statData.hoursDay.data"
+                                    labels="statData.hoursDay.labels"
+                                    series="workTimeMapSeries">
+                            </canvas>
+                        </div>
+                        <div class="col-sm-3">
+                            <h3>Project Time</h3>
+                            <canvas id="projecWorkTimeMap" class="chart chart-doughnut"
+                                    data="statData.hoursProject.data" legend="true"
+                                    labels="statData.hoursProject.labels"></canvas>
+                        </div>
+                        <div class="col-sm-3">
+                            <h3>Employee Time</h3>
+                            <canvas id="employeeMap" class="chart chart-doughnut"
+                                    data="statData.hoursEmployee.data" legend="true"
+                                    labels="statData.hoursEmployee.labels"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
 </div>
 <div class="row">
 
@@ -11,26 +52,28 @@
                 <h3 class="panel-title">My Bookings</h3>
             </div>
             <div class="panel-body">
-                <p>This week: 15 Std / 40 Std (22%)</p>
+                <p>This week: <span class="label label-success" ng-bind="calculateBookedTime()"></span> Std / <span class="label label-success">2</span> Weeks <span class="label label-success"> {{calculateBookedTime()/80*100}} %</span></p>
 
-                <p>Number of Bookings: 3</p>
+                <span>Number of Bookings: <span class="label label-success">{{statData.totalEntries}}</span></p>
 
-                <p>Cellectiveness: +15%</p>
             </div>
 
         </div>
     </div>
     <div class="col-sm-4">
-        <div class="panel panel-default  ">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">My Collegues</h3>
             </div>
             <div class="panel-body">
-                <p><a href="">Anja Muster</a> (AIDA, MuTOP)</p>
+                <p data-ng-repeat="college in collegesData" ng-if="collegesData.length>0">
+                    <a data-template="modal/personinfo.tpl.html" data-animation="am-flip-x" data-auto-close="1" bs-popover>{{college.forename}},
+                        {{college.surname}}</a> ({{college.project}})
+                </p>
 
-                <p><a href="">David Müller</a> (CarryESPRIT)</p>
-
-                <p><a href="">Carsten Schell</a> (SAS POA)</p>
+                <p ng-if="collegesData.length==0">
+                    You have no collegues yet
+                </p>
             </div>
         </div>
     </div>
@@ -41,21 +84,13 @@
                 <h3 class="panel-title">My Projects</h3>
             </div>
             <div class="panel-body">
-                <p>Active Projects: 2</p>
-
-                <p>Not Active Projects: 3</p>
-
+                <p>You are assigned to <span class="label label-success">{{projects.length}}</span> projects</p>
             </div>
             <!-- List group -->
             <ul class="list-group">
-                <li class="list-group-item">AIDA, Tetra AG
-                    <span class="pull-right label label-success">active</span>
-                </li>
-                <li class="list-group-item">CarryESPRIT, ESPRIT AG
-                    <span class="pull-right label label-success">active</span>
-                </li>
-                <li class="list-group-item">POTS, Degussa Bank AG
-                    <span class="pull-right label label-warning">pending</span>
+                <li class="list-group-item" data-ng-repeat="project in projects">
+                    {{project.projectName}},    {{project.customerName}}
+                    <span ng-if="isProjectActive(project)" class="pull-right label label-success">active</span>
                 </li>
             </ul>
         </div>
