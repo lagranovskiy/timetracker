@@ -15,24 +15,18 @@
                 <div class="row">
                     <div class="col-sm-12" ng-if="statData.totalEntries==0">You have no bookings yet</div>
                     <div ng-if="statData.totalEntries>0">
-                        <div class="col-sm-6">
+                        <div class="col-sm-7">
                             <canvas id="workTimeMap" class="chart chart-line" legend="true"
                                     data="statData.hoursDay.data"
                                     labels="statData.hoursDay.labels"
                                     series="workTimeMapSeries">
                             </canvas>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-5">
                             <h3>Project Time</h3>
                             <canvas id="projecWorkTimeMap" class="chart chart-doughnut"
                                     data="statData.hoursProject.data" legend="true"
                                     labels="statData.hoursProject.labels"></canvas>
-                        </div>
-                        <div class="col-sm-3">
-                            <h3>Employee Time</h3>
-                            <canvas id="employeeMap" class="chart chart-doughnut"
-                                    data="statData.hoursEmployee.data" legend="true"
-                                    labels="statData.hoursEmployee.labels"></canvas>
                         </div>
                     </div>
 
