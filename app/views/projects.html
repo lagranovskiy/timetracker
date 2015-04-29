@@ -1,4 +1,4 @@
-<div class="page-header" ng-init="init()">
+<div class="page-header" >
     <h1>My Projects
         <small>View Projects you are assigned to</small>
     </h1>
@@ -7,7 +7,8 @@
 <div class="row">
 
     <div class="col-sm-4">
-        <div class="list-group">
+        <div ng-if="visibleProjects.length == 0">No Projects yet</div>
+        <div ng-if="visibleProjects.length > 0" class="list-group">
             <a ng-repeat="project in visibleProjects" ng-click="selectProject(project)" class="list-group-item">
                 <span ng-if="isProjectActive(project)" class="pull-right label label-success">active</span>
                 <h4 class="list-group-item-heading">{{project.projectName}}</h4>
@@ -20,7 +21,28 @@
     </div>
     <div class="col-sm-8">
         <div class="row">
-            <div class="col-sm-12">
+            <div  class="col-sm-12" ng-if="!selectedProject">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">No projects <a class="anchorjs-link" href="#panel-title"><span
+                                class="anchorjs-icon"></span></a></h3>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+
+                            <div class="col-sm-8">
+
+                                <h3>Please ask your manager for a job
+                                </h3>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12" ng-if="selectedProject">
 
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -88,7 +110,7 @@
         <!--</div>-->
 
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12" ng-if="selectedProject">
 
                 <div class="panel panel-default">
                     <div class="panel-heading">

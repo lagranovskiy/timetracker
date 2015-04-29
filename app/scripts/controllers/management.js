@@ -389,5 +389,7 @@ angular.module('timetrackerApp.controller.management', [])
             });
         };
 
+        $scope.initBookingMode();
+        $scope.initProjectMode();
 
     });

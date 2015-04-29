@@ -1,4 +1,4 @@
-<div class="page-header" data-ng-init="init()">
+<div class="page-header">
     <h1>My Dashboard
         <small>Control your work with numbers</small>
     </h1>
@@ -9,14 +9,14 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">My Bookings</h3>
+                <h3 class="panel-title">My 2 Week Bookings</h3>
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-12" ng-if="statData.totalEntries==0">You have no bookings yet</div>
                     <div ng-if="statData.totalEntries>0">
                         <div class="col-sm-7">
-                            <canvas id="workTimeMap" class="chart chart-line" legend="true"
+                            <canvas id="workTimeMap" class="chart chart-line" legend="false"
                                     data="statData.hoursDay.data"
                                     labels="statData.hoursDay.labels"
                                     series="workTimeMapSeries">
@@ -25,7 +25,7 @@
                         <div class="col-sm-5">
                             <h3>Project Time</h3>
                             <canvas id="projecWorkTimeMap" class="chart chart-doughnut"
-                                    data="statData.hoursProject.data" legend="true"
+                                    data="statData.hoursProject.data" legend="false"
                                     labels="statData.hoursProject.labels"></canvas>
                         </div>
                     </div>
@@ -43,10 +43,10 @@
     <div class="col-sm-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">My Bookings</h3>
+                <h3 class="panel-title">My  Weeks Productivity</h3>
             </div>
             <div class="panel-body">
-                <p>This week: <span class="label label-success" ng-bind="calculateBookedTime()"></span> Std / <span class="label label-success">2</span> Weeks <span class="label label-success"> {{calculateBookedTime()/80*100}} %</span></p>
+                <p>Booked: <span class="label label-success" ng-bind="calculateBookedTime()"></span> Std / <span class="label label-success">2</span> Weeks <span class="label label-success"> {{calculateBookedTime()/80*100}} %</span></p>
 
                 <span>Number of Bookings: <span class="label label-success">{{statData.totalEntries}}</span></p>
 

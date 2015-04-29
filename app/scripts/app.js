@@ -69,17 +69,16 @@ angular.module('timetrackerApp', [
         }
     ])
     .factory('socket', function ($rootScope, socketFactory) {
-        // TODO: Secure socket communication
         // https://auth0.com/blog/2014/01/15/auth-with-socket-io/
 
         var host;
-        if($rootScope.config.server.indexOf('https')>=0){
-            host= $rootScope.config.server.replace(/^https/, 'wss')
-        } else{
+        if ($rootScope.config.server.indexOf('https') >= 0) {
+            host = $rootScope.config.server.replace(/^https/, 'wss')
+        } else {
             host = $rootScope.config.server.replace(/^http/, 'ws')
         }
 
-        var myIoSocket = io.connect(host, {reconnection: true});
+        var myIoSocket = io.connect(host, {reconnection: true, transports: ['websocket', 'xhr-polling', 'polling']});
 
         var mySocket = socketFactory({
             ioSocket: myIoSocket

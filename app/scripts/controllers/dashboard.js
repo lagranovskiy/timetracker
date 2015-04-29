@@ -105,4 +105,5 @@ angular.module('timetrackerApp.controller.dashboard', [])
                 })
         }
 
+        $scope.init();
     });

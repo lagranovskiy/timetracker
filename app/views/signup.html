@@ -1,4 +1,4 @@
-<div class="page-header" ng-init="">
+<div class="page-header" >
   <h1>TimeTracker Registration
     <small>Introduce yourself</small>
   </h1>
@@ -11,7 +11,7 @@
       <div class="form-group">
         <label for="username" class="col-sm-2 control-label">Username</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" username name="username" ng-model="userData.username" placeholder="Username" required ng-maxlength=128 ng-minlength=4 ng-model-options="{ debounce: 500 }">
+          <input id="username" type="text" class="form-control" username name="username" ng-model="userData.username" placeholder="Username" required ng-maxlength=128 ng-minlength=4 ng-model-options="{ debounce: 500 }">
           <div class="error" ng-show="signup.username.$dirty && signup.username.$invalid">
             <small class="error" ng-show="signup.username.$error && !signup.username.$error.username">
               Your input is invalid
@@ -23,7 +23,7 @@
       <div class="form-group ">
         <label for="password" class="col-sm-2 control-label">Password</label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" name="password" ng-change="testPasswordEqual()" ng-model="userData.password" placeholder="Password" required ng-maxlength=18 ng-minlength=6 ng-model-options="{ debounce: 500 }">
+          <input id="password" type="password" class="form-control" name="password" ng-change="testPasswordEqual()" ng-model="userData.password" placeholder="Password" required ng-maxlength=18 ng-minlength=6 ng-model-options="{ debounce: 500 }">
           <div class="error" ng-show="signup.password.$dirty && signup.password.$invalid">
             <small class="error" ng-show="signup.password.$error">
               Your input is invalid
@@ -34,7 +34,7 @@
       <div class="form-group">
         <label for="passwordRepeat" class="col-sm-2 control-label">Repeat Password</label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" name="passwordRepeat" ng-change="testPasswordEqual()" ng-model="userData.passwordRepeat" placeholder="Repeat password" required ng-maxlength=18 ng-match="userData.password" ng-minlength=6 ng-model-options="{ debounce: 500 }">
+          <input  id="passwordRepeat" type="password" class="form-control" name="passwordRepeat" ng-change="testPasswordEqual()" ng-model="userData.passwordRepeat" placeholder="Repeat password" required ng-maxlength=18 ng-match="userData.password" ng-minlength=6 ng-model-options="{ debounce: 500 }">
           <div class="error" ng-show="signup.passwordRepeat.$dirty && signup.passwordRepeat.$invalid">
             <small class="error" ng-show="signup.passwordRepeat.$error && !signup.passwordRepeat.$error.match">
               Your input is invalid
@@ -49,7 +49,7 @@
       <div class="form-group">
         <label for="forename" class="col-sm-2 control-label">Forename</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="forename" ng-model="userData.forename" placeholder="Max" required ng-maxlength=32 ng-model-options="{ debounce: 500 }">
+          <input id="forename" type="text" class="form-control" name="forename" ng-model="userData.forename" placeholder="Max" required ng-maxlength=32 ng-model-options="{ debounce: 500 }">
           <div class="error" ng-show="signup.forename.$dirty && signup.forename.$invalid">
             <small class="error" ng-show="signup.forename.$error">
               Your input is invalid
@@ -60,7 +60,7 @@
       <div class="form-group">
         <label for="surname" class="col-sm-2 control-label">Surname</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="surname" ng-model="userData.surname" placeholder="Mustermann" required ng-maxlength=32 ng-model-options="{ debounce: 500 }">
+          <input id="surname" type="text" class="form-control" name="surname" ng-model="userData.surname" placeholder="Mustermann" required ng-maxlength=32 ng-model-options="{ debounce: 500 }">
           <div class="error" ng-show="signup.surname.$dirty && signup.surname.$invalid">
             <small class="error" ng-show="signup.surname.$error">
               Your input is invalid
@@ -71,7 +71,7 @@
       <div class="form-group">
         <label for="birthday" class="col-sm-2 control-label">Birthday</label>
         <div class="col-sm-10">
-          <input name="birthday" class="form-control" ng-model="userData.birthday" data-date-format="yyyy-MM-dd" data-date-type="number" data-min-date="02/10/1920" data-max-date="02/10/2015" data-autoclose="1" bs-datepicker="" required>
+          <input id="birthday" name="birthday" class="form-control" ng-model="userData.birthday" data-date-format="yyyy-MM-dd" data-date-type="number" data-min-date="02/10/1920" data-max-date="02/10/2015" data-autoclose="1" bs-datepicker="" required>
           <div class="error" ng-show="signup.birthday.$dirty && signup.birthday.$invalid">
             <small class="error" ng-show="signup.birthday.$error">
               Your input is invalid
@@ -82,7 +82,7 @@
       <div class="form-group">
         <label for="email" class="col-sm-2 control-label">E-mail</label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" ng-model="userData.email" name="email" placeholder="max@musterman.com" ng-model-options="{ debounce: 500 }">
+          <input id="email" type="email" class="form-control" ng-model="userData.email" name="email" placeholder="max@musterman.com" ng-model-options="{ debounce: 500 }">
           <div class="error" ng-show="signup.email.$dirty && signup.email.$invalid" required>
             <small class="error" ng-show="signup.email.$error">
               Your input is invalid

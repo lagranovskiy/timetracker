@@ -174,5 +174,6 @@ angular.module('timetrackerApp.controller.booking', [])
 
         };
 
+        $scope.initPage();
 
     });

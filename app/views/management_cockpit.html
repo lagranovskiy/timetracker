@@ -1,4 +1,4 @@
-<div class="page-header" data-ng-init="initBookingMode()">
+<div class="page-header" >
     <div class="row">
         <div class="col-sm-12">
             <div class="btn-group pull-right" ng-model="currentMode" ng-click="selectMode(currentMode)" bs-radio-group>
@@ -26,7 +26,7 @@
     <div class="col-sm-3">
         <h3>Project Time</h3>
         <canvas id="projecWorkTimeMap" class="chart chart-doughnut"
-                data="statData.hoursProject.data" legend="true"
+                data="statData.hoursProject.data" legend="false"
                 labels="statData.hoursProject.labels"></canvas>
     </div>
     <div class="col-sm-3">

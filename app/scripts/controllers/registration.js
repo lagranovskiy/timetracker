@@ -38,9 +38,9 @@ angular.module('timetrackerApp.controller.registration', [])
             $location.path('dashboard');
           }, 5000);
           $scope.sendingData = false;
-        }, function() {
+        }, function(err) {
           $scope.sendingData = false;
-          $scope.showError();
+          $scope.showError(err);
         });
     };
 

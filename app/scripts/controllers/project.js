@@ -51,5 +51,5 @@ angular.module('timetrackerApp.controller.project', [])
             return (moment().isAfter(project.projectStart) && moment().isBefore(project.projectEnd)) ? true : false;
         };
 
-
+        $scope.init();
     });

@@ -138,5 +138,6 @@ angular.module('timetrackerApp.controller.admin', [])
 
         };
 
+        $scope.init();
 
     });
