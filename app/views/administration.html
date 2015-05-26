@@ -81,6 +81,13 @@
                                             data-container="body">Edit User data
                                     </button>
 
+
+                                    <button type="button" ng-disabled="!selectedUser"   class="btn btn-primary btn-block" data-animation="am-flip-x" bs-dropdown="groupList"
+                                            aria-haspopup="true" aria-expanded="false">Change user Group
+
+                                    </button>
+
+<!--
                                     <div class="dropdown btn-block">
                                         <button ng-disabled="!selectedUser" class="btn  btn-primary  btn-block  dropdown-toggle"
                                                 type="button"
@@ -96,7 +103,7 @@
                                             </li>
                                         </ul>
                                     </div>
-
+-->
                                     <button ng-disabled="!selectedUser" ng-if="selectedUser.user.active != false" type="button"
                                             class="btn   btn-block btn-danger" data-animation="am-fade-and-slide-top"
                                             data-template="modal/DeactivatingUser.tpl.html" bs-modal="modal">Deactivate

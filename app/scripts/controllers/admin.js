@@ -53,8 +53,8 @@ angular.module('timetrackerApp.controller.admin', [])
         };
 
 
-        $scope.updateGroup = function (group) {
-            UserModel.changeUserGroup($scope.selectedUser.user, group)
+        $scope.updateGroup = function (groupId) {
+            UserModel.changeUserGroup($scope.selectedUser.user, {id: groupId})
                 .then(function () {
                     $scope.init()
                         .then($scope.refreshCurrentUser, $scope.showError);
@@ -131,7 +131,12 @@ angular.module('timetrackerApp.controller.admin', [])
              * Resolve groups
              */
                 UserModel.getAllGroups().then(function (data) {
-                    $scope.groupList = data;
+                    $scope.groupList = [];
+                    _.each(data, function (group) {
+                        $scope.groupList.push({text: group.name, click: 'updateGroup(' + group.id + ')'});
+                    })
+
+
                 }, $scope.showError)
 
 
