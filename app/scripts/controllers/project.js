@@ -1,5 +1,5 @@
 'use strict';
-
+/*global moment*/
 /**
  * Project board controller
  */

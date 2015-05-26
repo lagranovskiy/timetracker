@@ -1,4 +1,5 @@
 'use strict';
+/*global io*/
 /* global TimetrackerConfiguration*/
 
 /**
@@ -73,9 +74,9 @@ angular.module('timetrackerApp', [
 
         var host;
         if ($rootScope.config.server.indexOf('https') >= 0) {
-            host = $rootScope.config.server.replace(/^https/, 'wss')
+            host = $rootScope.config.server.replace(/^https/, 'wss');
         } else {
-            host = $rootScope.config.server.replace(/^http/, 'ws')
+            host = $rootScope.config.server.replace(/^http/, 'ws');
         }
 
         var myIoSocket = io.connect(host, {reconnection: true, transports: ['websocket', 'xhr-polling', 'polling']});

@@ -5,7 +5,7 @@ angular.module('timetrackerApp.model.user', ['ngResource', 'ngCookies'])
     function ($rootScope, $http, $resource, $log, $cookieStore, $q, $location) {
         'use strict';
 
-        $rootScope.$on('401', function (event, args) {
+        $rootScope.$on('401', function () {
             user.data = null;
         });
 

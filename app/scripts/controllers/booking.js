@@ -127,7 +127,7 @@ angular.module('timetrackerApp.controller.booking', [])
                     $scope.visibleProjects = data.records;
                 }
             });
-        }
+        };
 
         /**
          * Initializes the booking page with start data

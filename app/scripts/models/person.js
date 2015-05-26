@@ -43,7 +43,7 @@ angular.module('timetrackerApp.model.person', ['ngResource'])
          * @returns {*}
          */
         listPerson: function (callback) {
-          var retVal = bookingModel.resource.query(function (data) {
+          var retVal = personResource.query(function (data) {
             if (callback) {
               callback(data);
             }

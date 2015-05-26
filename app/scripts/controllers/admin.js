@@ -1,4 +1,5 @@
 'use strict';
+/*global _*/
 
 /**
  * Project board controller
@@ -16,10 +17,10 @@ angular.module('timetrackerApp.controller.admin', [])
 
         $scope.refreshCurrentUser = function () {
             var updatedUser = _.find($scope.userList, function (userEntry) {
-                return userEntry && userEntry.user.id === $scope.selectedUser.user.id
+                return userEntry && userEntry.user.id === $scope.selectedUser.user.id;
             });
             $scope.selectUser(updatedUser);
-        }
+        };
 
         /**
          * Resets user password
@@ -29,8 +30,8 @@ angular.module('timetrackerApp.controller.admin', [])
             UserModel.resetUserPassword($scope.selectedUser.user)
                 .then(function (data) {
                     $scope.selectedUser.pwdReset = data.data.resettedPassword;
-                }, $scope.showError)
-        }
+                }, $scope.showError);
+        };
 
         $scope.deactivateUser = function () {
             $scope.selectedUser.user.active = false;
@@ -38,7 +39,7 @@ angular.module('timetrackerApp.controller.admin', [])
                 .then(function () {
                     $scope.init()
                         .then($scope.refreshCurrentUser, $scope.showError);
-                }, $scope.showError)
+                }, $scope.showError);
 
         };
 
@@ -48,7 +49,7 @@ angular.module('timetrackerApp.controller.admin', [])
                 .then(function () {
                     $scope.init()
                         .then($scope.refreshCurrentUser, $scope.showError);
-                }, $scope.showError)
+                }, $scope.showError);
         };
 
 
@@ -57,7 +58,7 @@ angular.module('timetrackerApp.controller.admin', [])
                 .then(function () {
                     $scope.init()
                         .then($scope.refreshCurrentUser, $scope.showError);
-                }, $scope.showError)
+                }, $scope.showError);
         };
 
         /**
@@ -68,7 +69,7 @@ angular.module('timetrackerApp.controller.admin', [])
                 .then(function () {
                     $scope.init()
                         .then($scope.refreshCurrentUser, $scope.showError);
-                }, $scope.showError)
+                }, $scope.showError);
         };
 
         /**
@@ -105,12 +106,12 @@ angular.module('timetrackerApp.controller.admin', [])
             BookingModel.getUserBookings(user.user.id)
                 .then(function (data) {
                     $scope.selectedUserBookings = data.data;
-                }, $scope.showError)
+                }, $scope.showError);
 
             ProjectModel.getUserProjectsByUserId(user.user.id)
                 .then(function (data) {
                     $scope.selectedUserProjects = data.data.records;
-                }, $scope.showError)
+                }, $scope.showError);
         };
 
         /**

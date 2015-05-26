@@ -16,9 +16,9 @@ angular.module('timetrackerApp.controller.management', [])
             possiblePages: [],
             currentPage: 0,
             entryLimit: 10
-        }
+        };
 
-        $scope.statData = {}
+        $scope.statData = {};
 
         $scope.workTimeMapLabels = [];
         $scope.workTimeMapSeries = ['Work time'];
@@ -76,8 +76,8 @@ angular.module('timetrackerApp.controller.management', [])
              * }*/
             return statService.getManagementBookingStat(function (data) {
                 $scope.statData = data;
-            })
-        }
+            });
+        };
 
         /**
          * UI Mode support
@@ -85,7 +85,7 @@ angular.module('timetrackerApp.controller.management', [])
 
         $scope.selectMode = function (mode) {
             $scope.currentMode = mode;
-        }
+        };
 
 
         /**
@@ -94,7 +94,7 @@ angular.module('timetrackerApp.controller.management', [])
         socket.forward('booking', $scope);
         $scope.$on('socket:booking', function (ev, data) {
             if ($scope.currentMode === 'project' && $scope.selectedProject && $scope.selectedProject.id === data.message.projectId) {
-                $scope.selectProject($scope.selectedProject)
+                $scope.selectProject($scope.selectedProject);
             }
 
             if ($scope.currentMode === 'cockpit') {
@@ -106,7 +106,7 @@ angular.module('timetrackerApp.controller.management', [])
         socket.forward('assignment', $scope);
         $scope.$on('socket:assignment', function (ev, data) {
             if ($scope.currentMode === 'project' && $scope.selectedProject && $scope.selectedProject.id === data.message.projectId) {
-                $scope.selectProject($scope.selectedProject)
+                $scope.selectProject($scope.selectedProject);
             }
         });
 
@@ -121,7 +121,7 @@ angular.module('timetrackerApp.controller.management', [])
                 return 'Unknown';
             }
             return foundProject.projectName;
-        }
+        };
 
 
         /**
@@ -350,18 +350,18 @@ angular.module('timetrackerApp.controller.management', [])
 
                 $scope.refreshStat()
 
-            ])
+            ]);
         };
 
-        $scope.$watch("paging.entryLimit", function () {
+        $scope.$watch('paging.entryLimit', function () {
             $scope.paging.currentPage = 0;
             $scope.refreshBookings();
-        })
+        });
 
 
-        $scope.$watch("paging.currentPage", function () {
+        $scope.$watch('paging.currentPage', function () {
             $scope.refreshBookings();
-        })
+        });
 
         /**
          * Refreshes bookings
@@ -372,10 +372,10 @@ angular.module('timetrackerApp.controller.management', [])
                 $scope.bookingData = bookingData;
                 $scope.paging.possiblePages = _.range(0, bookingData.count / bookingData.limit);
                 $scope.paging.entryLimit = bookingData.limit;
-            })
+            });
 
             return promise;
-        }
+        };
 
         /**
          * Refreshes bookings of the current user

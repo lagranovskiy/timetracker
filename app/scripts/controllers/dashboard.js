@@ -1,5 +1,6 @@
 'use strict';
-
+/*global moment*/
+/*global _*/
 /**
  * Controller for User dashboard
  *
@@ -22,7 +23,7 @@ angular.module('timetrackerApp.controller.dashboard', [])
 
                 $scope.refreshUserColleges()
 
-            ])
+            ]);
         };
 
         $scope.calculateBookedTime = function () {
@@ -89,8 +90,8 @@ angular.module('timetrackerApp.controller.dashboard', [])
             return statService.getUserBookingStat(
                 function (data) {
                     $scope.statData = data;
-                })
-        }
+                });
+        };
 
 
         /**
@@ -102,8 +103,8 @@ angular.module('timetrackerApp.controller.dashboard', [])
             return statService.getUserColleges(
                 function (data) {
                     $scope.collegesData = data;
-                })
-        }
+                });
+        };
 
         $scope.init();
     });
