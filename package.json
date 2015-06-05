@@ -4,10 +4,8 @@
   "description": "A PAC Timetracker project AngularJS client",
   "dependencies": {
     "bower": "^1.4.1",
-    "express": "^4.12.4",
     "grunt": "^0.4.1",
-    "http-server": "^0.8.0",
-    "newrelic": "^1.19.2"
+    "http-server": "^0.8.0"
   },
   "devDependencies": {
     "grunt-autoprefixer": "^0.7.3",
@@ -46,6 +44,7 @@
   "scripts": {
     "prestart": "bower install",
     "start": "node server.js"
+    "postinstall": "bower install"
   },
   "keywords": [
     "node",
