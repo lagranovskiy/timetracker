@@ -43,7 +43,7 @@
   },
   "scripts": {
     "prestart": "bower install",
-    "start": "node server.js"
+    "start": "node server.js",
     "postinstall": "bower install"
   },
   "keywords": [
