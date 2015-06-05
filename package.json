@@ -5,7 +5,8 @@
   "dependencies": {
     "bower": "^1.4.1",
     "grunt": "^0.4.1",
-    "http-server": "^0.8.0"
+    "http-server": "^0.8.0",
+    "newrelic": "^1.19.2"
   },
   "devDependencies": {
     "grunt-autoprefixer": "^0.7.3",
@@ -42,7 +43,6 @@
     "npm": "2.1.x"
   },
   "scripts": {
-    "prestart": "bower install",
     "start": "node server.js",
     "postinstall": "bower install"
   },
