@@ -10,6 +10,8 @@ angular.module('timetrackerApp.controller.login', [])
         $scope.error = null;
         $scope.success = null;
 
+        $scope.authenticating = false;
+
 
         /**
          * Reset view to initial state
@@ -31,6 +33,7 @@ angular.module('timetrackerApp.controller.login', [])
          * Authenticate user
          */
         $scope.authenticate = function () {
+            $scope.authenticating = true;
             UserModel.loginUser($scope.loginData, function (err) {
                 if (!err) {
                     $scope.success = 'Success';
@@ -39,6 +42,7 @@ angular.module('timetrackerApp.controller.login', [])
                     }, 100, true);
 
                 } else {
+
                     if (err === 401) {
                         $scope.error = 'Username or password are wrong.';
                     }
@@ -47,7 +51,9 @@ angular.module('timetrackerApp.controller.login', [])
                     } else {
                         $scope.error = 'Cannot authenticate. Try again later.';
                     }
+                    $scope.authenticating = false;
                 }
+
             });
         };
 
