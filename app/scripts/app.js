@@ -79,7 +79,7 @@ angular.module('timetrackerApp', [
             host = $rootScope.config.server.replace(/^http/, 'ws');
         }
 
-        var myIoSocket = io.connect(host, {reconnection: true, transports: ['websocket']});// 'polling', 'xhr-polling' disabled
+        var myIoSocket = io.connect(host, {reconnection: true, transports: ['websocket', 'polling', 'xhr-polling']});
 
         var mySocket = socketFactory({
             ioSocket: myIoSocket
